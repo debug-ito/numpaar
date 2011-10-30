@@ -47,7 +47,7 @@ INSTALL
 
 4. Create configuration file '.numpaar' in your home directory.
 
-        $ cp /opt/numpaar/dot.numpaar.sample ~/
+        $ cp /opt/numpaar/dot.numpaar.sample ~/.numpaar
 
 5. Edit ~/.numpaar as you like.
 
