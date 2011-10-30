@@ -1,0 +1,50 @@
+#!/bin/bash
+
+sockfile=/tmp/numpaar_socket
+pidfile=/var/lock/numpaar.pid
+resolved_script=`readlink -f "$0"`
+dir=`dirname "$resolved_script"`/src
+socket_trial_max=5
+
+x_out="/dev/null"
+pl_out="/dev/null"
+if [ "$1" = "-v" ]; then
+    pl_out="/dev/stderr"
+elif [ "$1" = "-vv" ]; then
+    x_out="/dev/stderr"
+    pl_out="/dev/stderr"
+fi
+
+kill_existing_numpaar() {
+    local retval="$1"
+    if [ -f "$pidfile" ]; then
+        pid=`/bin/cat $pidfile`
+        /bin/kill "$pid"
+        ret_code=$?
+        /bin/rm -f "$pidfile"
+        if [ "$ret_code" = 0 ]; then
+            exit $retval
+        fi
+    fi
+}
+
+kill_existing_numpaar 0
+
+$dir/numpaar_x "$sockfile" 2> "$x_out" &
+echo "$!" > $pidfile
+echo "numpaar_x activated."
+sleep 1
+
+count=0
+while ! [ -S "$sockfile" ]; do
+    if [ "$count" -ge "$socket_trial_max" ]; then
+        echo "Cannot find the socket. Quit"
+        kill_existing_numpaar 1
+        exit 1
+    fi
+    count=$((count + 1))
+    sleep 1
+done
+$dir/numpaar_engine.pl "$sockfile" 2> "$pl_out" &
+echo "numpaar_engine activated."
+

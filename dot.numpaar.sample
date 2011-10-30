@@ -1,0 +1,54 @@
+## ** Configuration for Numpaar channel.
+##
+## - engine MODULE_NAME ARGS...;
+##
+## an 'engine' directive adds an engine to Numpaar. An engine is a
+## Perl module that inherits Numpaar::Engine. Note that plain
+## Numpaar::Engine is added to Numpaar by default.
+## 
+## MODULE_NAME is the name of the Perl module under Numpaar::Engine::,
+## which will be loaded, instantiated and added to the channel.
+## 
+## ARGS will be supplied as arguments to the object's constructor
+## (new() method).
+##
+
+engine 'DebugIto::Liferea';
+engine 'DebugIto::GIMP';
+engine 'DebugIto::YouTube';
+engine 'DebugIto::MainMenu', '[tT]hunar\.[tT]hunar', 'menu_numpaar - ファイルマネージャ';
+engine 'DebugIto::Thunar';
+engine 'DebugIto::Firefox';
+engine 'DebugIto::Totem_DVD';
+engine 'DebugIto::Totem';
+
+
+## - extern_program PROGRAM_NAME PATH
+##
+## an 'extern_program' directive specifies a path to an external
+## program that is used by some Numpaar engines.
+##
+## PROGRAM_NAME is the name of the external program that is used by
+## Numpaar internally.
+##
+## PATH is the path to the executable of the external program.
+
+extern_program 'xdotool', '/usr/local/bin/xdotool';
+extern_program 'file-manager', "/usr/bin/thunar";
+
+extern_program 'visgrep', "/usr/bin/visgrep";
+extern_program 'import', "/usr/bin/import";
+
+
+## - directory DIR_NAME PATH
+##
+## a 'directory' directive specifies a directory path that is used by
+## some Numpaar engines.
+##
+## DIR_NAME is the name (or ID) of the directory that is used by
+## Numpaar internally.
+##
+## PATH is the actual path to the directory.
+
+directory 'default', $ENV{HOME};
+directory 'visgrep_patterns', $ENV{HOME}.'/patterns';
