@@ -36,17 +36,17 @@ INSTALL
 1. Place the source tree somewhere, say /opt/numpaar/
 2. Build
 
-    $ cd /opt/numpaar
-    $ make
+        $ cd /opt/numpaar
+        $ make
 
 3. Set PATH and PERL5LIB to /opt/numpaar and /opt/numpaar/lib, respectively. For example,
 
-    $ echo 'export PATH="/opt/numpaar:$PATH"' >> ~/.profile
-    $ echo 'export PERL5LIB="/opt/numpaar/lib:$PERL5LIB"' >> ~/.profile
+        $ echo 'export PATH="/opt/numpaar:$PATH"' >> ~/.profile
+        $ echo 'export PERL5LIB="/opt/numpaar/lib:$PERL5LIB"' >> ~/.profile
 
 4. Create configuration file '.numpaar' in your home directory.
 
-    $ cp /opt/numpaar/dot.numpaar.sample ~/
+        $ cp /opt/numpaar/dot.numpaar.sample ~/
 
 5. Edit ~/.numpaar as you like.
 
@@ -76,6 +76,7 @@ AUTHOR
 ------
 
 Toshio Ito
+
 * https://github.com/debug-ito
 * debug.ito@gmail.com
 
