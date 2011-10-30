@@ -24,6 +24,7 @@ PREREQUISITES
     * http://www.semicomplete.com/projects/xdotool/
     * The latest version is recommended.
     * Requires libxtst to build it.
+* libx11 (Xlib)
 * Perl environment
     * Class::Inspector module
 * Python environment
