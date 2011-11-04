@@ -4,7 +4,7 @@ Numpaar: NUMber Pad As A Remote
 Numpaar is a program that turns your (possibly wireless) number pad
 into a remote that controls your computer. You can think of it as just
 another keyboard shortcut program, but it's more powerful and
-extendable than traditional ones.
+extensible than traditional ones.
 
 
 FEATURES
@@ -27,6 +27,7 @@ PREREQUISITES
 * libx11 (Xlib)
 * Perl environment
     * Class::Inspector module
+    * Gtk2 module
 * Python environment
     * PyGTK
 
@@ -79,7 +80,7 @@ AUTHOR
 Toshio Ito
 
 * https://github.com/debug-ito
-* debug.ito@gmail.com
+* debug.ito [at] gmail.com
 
 
 
