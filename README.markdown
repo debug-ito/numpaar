@@ -28,8 +28,7 @@ PREREQUISITES
 * Perl environment
     * Class::Inspector module
     * Gtk2 module
-* Python environment
-    * PyGTK
+    * Pango module
 
 
 INSTALL

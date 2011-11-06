@@ -11,7 +11,7 @@ my $gtk_list;
 my @winlist = ();
 
 
-sub main() {
+sub main {
     if(@ARGV < 1) {
         die "Please provide the path to xdotool as the argument.";
     }
@@ -38,13 +38,13 @@ sub main() {
     Gtk2->main;
 }
 
-sub escape() {
+sub escape {
     my ($str) = @_;
     $str =~ s/([\\\"\$\`])/\\$1/g;
     return $str;
 }
 
-sub initGtk() {
+sub initGtk {
     $gtk_window = Gtk2::Window->new('toplevel');
     $gtk_window->signal_connect(delete_event => sub {Gtk2->main_quit;});
     $gtk_window->set_title("Numpaar Switcher");
@@ -53,7 +53,7 @@ sub initGtk() {
     $gtk_window->add($gtk_list);
 }
 
-sub selected() {
+sub selected {
     my ($treeview, $treepath, $treecol) = @_;
     system($XDOTOOL, 'windowactivate', '--sync', $winlist[$treepath->get_indices()]->{'wid'});
     Gtk2->main_quit;

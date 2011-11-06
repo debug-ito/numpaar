@@ -14,7 +14,7 @@ use Numpaar::Config qw(configLoad configElement configEngineList configCheck);
 
 my $connection;
 
-sub main() {
+sub main {
     if(@ARGV < 1) {
         &usage();
         exit 1;
@@ -34,7 +34,7 @@ sub main() {
 
     my $channel = &makeMainChannel();
     my $status_pipe = IO::Pipe->new();
-    $status_pipe->writer($FindBin::Bin . '/numpaar_status.py');
+    $status_pipe->writer($FindBin::Bin . '/numpaar_status.pl');
 
     my $old_state_str = '';
     while(1) {
@@ -62,17 +62,17 @@ END() {
     &finish();
 }
 
-sub finish() {
+sub finish {
     $connection->close() if defined($connection);
     exit 0;
 }
 
-sub init_sighandlers() {
+sub init_sighandlers {
     $SIG{HUP} = $SIG{TERM} = $SIG{INT} = $SIG{QUIT} = \&finish;
     $SIG{CHLD} = \&childProcessReaper;
 }
 
-sub childProcessReaper() {
+sub childProcessReaper {
     ## ** Reaper that prevents zombie processes persist.
     ## ** http://perldoc.perl.org/perlipc.html#Signals
     my $child;
@@ -82,11 +82,11 @@ sub childProcessReaper() {
     $SIG{CHLD} = \&childProcessReaper;
 }
 
-sub usage() {
+sub usage {
     print STDERR "$0 SOCKET_PATH\n";
 }
 
-sub makeMainChannel() {
+sub makeMainChannel {
     my $channel = Numpaar::Channel->new();
     my $elist_ref = &configEngineList();
     foreach my $engine (@$elist_ref) {
