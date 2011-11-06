@@ -1,10 +1,9 @@
 #!/usr/bin/perl -w
 
 use strict;
-use encoding 'utf8';
+use Encode;
 use Gtk2 -init;
 use Gtk2::SimpleList;
-
 
 my $XDOTOOL;
 my $gtk_window;
@@ -24,6 +23,7 @@ sub main() {
         next if $line !~ /^(\d+) (.+)$/;
         my ($wid, $name) = ($1, $2);
         ## next if &isInBlackList($name);
+        $name = decode('utf8', $name);
         push(@winlist, {'wid' => $wid, 'name' => $name});
         push(@{$gtk_list->{'data'}}, $name);
     }
