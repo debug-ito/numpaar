@@ -56,14 +56,14 @@ sub getExplanations() {
         'multiply' => '*',
         'minus' =>    '-',
         'home' =>     'Home',
-        'up' =>       '↑',
+        'up' =>       'Up',
         'page_up' =>  'PgUp',
         'plus' =>     '+',
-        'left' =>     '←',
+        'left' =>     'Left',
         'center' =>   '5',
-        'right' =>    '→',
+        'right' =>    'Right',
         'end' =>      'End',
-        'down' =>     '↓',
+        'down' =>     'Down',
         'page_down' =>'PgDn',
         'enter' =>    'Enter',
         'insert' =>   'Ins',
@@ -108,13 +108,12 @@ sub getMethodName() {
     my $method = "map${state}_$command";
     my $global_method = "map_$command";
     my $is_success = 0;
-    if(grep(/^$method$/, @{$self->{"symbols"}})) {
+    if($self->can($method)) {
         return $method;
-    }elsif(grep(/^$global_method$/, @{$self->{'symbols'}})) {
+    }elsif($self->can($global_method)) {
         return $global_method;
-    }else {
-        return '';
     }
+    return '';
 }
 
 sub processCommand() {
