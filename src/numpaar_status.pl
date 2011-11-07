@@ -137,6 +137,7 @@ sub setupGtk {
     $window->set_skip_pager_hint(1);
     $window->set_skip_taskbar_hint(1);
     $window->set_accept_focus(0);
+    $window->set_focus_on_map(0);
     my $maintable = Gtk2::Table->new(5, 4, 0);
     &setupButtons($maintable);
     $window->add($maintable);

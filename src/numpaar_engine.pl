@@ -30,7 +30,6 @@ sub main {
     &configElement('extern_program', 'switcher', $FindBin::Bin . '/window_switcher.pl');
     &configLoad('/etc/numpaar.conf.pl', $ENV{HOME}."/.numpaar");
     &configCheck('extern_program', qw(switcher xdotool file-manager));
-    ## Numpaar::Engine->setDefaultMenuDir($FindBin::Bin . '/resources/menu_numpaar');
 
     my $channel = &makeMainChannel();
     my $status_pipe = IO::Pipe->new();
