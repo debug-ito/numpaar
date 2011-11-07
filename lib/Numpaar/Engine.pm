@@ -7,6 +7,8 @@ use Time::HiRes qw( usleep );
 use Class::Inspector;
 use Numpaar::Config qw(configElement);
 
+my $HANDLER_PREFIX = 'map';
+
 sub new() {
     my ($class, $pattern) = @_;
     return $class->setupBasic($pattern);
@@ -19,16 +21,16 @@ sub setupBasic() {
         'state' => 0,
         'old_state' => 0,
         'pattern' => $pattern,
-        'symbols' => $class->getSymbolList(),
         'menu_dir' => Numpaar::Engine->getDefaultDirectory(),
     };
-    ($self->{'grab_list'}, $self->{"global_grabs"}) = $class->initGrabList($self->{'symbols'});
+    ($self->{'grab_list'}, $self->{"global_grabs"}) = $class->initGrabList();
     bless $self, $class;
     return $self;
 }
 
 sub getSymbolList() {
-    my ($class) = @_;
+    my ($class_or_self) = @_;
+    my $class = (ref($class_or_self) ? ref($class_or_self) : $class_or_self);
     return Class::Inspector->methods($class);
 }
 
@@ -84,15 +86,16 @@ sub getExplanations() {
 
 
 sub initGrabList() {
-    my ($class, $handler_list) = @_;
+    my ($class) = @_;
     my $grab_list = {};
     my $global_grabs = [];
+    my $handler_list = $class->getSymbolList();
     foreach my $handler_name (@$handler_list) {
-        if($handler_name =~ /^map_([a-zA-Z0-9_]+)$/) {
+        if($handler_name =~ /^${HANDLER_PREFIX}_([a-zA-Z0-9_]+)$/) {
             push(@$global_grabs, $1);
             next;
         }
-        next if $handler_name !~ /^map([^_]+)_([a-zA-Z0-9_]+)$/;
+        next if $handler_name !~ /^${HANDLER_PREFIX}([^_]+)_([a-zA-Z0-9_]+)$/;
         my ($state, $command) = ($1, $2);
         if(!defined($grab_list->{$state})) {
             $grab_list->{$state} = [];
@@ -105,8 +108,8 @@ sub initGrabList() {
 sub getMethodName() {
     my ($self, $command) = @_;
     my $state = $self->{"state"};
-    my $method = "map${state}_$command";
-    my $global_method = "map_$command";
+    my $method = "${HANDLER_PREFIX}${state}_$command";
+    my $global_method = "${HANDLER_PREFIX}_$command";
     my $is_success = 0;
     if($self->can($method)) {
         return $method;
@@ -163,7 +166,8 @@ sub show() {
 
 sub showSymbols() {
     my ($self) = @_;
-    foreach my $symbol (@{$self->{'symbols'}}) {
+    my $symbols = $self->getSymbolList();
+    foreach my $symbol (@$symbols) {
         print STDERR "$symbol\n";
     }
 }
@@ -205,14 +209,14 @@ sub map_center() {
 
 sub map_plus() {
     my ($self, $connection, $want_help) = @_;
-    return '最大化' if defined($want_help);
+    return 'Maximize' if defined($want_help);
     $connection->comKeyString('alt+F10');
     return 0;
 }
 
 sub map_enter() {
     my ($self, $connection, $want_help, $status_pipe) = @_;
-    return 'ヘルプ' if defined($want_help);
+    return 'Help' if defined($want_help);
     if(defined($status_pipe)) {
         $status_pipe->print("toggle it\n");
         $status_pipe->flush();
@@ -222,7 +226,7 @@ sub map_enter() {
 
 sub map_minus() {
     my ($self, $connection, $want_help) = @_;
-    return 'ウィンドウを閉じる' if defined($want_help);
+    return 'Close Window' if defined($want_help);
     $self->changeToState($connection, 0);
     $connection->comKeyString('alt+F4');
     return 0;
@@ -230,7 +234,7 @@ sub map_minus() {
 
 sub map_multiply() {
     my ($self, $connection, $want_help) = @_;
-    return 'ファイル' if defined($want_help);
+    return 'File' if defined($want_help);
     if(!fork()) {
         ## exec(&extPathOf('file-manager'), $self->{'menu_dir'});
         print STDERR "Open " . $self->{menu_dir} . "\n";
@@ -261,7 +265,7 @@ sub createSwitcherProcess() {
 
 sub map_divide() {
     my ($self, $connection, $want_help) = @_;
-    return "ウィンドウスイッチ" if defined($want_help);
+    return "Switch window" if defined($want_help);
     $connection->print("winlist\n");
     my $line;
     my @winlist = ();
