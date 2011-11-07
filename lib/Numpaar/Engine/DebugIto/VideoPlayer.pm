@@ -1,7 +1,7 @@
 package Numpaar::Engine::DebugIto::VideoPlayer;
 use strict;
 
-sub setVideoKeys() {
+sub setVideoKeys {
     my ($self) = @_;
     $self->{'play_pause'}     = [];
     $self->{'volume_up'}      = [];
@@ -14,9 +14,9 @@ sub setVideoKeys() {
     $self->{'forward_small'}  = [];
 }
 
-sub mapVideo_center() {
+sub handlerVideo_center {
     my ($self, $connection, $want_help) = @_;
-    return '再生/停止' if defined($want_help);
+    return 'Play/Pause' if defined($want_help);
     $connection->comKeyString(@{$self->{'play_pause'}});
     if(defined($self->{'video_play_state'})) {
         if($self->{'video_play_state'} eq 'play') {
@@ -28,58 +28,58 @@ sub mapVideo_center() {
     return 0;
 }
 
-sub mapVideo_up() {
+sub handlerVideo_up {
     my ($self, $connection, $want_help) = @_;
-    return '音量 大' if defined($want_help);
+    return 'Vol up' if defined($want_help);
     $connection->comKeyString(@{$self->{'volume_up'}});
     return 0;
 }
 
-sub mapVideo_down() {
+sub handlerVideo_down {
     my ($self, $connection, $want_help) = @_;
-    return '音量 小' if defined($want_help);
+    return 'Vol down' if defined($want_help);
     $connection->comKeyString(@{$self->{'volume_down'}});
     return 0;
 }
 
-sub mapVideo_home() {
+sub handlerVideo_home {
     my ($self, $connection, $want_help) = @_;
-    return '←(大)' if defined($want_help);
+    return 'Back (L)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_big'}});
     return 0;
 }
 
-sub mapVideo_left() {
+sub handlerVideo_left {
     my ($self, $connection, $want_help) = @_;
-    return '←' if defined($want_help);
+    return 'Back (M)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_normal'}});
     return 0;
 }
 
-sub mapVideo_end() {
+sub handlerVideo_end {
     my ($self, $connection, $want_help) = @_;
-    return '←(小)' if defined($want_help);
+    return 'Back (S)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_small'}});
     return 0;
 }
 
-sub mapVideo_page_up() {
+sub handlerVideo_page_up {
     my ($self, $connection, $want_help) = @_;
-    return '→(大)' if defined($want_help);
+    return 'Forward (L)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_big'}});
     return 0;
 }
 
-sub mapVideo_right() {
+sub handlerVideo_right {
     my ($self, $connection, $want_help) = @_;
-    return '→' if defined($want_help);
+    return 'Forward (M)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_normal'}});
     return 0;
 }
 
-sub mapVideo_page_down() {
+sub handlerVideo_page_down {
     my ($self, $connection, $want_help) = @_;
-    return '→(小)' if defined($want_help);
+    return 'Forward (S)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_small'}});
     return 0;
 }

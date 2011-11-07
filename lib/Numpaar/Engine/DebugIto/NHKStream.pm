@@ -10,7 +10,7 @@ my $COORD_CH1 = {'x' => 0,   'y' => -90};
 my $COORD_CH2 = {'x' => 140, 'y' => -90};
 my $COORD_CH3 = {'x' => 265, 'y' => -90};
 
-sub new() {
+sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox NHK語学番組 .*Mozilla Firefox$');
     $self->{'base_x'} = $self->{'base_y'} = 0;
@@ -20,7 +20,7 @@ sub new() {
 }
 
 
-sub channelSelect() {
+sub channelSelect {
     my ($self, $connection, $channel_coord) = @_;
     if(!$self->{'init_done'}) {
         ## return if !$self->clickPattern($connection, 'pat_nhk_speaker.pat', $channel_coord, undef, $COORD_SPEAKER);
@@ -34,25 +34,25 @@ sub channelSelect() {
     return 0;
 }
 
-sub mapExtended_end() {
+sub handlerExtended_end {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 左チャネル' if defined($want_help);
     return $self->channelSelect($connection, $COORD_CH1);
 }
 
-sub mapExtended_down() {
+sub handlerExtended_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 中チャネル' if defined($want_help);
     return $self->channelSelect($connection, $COORD_CH2);
 }
 
-sub mapExtended_page_down() {
+sub handlerExtended_page_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 右チャネル' if defined($want_help);
     return $self->channelSelect($connection, $COORD_CH3);
 }
 
-sub mapNHK_center() {
+sub handlerNHK_center {
     my ($self, $connection, $want_help) = @_;
     return '再生/停止' if defined($want_help);
     $self->clickFromBase($connection, $COORD_PLAY);
@@ -61,7 +61,7 @@ sub mapNHK_center() {
     return 0;
 }
 
-sub mapNHK_insert() {
+sub handlerNHK_insert {
     my ($self, $connection, $want_help) = @_;
     return 'NHK OUT' if defined($want_help);
     $self->clickFromBase($connection, $COORD_OUT);
@@ -70,9 +70,9 @@ sub mapNHK_insert() {
     return 0;
 }
 
-sub mapNHK_end()       { my ($self, $connection, $want_help) = @_; return $self->mapExtended_end($connection, $want_help); }
-sub mapNHK_down()      { my ($self, $connection, $want_help) = @_; return $self->mapExtended_down($connection, $want_help); }
-sub mapNHK_page_down() { my ($self, $connection, $want_help) = @_; return $self->mapExtended_page_down($connection, $want_help); }
+sub handlerNHK_end       { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_end($connection, $want_help); }
+sub handlerNHK_down      { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_down($connection, $want_help); }
+sub handlerNHK_page_down { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_page_down($connection, $want_help); }
 
 
 1;

@@ -15,7 +15,7 @@ my $COORD_RELOAD     = {'x' => 0,    'y' => -24};
 my $COORD_COMERROR_BATSU = {'x' => -75, 'y' => -292};
 
 
-sub new() {
+sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .* ニコニコ生放送 - Mozilla Firefox$');
     $self->{'base_x'} = $self->{'base_y'} = 0;
@@ -23,7 +23,7 @@ sub new() {
     return $self;
 }
 
-sub sendString() {
+sub sendString {
     my ($self, $connection, $want_help, $str, $short_str) = @_;
     return (defined($short_str) ? $short_str : $str) if defined($want_help);
     my $xclip = IO::Pipe->new();
@@ -35,7 +35,7 @@ sub sendString() {
     return 0;
 }
 
-sub mapExtended_up() {
+sub handlerExtended_up {
     my ($self, $connection, $want_help, $status_pipe) = @_;
     return 'ニコ生 IN' if defined($want_help);
     $self->changeStatusIcon($status_pipe, 'busy');
@@ -59,7 +59,7 @@ sub mapExtended_up() {
     return 0;
 }
 
-sub mapNicoLive_insert() {
+sub handlerNicoLive_insert {
     my ($self, $connection, $want_help) = @_;
     return 'ニコ生 OUT' if defined($want_help);
     ## $self->clickPattern($connection, 'pat_nico_comment.pat', {'x'=>0, 'y'=>35}, 1);
@@ -67,9 +67,9 @@ sub mapNicoLive_insert() {
     $self->changeToState($connection, 0);
     return 0;
 }
-sub mapNicoLive_delete() { my ($self, $conn, $wh) = @_; return $self->mapNicoLive_insert($conn, $wh); }
+sub handlerNicoLive_delete { my ($self, $conn, $wh) = @_; return $self->handlerNicoLive_insert($conn, $wh); }
 
-sub mapNicoLive_page_up() {
+sub handlerNicoLive_page_up {
     my ($self, $connection, $want_help) = @_;
     return '更新' if defined($want_help);
     $self->clickFromBase($connection, $COORD_RELOAD);
@@ -78,13 +78,13 @@ sub mapNicoLive_page_up() {
     return 0;
 }
 
-sub mapNicoLive_up() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'www'); }
-sub mapNicoLive_home() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'm9'); }
-sub mapNicoLive_left() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'わこつ'); }
-sub mapNicoLive_end() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '初見'); }
-sub mapNicoLive_down() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '8888888'); }
-sub mapNicoLive_right() { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'つこうた'); }
-sub mapNicoLive_page_down() {
+sub handlerNicoLive_up { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'www'); }
+sub handlerNicoLive_home { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'm9'); }
+sub handlerNicoLive_left { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'わこつ'); }
+sub handlerNicoLive_end { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '初見'); }
+sub handlerNicoLive_down { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '8888888'); }
+sub handlerNicoLive_right { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'つこうた'); }
+sub handlerNicoLive_page_down {
     my ($self, $connection, $want_help) = @_;
     return $self->sendString($connection, $want_help, '【審議中】　(　´・ω) (´・ω・) (・ω・｀) (ω・｀ )', '審議中');
 }

@@ -7,7 +7,7 @@ use Time::HiRes qw( usleep );
 use Class::Inspector;
 use Numpaar::Config qw(configElement);
 
-my $HANDLER_PREFIX = 'map';
+my $HANDLER_PREFIX = 'handler';
 
 sub new {
     my ($class, $pattern) = @_;
@@ -192,7 +192,7 @@ sub changeStatusIcon {
 }
 
 ## ** Default handler for "switch" event
-sub map_switch {
+sub handler_switch {
     my ($self, $connection, $want_help) = @_;
     return '' if defined($want_help);
     $self->restoreKeyGrab($connection);
@@ -200,21 +200,21 @@ sub map_switch {
     return 0;
 }
 
-sub map_center {
+sub handler_center {
     my ($self, $connection, $want_help) = @_;
     return 'Enter' if defined($want_help);
     $connection->comKeyString('Return');
     return 0;
 }
 
-sub map_plus {
+sub handler_plus {
     my ($self, $connection, $want_help) = @_;
     return 'Maximize' if defined($want_help);
     $connection->comKeyString('alt+F10');
     return 0;
 }
 
-sub map_enter {
+sub handler_enter {
     my ($self, $connection, $want_help, $status_pipe) = @_;
     return 'Help' if defined($want_help);
     if(defined($status_pipe)) {
@@ -224,7 +224,7 @@ sub map_enter {
     return 0;
 }
 
-sub map_minus {
+sub handler_minus {
     my ($self, $connection, $want_help) = @_;
     return 'Close Window' if defined($want_help);
     $self->changeToState($connection, 0);
@@ -232,7 +232,7 @@ sub map_minus {
     return 0;
 }
 
-sub map_multiply {
+sub handler_multiply {
     my ($self, $connection, $want_help) = @_;
     return 'File' if defined($want_help);
     if(!fork()) {
@@ -263,9 +263,9 @@ sub createSwitcherProcess {
     $pipe->close();
 }
 
-sub map_divide {
+sub handler_divide {
     my ($self, $connection, $want_help) = @_;
-    return "Switch window" if defined($want_help);
+    return "Switch Window" if defined($want_help);
     $connection->print("winlist\n");
     my $line;
     my @winlist = ();

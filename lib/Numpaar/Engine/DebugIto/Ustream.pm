@@ -11,7 +11,7 @@ sub new {
     return $self;
 }
 
-sub mapExtended_up() {
+sub handlerExtended_up {
     my ($self, $connection, $want_help, $status_pipe) = @_;
     return 'UST IN' if defined($want_help);
     $self->changeStatusIcon($status_pipe, "busy");
@@ -27,7 +27,7 @@ sub mapExtended_up() {
     return 0;
 }
 
-sub mapUst_insert() {
+sub handlerUst_insert {
     my ($self, $connection, $want_help) = @_;
     return 'Ust OUT' if defined($want_help);
     $connection->comKeyString('Escape');

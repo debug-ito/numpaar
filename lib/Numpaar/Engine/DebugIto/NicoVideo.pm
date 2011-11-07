@@ -12,7 +12,7 @@ my $COORD_REPEAT_TOGGLE  = {'x' =>   80, 'y' => 5};
 my $COORD_OUT            = {'x' =>   50, 'y' => 60};
 my $COORD_FULL           = {'x' =>  150, 'y' => 5};
 
-sub new() {
+sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*ニコニコ動画[^ ]* - Mozilla Firefox$');
     $self->setDeferTimes();
@@ -21,7 +21,7 @@ sub new() {
     return $self;
 }
 
-sub changePlayerSize() {
+sub changePlayerSize {
     my ($self, $change_to) = @_;
     $self->{'player_size'} = $change_to;
     if(defined($self->{'base_coords'}->{$change_to})) {
@@ -32,7 +32,7 @@ sub changePlayerSize() {
     return 0;
 }
 
-sub clickPoint() {
+sub clickPoint {
     my ($self, $connection, $coord, $pipe) = @_;
     if(!defined($self->{'base_coords'}->{$self->{'player_size'}})) {
         $self->changeStatusIcon($pipe, 'busy');
@@ -51,7 +51,7 @@ sub clickPoint() {
     return 1;
 }
 
-sub mapExtended_up() {
+sub handlerExtended_up {
     my ($self, $connection, $want_help, $pipe) = @_;
     return 'ニコ動 IN' if defined($want_help);
     $self->changePlayerSize('normal');
@@ -63,28 +63,28 @@ sub mapExtended_up() {
     return 0;
 }
 
-sub mapVideo_center() {
+sub handlerVideo_center {
     my ($self, $connection, $want_help) = @_;
     return '再生/停止' if defined($want_help);
     $connection->comKeyString('space');
     return 0;
 }
 
-sub mapVideo_page_down() {
+sub handlerVideo_page_down {
     my ($self, $connection, $want_help, $pipe) = @_;
     return 'コメントトグル' if defined($want_help);
     $self->clickPoint($connection, $COORD_COMMENT_TOGGLE, $pipe);
     return 0;
 }
 
-sub mapVideo_end() {
+sub handlerVideo_end {
     my ($self, $connection, $want_help, $pipe) = @_;
     return 'リピートトグル' if defined($want_help);
     $self->clickPoint($connection, $COORD_REPEAT_TOGGLE, $pipe);
     return 0;
 }
 
-sub mapVideo_insert() {
+sub handlerVideo_insert {
     my ($self, $connection, $want_help, $pipe) = @_;
     return 'ニコ動 OUT' if defined($want_help);
     $self->clickPoint($connection, $COORD_OUT, $pipe);
@@ -94,7 +94,7 @@ sub mapVideo_insert() {
     return 0;
 }
 
-sub mapVideo_right() {
+sub handlerVideo_right {
     my ($self, $connection, $want_help, $pipe) = @_;
     return 'フルスクリーン' if defined($want_help);
     $self->clickPoint($connection, $COORD_FULL, $pipe);

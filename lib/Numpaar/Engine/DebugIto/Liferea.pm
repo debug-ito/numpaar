@@ -2,12 +2,12 @@ package Numpaar::Engine::DebugIto::Liferea;
 use strict;
 use base 'Numpaar::Engine';
 
-sub new() {
+sub new {
     my ($class) = @_;
     return $class->setupBasic('^liferea\.Liferea');
 }
 
-sub map0_down() {
+sub handler0_down {
     my ($self, $connection, $want_help) = @_;
     return '左ペインへ' if defined($want_help);
     $self->changeToState($connection, 'LeftPane');
@@ -15,7 +15,7 @@ sub map0_down() {
     return 0;
 }
 
-sub mapLeftPane_right() {
+sub handlerLeftPane_right {
     my ($self, $connection, $want_help) = @_;
     return '右ペインへ' if defined($want_help);
     $self->changeToState($connection, "RightPane");
@@ -23,7 +23,7 @@ sub mapLeftPane_right() {
     return 0;
 }
 
-sub mapRightPane_left() {
+sub handlerRightPane_left {
     my ($self, $connection, $want_help) = @_;
     return '左ペインへ' if defined($want_help);
     $self->changeToState($connection, 'LeftPane');
@@ -31,21 +31,21 @@ sub mapRightPane_left() {
     return 0;
 }
 
-sub map_home() {
+sub handler_home {
     my ($self, $connection, $want_help) = @_;
     return '更新' if defined($want_help);
     $connection->comKeyString('ctrl+a');
     return 0;
 }
 
-sub map_end() {
+sub handler_end {
     my ($self, $connection, $want_help) = @_;
     return 'マーク' if defined($want_help);
     $connection->comKeyString('ctrl+t');
     return 0;
 }
 
-sub map_insert() {
+sub handler_insert {
     my ($self, $connection, $want_help) = @_;
     return '全て既読' if defined($want_help);
     $connection->comKeyString("ctrl+r");
