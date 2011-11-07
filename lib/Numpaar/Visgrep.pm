@@ -6,7 +6,7 @@ use Numpaar::Config qw(configElement configCheck);
 
 my $SCREENSHOT_PATH = '/tmp/numpaar_visgrep_screenshot.png';
 
-sub getPatternDir() {
+sub getPatternDir {
     my $pattern_dir;
     eval {
         $pattern_dir = &configElement('directory', 'visgrep_patterns');
@@ -18,7 +18,7 @@ sub getPatternDir() {
     return $pattern_dir;
 }
 
-sub getLocation() {
+sub getLocation {
     my ($class, $pattern_filename, $not_take_shot) = @_;
     &configCheck('extern_program', 'visgrep', 'import');
     if(!defined($not_take_shot) || $not_take_shot != 0) {
@@ -37,7 +37,7 @@ sub getLocation() {
     return ($x, $y);
 }
 
-sub setBase() {
+sub setBase {
     my ($self, $pattern_file, $pattern_coord, $not_take_shot) = @_;
     my ($x, $y) = Numpaar::Visgrep->getLocation($pattern_file, $not_take_shot);
     if(!defined($x) || !defined($y)) {
@@ -50,7 +50,7 @@ sub setBase() {
     return 1;
 }
 
-## sub clickPattern() {
+## sub clickPattern {
 ##     my ($self, $connection, $pattern_file, $offset_from_pattern, $not_take_shot, $set_base) = @_;
 ##     my ($x, $y) = Numpaar::Visgrep->getLocation($pattern_file, $not_take_shot);
 ##     if(!defined($x) || !defined($y)) {
@@ -63,7 +63,7 @@ sub setBase() {
 ##     return 1;
 ## }
 
-sub clickFromBase() {
+sub clickFromBase {
     my ($self, $connection, $coord) = @_;
     if(!defined($self->{'base_x'}) || !defined($self->{'base_y'})) {
         return 0;

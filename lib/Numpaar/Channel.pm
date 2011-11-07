@@ -2,7 +2,7 @@ package Numpaar::Channel;
 use strict;
 use Encode;
 
-sub new() {
+sub new {
     my ($class) = @_;
     my $self = {
         "title_pattern_list" => {},
@@ -11,12 +11,12 @@ sub new() {
     return $self;
 }
 
-sub putEngine() {
+sub putEngine {
     my ($self, $prio, $engine) = @_;
     $self->{"title_pattern_list"}->{$prio} = $engine;
 }
 
-sub pushEngine() {
+sub pushEngine {
     my ($self, $engine) = @_;
     my @keylist = sort {$a<=>$b} keys(%{$self->{"title_pattern_list"}});
     if(!@keylist) {
@@ -26,7 +26,7 @@ sub pushEngine() {
     }
 }
 
-sub getActiveEngine() {
+sub getActiveEngine {
     my ($self, $win_title) = @_;
     $win_title = decode('utf8', $win_title);
     foreach my $prio (sort {$a<=>$b} keys(%{$self->{"title_pattern_list"}})) {
@@ -39,13 +39,13 @@ sub getActiveEngine() {
     return undef;
 }
 
-sub getExplanations() {
+sub getExplanations {
     my ($self, $win_title) = @_;
     my $engine = $self->getActiveEngine($win_title);
     return $engine->getExplanations();
 }
 
-sub processCommand() {
+sub processCommand {
     my ($self, $connection, $command, $win_title, $status_pipe) = @_;
     my $engine = $self->getActiveEngine($win_title);
     if(!defined($engine)) {

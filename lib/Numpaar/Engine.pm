@@ -9,12 +9,12 @@ use Numpaar::Config qw(configElement);
 
 my $HANDLER_PREFIX = 'map';
 
-sub new() {
+sub new {
     my ($class, $pattern) = @_;
     return $class->setupBasic($pattern);
 }
 
-sub setupBasic() {
+sub setupBasic {
     my ($class, $pattern) = @_;
     $pattern = '.*' if !defined($pattern);
     my $self = {
@@ -28,13 +28,13 @@ sub setupBasic() {
     return $self;
 }
 
-sub getSymbolList() {
+sub getSymbolList {
     my ($class_or_self) = @_;
     my $class = (ref($class_or_self) ? ref($class_or_self) : $class_or_self);
     return Class::Inspector->methods($class);
 }
 
-sub getDefaultDirectory() {
+sub getDefaultDirectory {
     my $elem;
     eval {
         $elem = &configElement('directory', 'default');
@@ -45,12 +45,12 @@ sub getDefaultDirectory() {
     return $elem;
 }
 
-sub getStateString() {
+sub getStateString {
     my ($self) = @_;
     return $self->{'pattern'} . ' ' . $self->{'state'};
 }
 
-sub getExplanations() {
+sub getExplanations {
     my ($self) = @_;
     my $explanation = '';
     my %keylist = (
@@ -85,7 +85,7 @@ sub getExplanations() {
 }
 
 
-sub initGrabList() {
+sub initGrabList {
     my ($class) = @_;
     my $grab_list = {};
     my $global_grabs = [];
@@ -105,7 +105,7 @@ sub initGrabList() {
     return ($grab_list, $global_grabs);
 }
 
-sub getMethodName() {
+sub getMethodName {
     my ($self, $command) = @_;
     my $state = $self->{"state"};
     my $method = "${HANDLER_PREFIX}${state}_$command";
@@ -119,7 +119,7 @@ sub getMethodName() {
     return '';
 }
 
-sub processCommand() {
+sub processCommand {
     my ($self, $connection, $command, $status_pipe) = @_;
     my $method = $self->getMethodName($command);
     if(!$method) {
@@ -129,7 +129,7 @@ sub processCommand() {
     return $self->$method($connection, undef, $status_pipe);
 }
 
-sub getGrabKeyListForState() {
+sub getGrabKeyListForState {
     my ($self, $state) = @_;
     my $grab_list = $self->{'grab_list'};
     my @ret_list = ();
@@ -142,7 +142,7 @@ sub getGrabKeyListForState() {
     return @ret_list;
 }
 
-sub changeToState() {
+sub changeToState {
     my ($self, $connection, $to_state) = @_;
     $self->{'old_state'} = $self->{'state'};
     $self->{'state'} = $to_state;
@@ -152,19 +152,19 @@ sub changeToState() {
     }
 }
 
-sub restoreKeyGrab() {
+sub restoreKeyGrab {
     my ($self, $connection) = @_;
     $connection->comKeyGrabSetOn($self->getGrabKeyListForState($self->{'state'}));
 }
 
-sub show() {
+sub show {
     my ($self, $event_name) = @_;
     print STDERR (">>PAT: " . $self->{"pattern"} . "  STATE: " . $self->{"state"});
     print STDERR (" EVENT: $event_name") if defined($event_name);
     print STDERR ("\n");
 }
 
-sub showSymbols() {
+sub showSymbols {
     my ($self) = @_;
     my $symbols = $self->getSymbolList();
     foreach my $symbol (@$symbols) {
@@ -172,7 +172,7 @@ sub showSymbols() {
     }
 }
 
-sub showGrabs() {
+sub showGrabs {
     my ($self) = @_;
     print STDERR "Global Grab: ";
     print STDERR (join(",", @{$self->{'global_grabs'}}) . "\n");
@@ -184,7 +184,7 @@ sub showGrabs() {
     }
 }
 
-sub changeStatusIcon() {
+sub changeStatusIcon {
     my ($self, $pipe, $icon_id) = @_;
     return if !defined($icon_id);
     $pipe->print("icon $icon_id\n");
@@ -192,7 +192,7 @@ sub changeStatusIcon() {
 }
 
 ## ** Default handler for "switch" event
-sub map_switch() {
+sub map_switch {
     my ($self, $connection, $want_help) = @_;
     return '' if defined($want_help);
     $self->restoreKeyGrab($connection);
@@ -200,21 +200,21 @@ sub map_switch() {
     return 0;
 }
 
-sub map_center() {
+sub map_center {
     my ($self, $connection, $want_help) = @_;
     return 'Enter' if defined($want_help);
     $connection->comKeyString('Return');
     return 0;
 }
 
-sub map_plus() {
+sub map_plus {
     my ($self, $connection, $want_help) = @_;
     return 'Maximize' if defined($want_help);
     $connection->comKeyString('alt+F10');
     return 0;
 }
 
-sub map_enter() {
+sub map_enter {
     my ($self, $connection, $want_help, $status_pipe) = @_;
     return 'Help' if defined($want_help);
     if(defined($status_pipe)) {
@@ -224,7 +224,7 @@ sub map_enter() {
     return 0;
 }
 
-sub map_minus() {
+sub map_minus {
     my ($self, $connection, $want_help) = @_;
     return 'Close Window' if defined($want_help);
     $self->changeToState($connection, 0);
@@ -232,7 +232,7 @@ sub map_minus() {
     return 0;
 }
 
-sub map_multiply() {
+sub map_multiply {
     my ($self, $connection, $want_help) = @_;
     return 'File' if defined($want_help);
     if(!fork()) {
@@ -243,7 +243,7 @@ sub map_multiply() {
     return 0;
 }
 
-sub createSwitcherProcess() {
+sub createSwitcherProcess {
     my (@winlist) = @_;
     my $pipe = IO::Pipe->new();
     my $child_pid = fork();
@@ -263,7 +263,7 @@ sub createSwitcherProcess() {
     $pipe->close();
 }
 
-sub map_divide() {
+sub map_divide {
     my ($self, $connection, $want_help) = @_;
     return "Switch window" if defined($want_help);
     $connection->print("winlist\n");

@@ -10,7 +10,7 @@ my %numpaar_config = (
     directory => {},
     );
 
-sub configLoad() {
+sub configLoad {
     my (@filenames) = @_;
     foreach my $filename (@filenames) {
         if(-r $filename) {
@@ -34,11 +34,11 @@ sub directory( $$ ) {
     &configElement('directory', $key, $val);
 }
 
-sub configEngineList() {
+sub configEngineList {
     return $numpaar_config{engine_list};
 }
 
-sub configElement() {
+sub configElement {
     my ($category, $key, $val) = @_;
     if(defined($val)) {
         $numpaar_config{$category}{$key} = $val;
@@ -49,7 +49,7 @@ sub configElement() {
     return $numpaar_config{$category}{$key};
 }
 
-sub configCheck() {
+sub configCheck {
     my ($category, @required_keys) = @_;
     my $err = '';
     foreach my $required_key (@required_keys) {
