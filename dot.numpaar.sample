@@ -15,10 +15,7 @@
 
 engine 'DebugIto::Liferea';
 engine 'DebugIto::GIMP';
-engine 'DebugIto::YouTube';
-engine 'DebugIto::MainMenu', '[tT]hunar\.[tT]hunar', 'menu_numpaar - ファイルマネージャ';
 engine 'DebugIto::Thunar';
-engine 'DebugIto::Firefox';
 engine 'DebugIto::Totem_DVD';
 engine 'DebugIto::Totem';
 
@@ -36,10 +33,6 @@ engine 'DebugIto::Totem';
 extern_program 'xdotool', '/usr/local/bin/xdotool';
 extern_program 'file-manager', "/usr/bin/thunar";
 
-extern_program 'visgrep', "/usr/bin/visgrep";
-extern_program 'import', "/usr/bin/import";
-
-
 ## - directory DIR_NAME PATH
 ##
 ## a 'directory' directive specifies a directory path that is used by
@@ -51,4 +44,3 @@ extern_program 'import', "/usr/bin/import";
 ## PATH is the actual path to the directory.
 
 directory 'default', $ENV{HOME};
-directory 'visgrep_patterns', $ENV{HOME}.'/patterns';
