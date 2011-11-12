@@ -7,30 +7,31 @@ sub new {
     my $self = $class->setupBasic('^[tT]otem\.Totem_DVD');
     $self->setVideoKeys();
     $self->{'video_play_state'} = 'play';
-    $self->{'state'} = 'DVDExtended';
+    ## $self->{'state'} = ;
+    $self->setState('DVDExtended');
     return $self;
 }
 
-sub changeToState {
-    my ($self, $connection, $to_state) = @_;
+sub setState {
+    my ($self, $to_state, $connection) = @_;
     if($to_state eq '0') {
         $self->{'video_play_state'} = 'play';
         $to_state = 'DVDExtended';
     }
-    $self->SUPER::changeToState($connection, $to_state);
+    $self->SUPER::setState($to_state, $connection);
 }
 
 sub handlerVideo_delete {
     my ($self, $connection, $want_help) = @_;
     return 'DVD mode' if defined($want_help);
-    $self->changeToState($connection, 'DVDExtended');
+    $self->setState('DVDExtended', $connection);
     return 0;
 }
 
 sub handlerDVDExtended_delete {
     my ($self, $connection, $want_help) = @_;
     return 'normal mode' if defined($want_help);
-    $self->changeToState($connection, 'Video');
+    $self->setState('Video', $connection);
     return 0;
 }
 

@@ -10,7 +10,7 @@ sub new {
 sub handler0_down {
     my ($self, $connection, $want_help) = @_;
     return '左ペインへ' if defined($want_help);
-    $self->changeToState($connection, 'LeftPane');
+    $self->setState('LeftPane', $connection);
     $connection->comKeyString('Tab');
     return 0;
 }
@@ -18,7 +18,7 @@ sub handler0_down {
 sub handlerLeftPane_right {
     my ($self, $connection, $want_help) = @_;
     return '右ペインへ' if defined($want_help);
-    $self->changeToState($connection, "RightPane");
+    $self->setState("RightPane", $connection);
     $connection->comKeyString('Tab');
     return 0;
 }
@@ -26,7 +26,7 @@ sub handlerLeftPane_right {
 sub handlerRightPane_left {
     my ($self, $connection, $want_help) = @_;
     return '左ペインへ' if defined($want_help);
-    $self->changeToState($connection, 'LeftPane');
+    $self->setState('LeftPane', $connection);
     $connection->comKeyString('shift+Tab', 'shift+Tab');
     return 0;
 }

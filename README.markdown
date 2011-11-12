@@ -6,6 +6,9 @@ into a remote that controls your computer. You can think of it as just
 another keyboard shortcut program, but it's more powerful and
 extensible than traditional ones.
 
+This is still a Beta version... Interfaces may be changed in the
+future.
+
 
 FEATURES
 --------

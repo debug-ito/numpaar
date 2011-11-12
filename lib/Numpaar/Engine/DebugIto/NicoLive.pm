@@ -18,7 +18,9 @@ my $COORD_COMERROR_BATSU = {'x' => -75, 'y' => -292};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .* ニコニコ生放送 - Mozilla Firefox$');
-    $self->{'base_x'} = $self->{'base_y'} = 0;
+    ## $self->{'base_x'} = $self->{'base_y'} = 0;
+    $self->baseX();
+    $self->baseY();
     $self->setDeferTimes();
     return $self;
 }
@@ -54,7 +56,7 @@ sub handlerExtended_up {
     $self->clickFromBase($connection, $COORD_COMERROR_BATSU);
     $connection->comWaitMsec($WAIT_TIME);
     $self->clickFromBase($connection, $COORD_COMBOX);
-    $self->changeToState($connection, 'NicoLive');
+    $self->setState('NicoLive', $connection);
     $self->changeStatusIcon($status_pipe, 'normal');
     return 0;
 }
@@ -64,7 +66,7 @@ sub handlerNicoLive_insert {
     return 'ニコ生 OUT' if defined($want_help);
     ## $self->clickPattern($connection, 'pat_nico_comment.pat', {'x'=>0, 'y'=>35}, 1);
     $self->clickFromBase($connection, $COORD_OUT);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 sub handlerNicoLive_delete { my ($self, $conn, $wh) = @_; return $self->handlerNicoLive_insert($conn, $wh); }

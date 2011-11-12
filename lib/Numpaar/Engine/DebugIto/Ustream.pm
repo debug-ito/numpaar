@@ -22,7 +22,7 @@ sub handlerExtended_up {
         return 0;
     }
     $self->clickFromBaser($connection, {'x' => 3, 'y' => 3});
-    $self->changeToState($connection, 'Ust');
+    $self->setState('Ust', $connection);
     $self->changeStatusIcon($status_pipe, "normal");
     return 0;
 }
@@ -33,7 +33,7 @@ sub handlerUst_insert {
     $connection->comKeyString('Escape');
     $connection->comWaitMsec(500);
     $self->clickFromBase($connection, $COORD_OUT);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 

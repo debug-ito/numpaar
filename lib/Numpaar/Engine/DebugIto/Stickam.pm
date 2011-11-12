@@ -21,7 +21,7 @@ sub handlerExtended_up {
         $connection->comWaitMsec(100);
         $self->clickFromBase($connection, $COORD_OUT);
     }
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 

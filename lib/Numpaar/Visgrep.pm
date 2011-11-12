@@ -46,29 +46,28 @@ sub setBase {
     if(!defined($pattern_coord)) {
         $pattern_coord = {'x' => 0, 'y' => 0};
     }
-    ($self->{'base_x'}, $self->{'base_y'}) = ($x - $pattern_coord->{'x'}, $y - $pattern_coord->{'y'});
+    ($self->{'visgrep_base_x'}, $self->{'visgrep_base_y'}) = ($x - $pattern_coord->{'x'}, $y - $pattern_coord->{'y'});
     return 1;
 }
 
-## sub clickPattern {
-##     my ($self, $connection, $pattern_file, $offset_from_pattern, $not_take_shot, $set_base) = @_;
-##     my ($x, $y) = Numpaar::Visgrep->getLocation($pattern_file, $not_take_shot);
-##     if(!defined($x) || !defined($y)) {
-##         return 0;
-##     }
-##     if(defined($set_base)) {
-##         ($self->{'base_x'}, $self->{'base_y'}) = ($x - $set_base->{'x'}, $y - $set_base->{'y'});
-##     }
-##     $connection->comMouseClick(1, $x + $offset_from_pattern->{'x'}, $y + $offset_from_pattern->{'y'});
-##     return 1;
-## }
+sub baseX {
+    my ($self, $arg) = @_;
+    $self->{'visgrep_base_x'} = $arg if defined($arg);
+    return $self->{'visgrep_base_x'};
+}
+
+sub baseY {
+    my ($self, $arg) = @_;
+    $self->{'visgrep_base_y'} = $arg if defined($arg);
+    return $self->{'visgrep_base_y'};
+}
 
 sub clickFromBase {
     my ($self, $connection, $coord) = @_;
-    if(!defined($self->{'base_x'}) || !defined($self->{'base_y'})) {
+    if(!defined($self->{'visgrep_base_x'}) || !defined($self->{'visgrep_base_y'})) {
         return 0;
     }
-    $connection->comMouseClick(1, $self->{'base_x'} + $coord->{'x'}, $self->{'base_y'} + $coord->{'y'});
+    $connection->comMouseClick(1, $self->{'visgrep_base_x'} + $coord->{'x'}, $self->{'visgrep_base_y'} + $coord->{'y'});
     return 1;
 }
 

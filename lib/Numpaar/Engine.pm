@@ -142,13 +142,17 @@ sub getGrabKeyListForState {
     return @ret_list;
 }
 
-sub changeToState {
-    my ($self, $connection, $to_state) = @_;
+sub setState {
+    my ($self, $to_state, $connection) = @_;
     $self->{'old_state'} = $self->{'state'};
     $self->{'state'} = $to_state;
     printf STDERR ("Change state from %s to %s\n", $self->{'old_state'}, $to_state);
     if($self->{'old_state'} ne $to_state) {
-        $self->restoreKeyGrab($connection);
+        if(defined($connection)) {
+            $self->restoreKeyGrab($connection);
+        }else {
+            print STDERR ("Warning: State is changed but key grab is not set because connection is not provided.\n");
+        }
     }
 }
 
@@ -227,7 +231,7 @@ sub handler_enter {
 sub handler_minus {
     my ($self, $connection, $want_help) = @_;
     return 'Close Window' if defined($want_help);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     $connection->comKeyString('alt+F4');
     return 0;
 }

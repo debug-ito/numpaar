@@ -13,7 +13,9 @@ my $COORD_CH3 = {'x' => 265, 'y' => -90};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox NHK語学番組 .*Mozilla Firefox$');
-    $self->{'base_x'} = $self->{'base_y'} = 0;
+    ## $self->{'base_x'} = $self->{'base_y'} = 0;
+    $self->baseX(0);
+    $self->baseY(0);
     $self->{'init_done'} = 0;
     $self->setDeferTimes();
     return $self;
@@ -30,7 +32,7 @@ sub channelSelect {
     }else {
         $self->clickFromBase($connection, $channel_coord);
     }
-    $self->changeToState($connection, 'NHK');
+    $self->setState('NHK', $connection);
     return 0;
 }
 
@@ -65,7 +67,7 @@ sub handlerNHK_insert {
     my ($self, $connection, $want_help) = @_;
     return 'NHK OUT' if defined($want_help);
     $self->clickFromBase($connection, $COORD_OUT);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     $self->{'init_done'} = 0;
     return 0;
 }

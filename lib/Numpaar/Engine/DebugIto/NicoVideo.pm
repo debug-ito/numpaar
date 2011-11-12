@@ -25,8 +25,10 @@ sub changePlayerSize {
     my ($self, $change_to) = @_;
     $self->{'player_size'} = $change_to;
     if(defined($self->{'base_coords'}->{$change_to})) {
-        $self->{'base_x'} = $self->{'base_coords'}->{$change_to}->{'x'};
-        $self->{'base_y'} = $self->{'base_coords'}->{$change_to}->{'y'};
+        ## $self->{'base_x'} = $self->{'base_coords'}->{$change_to}->{'x'};
+        ## $self->{'base_y'} = $self->{'base_coords'}->{$change_to}->{'y'};
+        $self->baseX($self->{'base_coords'}->{$change_to}->{'x'});
+        $self->baseY($self->{'base_coords'}->{$change_to}->{'y'});
         return 1;
     }
     return 0;
@@ -44,7 +46,7 @@ sub clickPoint {
         }
         $self->clickFromBase($connection, $coord);
         $self->changeStatusIcon($pipe, 'normal');
-        $self->{'base_coords'}->{$self->{'player_size'}} = {'x' => $self->{'base_x'}, 'y' => $self->{'base_y'}};
+        $self->{'base_coords'}->{$self->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
     }else {
         $self->clickFromBase($connection, $coord);
     }
@@ -59,7 +61,7 @@ sub handlerExtended_up {
     $connection->comWaitMsec(100);
     $connection->comKeyString('space');
     
-    $self->changeToState($connection, 'Video');
+    $self->setState('Video', $connection);
     return 0;
 }
 
@@ -90,7 +92,7 @@ sub handlerVideo_insert {
     $self->clickPoint($connection, $COORD_OUT, $pipe);
     $self->{'base_coords'} = {};
     $self->{'player_size'} = 'normal';
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 

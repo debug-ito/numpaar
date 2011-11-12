@@ -43,7 +43,7 @@ sub handler0_insert {
     my ($self, $connection, $want_help) = @_;
     return 'ブックマーク' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+b');
-    $self->changeToState($connection, 'BookMark');
+    $self->setState('BookMark', $connection);
     return 0;
 }
 
@@ -51,7 +51,7 @@ sub handler0_center {
     my ($self, $connection, $want_help) = @_;
     return 'リンク' if defined($want_help);
     $connection->comKeyString('ctrl+u', 'e');
-    $self->changeToState($connection, 'Link');
+    $self->setState('Link', $connection);
     $self->{'doAfterLink'} = 0;
     return 0;
 }
@@ -59,7 +59,7 @@ sub handler0_center {
 sub handler0_home {
     my ($self, $connection, $want_help) = @_;
     return '拡張モード' if defined($want_help);
-    $self->changeToState($connection, 'Extended');
+    $self->setState('Extended', $connection);
     return 0;
 }
 
@@ -67,7 +67,7 @@ sub handlerBookMark_center {
     my ($self, $connection, $want_help) = @_;
     return '決定' if defined($want_help);
     $connection->comKeyString('ctrl+Return', 'ctrl+q', 'ctrl+b');
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     $connection->comUpdateActive($self->{'defer_load'});
     return 0;
 }
@@ -76,7 +76,7 @@ sub handlerBookMark_insert {
     my ($self, $connection, $want_help) = @_;
     return 'キャンセル' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+b');
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -99,7 +99,7 @@ sub handlerLink_up {
     my ($self, $connection, $want_help) = @_;
     return '決定' if defined($want_help);
     $connection->comKeyString('Return');
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     $connection->comUpdateActive($self->{'defer_load'});
     if($self->{'doAfterLink'}) {
         &{$self->{'doAfterLink'}}($self, $connection);
@@ -164,7 +164,7 @@ sub handlerExtended_home {
     my ($self, $connection, $want_help) = @_;
     return 'リンク(新タブ)' if defined($want_help);
     $connection->comKeyString('ctrl+u', 'shift+e');
-    $self->changeToState($connection, 'Link');
+    $self->setState('Link', $connection);
     $self->{'doAfterLink'} = 0;
     return 0;
 }
@@ -174,7 +174,7 @@ sub handlerExtended_left {
     return '戻る' if defined($want_help);
     $connection->comKeyString('shift+b');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -183,7 +183,7 @@ sub handlerExtended_right {
     return '進む' if defined($want_help);
     $connection->comKeyString('shift+f');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -191,7 +191,7 @@ sub handlerExtended_up {
     my ($self, $connection, $want_help) = @_;
     return '文字大きく' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+plus');
-    $self->changeToState($connection, "FontSize");
+    $self->setState("FontSize", $connection);
     return 0;
 }
 
@@ -199,7 +199,7 @@ sub handlerExtended_down {
     my ($self, $connection, $want_help) = @_;
     return '文字小さく' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+minus');
-    $self->changeToState($connection, "FontSize");
+    $self->setState("FontSize", $connection);
     return 0;
 }
 
@@ -208,7 +208,7 @@ sub handlerExtended_page_up {
     return 'リロード' if defined($want_help);
     $connection->comKeyString('F5');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -217,7 +217,7 @@ sub handlerExtended_page_down {
     return 'ホーム' if defined($want_help);
     $connection->comKeyString('alt+Home');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -225,21 +225,21 @@ sub handlerExtended_center {
     my ($self, $connection, $want_help) = @_;
     return '文字通常' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+0');
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
 sub afterStringCopy {
     my ($self, $connection) = @_;
     $connection->comKeyString('ctrl+x', "g", "ctrl+a", "space", "Left");
-    $self->changeToState($connection, "Search");
+    $self->setState("Search", $connection);
 }
 
 sub handlerExtended_insert {
     my ($self, $connection, $want_help) = @_;
     return '文字列コピー' if defined($want_help);
     $connection->comKeyType(';Y');
-    $self->changeToState($connection, 'Link');
+    $self->setState('Link', $connection);
     $self->{'doAfterLink'} = \&afterStringCopy;
     return 0;
 }
@@ -249,14 +249,14 @@ sub handlerExtended_end {
     return 'タブを戻す' if defined($want_help);
     $connection->comKeyString('ctrl+c', 'u');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
 sub handlerFontSize_center {
     my ($self, $connection, $want_help) = @_;
     return '終了' if defined($want_help);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -303,7 +303,7 @@ sub handlerSearch_center {
     return '検索' if defined($want_help);
     $connection->comKeyString('Return');
     $connection->comUpdateActive($self->{'defer_load'});
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
@@ -311,7 +311,7 @@ sub handler_delete {
     my ($self, $connection, $want_help) = @_;
     return 'キャンセル' if defined($want_help);
     $connection->comKeyString('ctrl+g');
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 

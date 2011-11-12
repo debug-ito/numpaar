@@ -7,17 +7,18 @@ sub new {
     my $self = $class->setupBasic('^[tT]otem\.Totem');
     $self->setVideoKeys();
     $self->{'video_play_state'} = 'play';
-    $self->{'state'} = 'Video';
+    ## $self->{'state'} = 'Video';
+    $self->setState('Video');
     return $self;
 }
 
-sub changeToState {
-    my ($self, $connection, $to_state) = @_;
+sub setState {
+    my ($self, $to_state, $connection) = @_;
     if($to_state eq '0') {
         $self->{'video_play_state'} = 'play';
         $to_state = 'Video';
     }
-    $self->SUPER::changeToState($connection, $to_state);
+    $self->SUPER::setState($to_state, $connection);
 }
 
 sub setVideoKeys {

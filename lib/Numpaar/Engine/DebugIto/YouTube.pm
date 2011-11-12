@@ -26,7 +26,7 @@ sub setVideoKeys {
 sub handlerExtended_up {
     my ($self, $connection, $want_help) = @_;
     return 'YouTube IN' if defined($want_help);
-    $self->changeToState($connection, 'Video');
+    $self->setState('Video', $connection);
     return 0;
 }
 
@@ -36,7 +36,7 @@ sub handlerExtended_up {
 sub handlerVideo_insert {
     my ($self, $connection, $want_help) = @_;
     return 'YouTube OUT' if defined($want_help);
-    $self->changeToState($connection, 0);
+    $self->setState(0, $connection);
     return 0;
 }
 
