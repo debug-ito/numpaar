@@ -7,7 +7,7 @@ use warnings;
 sub new {
     my ($class, $status_script_path) = @_;
     my $pipe = IO::Pipe->new();
-    print STDERR ("Writer returns: " . $pipe->writer($status_script_path)  . "\n");
+    $pipe->writer($status_script_path);
     return bless { 'pipe' =>  $pipe}, $class;
 }
 
@@ -38,5 +38,3 @@ sub changeStatusIcon {
 
 
 1;
-
-
