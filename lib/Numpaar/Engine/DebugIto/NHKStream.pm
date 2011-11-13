@@ -37,18 +37,21 @@ sub handlerExtended_end {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 左チャネル' if defined($want_help);
     $self->channelSelect($connection, $COORD_CH1);
+    return 0;
 }
 
 sub handlerExtended_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 中チャネル' if defined($want_help);
     $self->channelSelect($connection, $COORD_CH2);
+    return 0;
 }
 
 sub handlerExtended_page_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 右チャネル' if defined($want_help);
     $self->channelSelect($connection, $COORD_CH3);
+    return 0;
 }
 
 sub handlerNHK_center {

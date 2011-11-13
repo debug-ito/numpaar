@@ -46,6 +46,7 @@ sub handlerVideo_delete {
     return 'Show Control' if defined($want_help);
     $connection->comMouseClick(1, 200, 200);
     $connection->comMouseClick(1, 210, 200);
+    return 0;
 }
 
 
