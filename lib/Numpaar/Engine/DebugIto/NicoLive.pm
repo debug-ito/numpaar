@@ -18,9 +18,7 @@ my $COORD_COMERROR_BATSU = {'x' => -75, 'y' => -292};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .* ニコニコ生放送 - Mozilla Firefox$');
-    ## $self->{'base_x'} = $self->{'base_y'} = 0;
-    $self->baseX();
-    $self->baseY();
+    $self->initVisgrep(0, 0);
     $self->setDeferTimes();
     return $self;
 }
@@ -41,21 +39,18 @@ sub handlerExtended_up {
     my ($self, $connection, $want_help, $status_pipe) = @_;
     return 'ニコ生 IN' if defined($want_help);
     $self->changeStatusIcon($status_pipe, 'busy');
-    ## my $ret = $self->clickPattern($connection, 'pat_nico_comment.pat',
-    ##                               {'x' => $COORD_PREMIUM_OK->{'x'} - $COORD_COMMENT->{'x'},
-    ##                                'y' => $COORD_PREMIUM_OK->{'y'} - $COORD_COMMENT->{'y'}}, undef, $COORD_COMMENT);
-    my $ret = $self->setBase('pat_nico_comment.pat', $COORD_COMMENT);
+    my $ret = $self->setBaseFromPattern('pat_nico_comment.pat', $COORD_COMMENT->{x}, $COORD_COMMENT->{y});
     if(!$ret) {
         $self->changeStatusIcon($status_pipe, 'normal');
         return 0;
     }
-    $self->clickFromBase($connection, $COORD_PREMIUM_OK);
+    $self->clickFromBase($connection, $COORD_PREMIUM_OK->{x}, $COORD_PREMIUM_OK->{y});
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_BATSU);
+    $self->clickFromBase($connection, $COORD_BATSU->{x}, $COORD_BATSU->{y});
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_COMERROR_BATSU);
+    $self->clickFromBase($connection, $COORD_COMERROR_BATSU->{x}, $COORD_COMERROR_BATSU->{y});
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_COMBOX);
+    $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
     $self->setState('NicoLive', $connection);
     $self->changeStatusIcon($status_pipe, 'normal');
     return 0;
@@ -64,8 +59,7 @@ sub handlerExtended_up {
 sub handlerNicoLive_insert {
     my ($self, $connection, $want_help) = @_;
     return 'ニコ生 OUT' if defined($want_help);
-    ## $self->clickPattern($connection, 'pat_nico_comment.pat', {'x'=>0, 'y'=>35}, 1);
-    $self->clickFromBase($connection, $COORD_OUT);
+    $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
     $self->setState(0, $connection);
     return 0;
 }
@@ -74,9 +68,9 @@ sub handlerNicoLive_delete { my ($self, $conn, $wh) = @_; return $self->handlerN
 sub handlerNicoLive_page_up {
     my ($self, $connection, $want_help) = @_;
     return '更新' if defined($want_help);
-    $self->clickFromBase($connection, $COORD_RELOAD);
+    $self->clickFromBase($connection, $COORD_RELOAD->{x}, $COORD_RELOAD->{y});
     $connection->comWaitMsec(200);
-    $self->clickFromBase($connection, $COORD_COMBOX);
+    $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
     return 0;
 }
 

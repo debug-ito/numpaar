@@ -44,10 +44,10 @@ sub handlerVideo_delete {
     my ($self, $connection, $want_help) = @_;
     return 'Delete Ad' if defined($want_help);
     ## if($self->clickPattern($connection, 'pat_youtube_batsu.pat', {'x' => 2, 'y' => 2}, undef, {'x' => 0, 'y' => 0})) {
-    if($self->setBase('pat_youtube_batsu.pat', {'x' => 0, 'y' => 0})) {
-        $self->clickFromBase($connection, {'x' => 2, 'y' => 2});
+    if($self->setBaseFromPattern('pat_youtube_batsu.pat', 0, 0)) {
+        $self->clickFromBase($connection, 2, 2);
         $connection->comWaitMsec(200);
-        $self->clickFromBase($connection, {'x' => -570, 'y' => 0});
+        $self->clickFromBase($connection, -570, 0);
     }
     return 0;
 }

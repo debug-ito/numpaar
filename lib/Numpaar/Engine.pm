@@ -142,6 +142,11 @@ sub getGrabKeyListForState {
     return @ret_list;
 }
 
+sub getState {
+    my ($self) = @_;
+    return wantarray ? ($self->{'state'}, $self->{'old_state'}) : $self->{'state'};
+}
+
 sub setState {
     my ($self, $to_state, $connection) = @_;
     $self->{'old_state'} = $self->{'state'};

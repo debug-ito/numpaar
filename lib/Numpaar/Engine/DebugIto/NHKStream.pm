@@ -13,9 +13,7 @@ my $COORD_CH3 = {'x' => 265, 'y' => -90};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox NHK語学番組 .*Mozilla Firefox$');
-    ## $self->{'base_x'} = $self->{'base_y'} = 0;
-    $self->baseX(0);
-    $self->baseY(0);
+    $self->initVisgrep(0, 0);
     $self->{'init_done'} = 0;
     $self->setDeferTimes();
     return $self;
@@ -25,48 +23,47 @@ sub new {
 sub channelSelect {
     my ($self, $connection, $channel_coord) = @_;
     if(!$self->{'init_done'}) {
-        ## return if !$self->clickPattern($connection, 'pat_nhk_speaker.pat', $channel_coord, undef, $COORD_SPEAKER);
-        return if !$self->setBase('pat_nhk_speaker.pat', $COORD_SPEAKER);
-        $self->clickFromBase($connection, $channel_coord);
+        return 0 if !$self->setBaseFromPattern('pat_nhk_speaker.pat', $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
+        $self->clickFromBase($connection, $channel_coord->{x}, $channel_coord->{y});
         $self->{'init_done'} = 1;
     }else {
-        $self->clickFromBase($connection, $channel_coord);
+        $self->clickFromBase($connection, $channel_coord->{x}, $channel_coord->{y});
     }
     $self->setState('NHK', $connection);
-    return 0;
+    return 1;
 }
 
 sub handlerExtended_end {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 左チャネル' if defined($want_help);
-    return $self->channelSelect($connection, $COORD_CH1);
+    $self->channelSelect($connection, $COORD_CH1);
 }
 
 sub handlerExtended_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 中チャネル' if defined($want_help);
-    return $self->channelSelect($connection, $COORD_CH2);
+    $self->channelSelect($connection, $COORD_CH2);
 }
 
 sub handlerExtended_page_down {
     my ($self, $connection, $want_help) = @_;
     return 'NHK 右チャネル' if defined($want_help);
-    return $self->channelSelect($connection, $COORD_CH3);
+    $self->channelSelect($connection, $COORD_CH3);
 }
 
 sub handlerNHK_center {
     my ($self, $connection, $want_help) = @_;
     return '再生/停止' if defined($want_help);
-    $self->clickFromBase($connection, $COORD_PLAY);
+    $self->clickFromBase($connection, $COORD_PLAY->{x}, $COORD_PLAY->{y});
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_SPEAKER);
+    $self->clickFromBase($connection, $COORD_SPEAKER->{x}, $COORD_PLAY->{y});
     return 0;
 }
 
 sub handlerNHK_insert {
     my ($self, $connection, $want_help) = @_;
     return 'NHK OUT' if defined($want_help);
-    $self->clickFromBase($connection, $COORD_OUT);
+    $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
     $self->setState(0, $connection);
     $self->{'init_done'} = 0;
     return 0;

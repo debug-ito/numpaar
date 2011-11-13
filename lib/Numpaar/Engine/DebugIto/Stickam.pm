@@ -16,10 +16,10 @@ sub new {
 sub handlerExtended_up {
     my ($self, $connection, $want_help) = @_;
     return 'ステカム 開始' if defined($want_help);
-    if($self->setBase('pat_stickam_paste.pat', $COORD_PASTE_BUTTON)) {
-        $self->clickFromBase($connection, $COORD_START);
+    if($self->setBaseFromPattern('pat_stickam_paste.pat', $COORD_PASTE_BUTTON->{x}, $COORD_PASTE_BUTTON->{y})) {
+        $self->clickFromBase($connection, $COORD_START->{x}, $COORD_START->{y});
         $connection->comWaitMsec(100);
-        $self->clickFromBase($connection, $COORD_OUT);
+        $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
     }
     $self->setState(0, $connection);
     return 0;

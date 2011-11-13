@@ -7,11 +7,13 @@ use Numpaar::Config qw(configElement configCheck);
 my $SCREENSHOT_PATH = '/tmp/numpaar_visgrep_screenshot.png';
 
 sub getPatternDir {
+    my $class_self = shift;
     my $pattern_dir;
     eval {
         $pattern_dir = &configElement('directory', 'visgrep_patterns');
     };
     if($@) {
+        print STDERR ("Warning: No config for directory visgrep_patterns. Use HOME\n");
         $pattern_dir = $ENV{HOME};
     }
     $pattern_dir .= '/' if $pattern_dir !~ m|/$|;
@@ -19,13 +21,13 @@ sub getPatternDir {
 }
 
 sub getLocation {
-    my ($class, $pattern_filename, $not_take_shot) = @_;
+    my ($class_self, $pattern_filename, $not_take_shot) = @_;
     &configCheck('extern_program', 'visgrep', 'import');
     if(!defined($not_take_shot) || $not_take_shot != 0) {
         system(sprintf(&configElement('extern_program', 'import') . ' -depth 8 -window root %s', $SCREENSHOT_PATH));
     }
     my $visgrep_command = &configElement('extern_program', 'visgrep');
-    my $visgrep_pattern_dir = $class->getPatternDir();
+    my $visgrep_pattern_dir = $class_self->getPatternDir();
     print STDERR qq(EXEC: $visgrep_command "$SCREENSHOT_PATH" "${visgrep_pattern_dir}${pattern_filename}"\n);
     my $visgrep_ret = `$visgrep_command "$SCREENSHOT_PATH" "${visgrep_pattern_dir}${pattern_filename}"`;
     chomp $visgrep_ret;
@@ -37,16 +39,22 @@ sub getLocation {
     return ($x, $y);
 }
 
-sub setBase {
-    my ($self, $pattern_file, $pattern_coord, $not_take_shot) = @_;
-    my ($x, $y) = Numpaar::Visgrep->getLocation($pattern_file, $not_take_shot);
+sub initVisgrep {
+    my ($self, $x, $y) = @_;
+    $self->baseX(defined($x) ? $x : 0);
+    $self->baseY(defined($y) ? $y : 0);
+}
+
+sub setBaseFromPattern {
+    my ($self, $pattern_file, $pattern_coord_x, $pattern_coord_y, $not_take_shot) = @_;
+    my ($x, $y) = $self->getLocation($pattern_file, $not_take_shot);
     if(!defined($x) || !defined($y)) {
         return 0;
     }
-    if(!defined($pattern_coord)) {
-        $pattern_coord = {'x' => 0, 'y' => 0};
-    }
-    ($self->{'visgrep_base_x'}, $self->{'visgrep_base_y'}) = ($x - $pattern_coord->{'x'}, $y - $pattern_coord->{'y'});
+    $pattern_coord_x = 0 if !defined($pattern_coord_x);
+    $pattern_coord_y = 0 if !defined($pattern_coord_y);
+    $self->baseX($x - $pattern_coord_x);
+    $self->baseY($y - $pattern_coord_y);
     return 1;
 }
 
@@ -63,11 +71,11 @@ sub baseY {
 }
 
 sub clickFromBase {
-    my ($self, $connection, $coord) = @_;
-    if(!defined($self->{'visgrep_base_x'}) || !defined($self->{'visgrep_base_y'})) {
+    my ($self, $connection, $coord_x, $coord_y) = @_;
+    if(!defined($self->baseX) || !defined($self->baseY)) {
         return 0;
     }
-    $connection->comMouseClick(1, $self->{'visgrep_base_x'} + $coord->{'x'}, $self->{'visgrep_base_y'} + $coord->{'y'});
+    $connection->comMouseClick(1, $self->baseX + $coord_x, $self->baseY + $coord_y);
     return 1;
 }
 

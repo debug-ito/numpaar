@@ -39,16 +39,16 @@ sub clickPoint {
     if(!defined($self->{'base_coords'}->{$self->{'player_size'}})) {
         $self->changeStatusIcon($pipe, 'busy');
         ## my $ret = $self->clickPattern($connection, $PAT_FILENAME, $coord, undef, $COORD_SPEAKER);
-        my $ret = $self->setBase($PAT_FILENAME, $COORD_SPEAKER);
+        my $ret = $self->setBaseFromPattern($PAT_FILENAME, $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
         if(!$ret) {
             $self->changeStatusIcon($pipe, 'normal');
             return 0;
         }
-        $self->clickFromBase($connection, $coord);
+        $self->clickFromBase($connection, $coord->{x}, $coord->{y});
         $self->changeStatusIcon($pipe, 'normal');
         $self->{'base_coords'}->{$self->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
     }else {
-        $self->clickFromBase($connection, $coord);
+        $self->clickFromBase($connection, $coord->{x}, $coord->{y});
     }
     return 1;
 }
@@ -109,7 +109,7 @@ sub handlerVideo_right {
     ## ** フォーカスをflash内に維持する
     if($base_exists) {
         $connection->comWaitMsec(500);
-        $self->clickFromBase($connection, $COORD_IN);
+        $self->clickFromBase($connection, $COORD_IN->{x}, $COORD_IN->{y});
     }else {
         $connection->comWaitMsec(100);
         $connection->comKeyString('Up');
