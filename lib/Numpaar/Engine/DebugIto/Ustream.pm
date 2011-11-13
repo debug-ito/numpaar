@@ -12,18 +12,18 @@ sub new {
 }
 
 sub handlerExtended_up {
-    my ($self, $connection, $want_help, $status_pipe) = @_;
+    my ($self, $connection, $want_help, $status_if) = @_;
     return 'UST IN' if defined($want_help);
-    $self->changeStatusIcon($status_pipe, "busy");
+    $status_if->changeStatusIcon("busy");
     ## my $ret = $self->clickPattern($connection, 'pat_ust_full.pat', {'x' => 3, 'y' => 3}, undef, $COORD_FULL);
     my $ret = $self->setBaseFromPattern('pat_ust_full.pat', $COORD_FULL->{x}, $COORD_FULL->{y});
     if(!$ret) {
-        $self->changeStatusIcon($status_pipe, "normal");
+        $status_if->changeStatusIcon("normal");
         return 0;
     }
     $self->clickFromBase($connection, 3, 3);
     $self->setState('Ust', $connection);
-    $self->changeStatusIcon($status_pipe, "normal");
+    $status_if->changeStatusIcon("normal");
     return 0;
 }
 

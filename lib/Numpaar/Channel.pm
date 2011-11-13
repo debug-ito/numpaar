@@ -46,14 +46,14 @@ sub getExplanations {
 }
 
 sub processCommand {
-    my ($self, $connection, $command, $win_title, $status_pipe) = @_;
+    my ($self, $connection, $command, $win_title, $status_interface) = @_;
     my $engine = $self->getActiveEngine($win_title);
     if(!defined($engine)) {
         print STDERR "No active Engine found.\n";
         return 0;
     }
     $engine->show($command);
-    $engine->processCommand($connection, $command, $status_pipe);
+    $engine->processCommand($connection, $command, $status_interface);
     return $engine->getStateString();
 }
 

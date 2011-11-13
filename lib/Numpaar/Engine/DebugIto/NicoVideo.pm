@@ -35,17 +35,17 @@ sub changePlayerSize {
 }
 
 sub clickPoint {
-    my ($self, $connection, $coord, $pipe) = @_;
+    my ($self, $connection, $coord, $status_if) = @_;
     if(!defined($self->{'base_coords'}->{$self->{'player_size'}})) {
-        $self->changeStatusIcon($pipe, 'busy');
+        $status_if->changeStatusIcon('busy');
         ## my $ret = $self->clickPattern($connection, $PAT_FILENAME, $coord, undef, $COORD_SPEAKER);
         my $ret = $self->setBaseFromPattern($PAT_FILENAME, $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
         if(!$ret) {
-            $self->changeStatusIcon($pipe, 'normal');
+            $status_if->changeStatusIcon('normal');
             return 0;
         }
         $self->clickFromBase($connection, $coord->{x}, $coord->{y});
-        $self->changeStatusIcon($pipe, 'normal');
+        $status_if->changeStatusIcon('normal');
         $self->{'base_coords'}->{$self->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
     }else {
         $self->clickFromBase($connection, $coord->{x}, $coord->{y});

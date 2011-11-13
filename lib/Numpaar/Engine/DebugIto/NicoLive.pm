@@ -36,12 +36,12 @@ sub sendString {
 }
 
 sub handlerExtended_up {
-    my ($self, $connection, $want_help, $status_pipe) = @_;
+    my ($self, $connection, $want_help, $status_if) = @_;
     return 'ニコ生 IN' if defined($want_help);
-    $self->changeStatusIcon($status_pipe, 'busy');
+    $status_if->changeStatusIcon('busy');
     my $ret = $self->setBaseFromPattern('pat_nico_comment.pat', $COORD_COMMENT->{x}, $COORD_COMMENT->{y});
     if(!$ret) {
-        $self->changeStatusIcon($status_pipe, 'normal');
+        $status_if->changeStatusIcon('normal');
         return 0;
     }
     $self->clickFromBase($connection, $COORD_PREMIUM_OK->{x}, $COORD_PREMIUM_OK->{y});
@@ -52,7 +52,7 @@ sub handlerExtended_up {
     $connection->comWaitMsec($WAIT_TIME);
     $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
     $self->setState('NicoLive', $connection);
-    $self->changeStatusIcon($status_pipe, 'normal');
+    $status_if->changeStatusIcon('normal');
     return 0;
 }
 

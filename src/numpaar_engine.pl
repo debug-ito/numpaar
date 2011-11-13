@@ -10,6 +10,7 @@ use Module::Load;
 use Numpaar::Channel;
 use Numpaar::Connection;
 use Numpaar::Engine;
+use Numpaar::StatusInterface;
 use Numpaar::Config qw(configLoad configElement configEngineList configCheck);
 
 my $connection;
@@ -32,26 +33,18 @@ sub main {
     &configCheck('extern_program', qw(switcher xdotool file-manager));
 
     my $channel = &makeMainChannel();
-    my $status_pipe = IO::Pipe->new();
-    $status_pipe->writer($FindBin::Bin . '/numpaar_status.pl');
+    my $status_interface = Numpaar::StatusInterface->new($FindBin::Bin . '/numpaar_status.pl');
 
     my $old_state_str = '';
     while(1) {
         my ($command_event, $channel_number, $window_title) = $connection->getEvent();
         my $cur_state_str = $old_state_str;
-        $cur_state_str = $channel->processCommand($connection, $command_event, $window_title, $status_pipe);
+        $cur_state_str = $channel->processCommand($connection, $command_event, $window_title, $status_interface);
         $connection->end();
 
-        if(defined($status_pipe)) {
-            if(!$status_pipe->error() && $status_pipe->opened()) {
-                if($old_state_str ne $cur_state_str) {
-                    $status_pipe->print($channel->getExplanations($window_title));
-                    $status_pipe->flush();
-                    $old_state_str = $cur_state_str;
-                }
-            }else {
-                $status_pipe = undef;
-            }
+        if($old_state_str ne $cur_state_str) {
+            $status_interface->send($channel->getExplanations($window_title));
+            $old_state_str = $cur_state_str;
         }
     }
 }
@@ -69,6 +62,8 @@ sub finish {
 sub init_sighandlers {
     $SIG{HUP} = $SIG{TERM} = $SIG{INT} = $SIG{QUIT} = \&finish;
     $SIG{CHLD} = \&childProcessReaper;
+
+    $SIG{PIPE} = 'IGNORE';
 }
 
 sub childProcessReaper {

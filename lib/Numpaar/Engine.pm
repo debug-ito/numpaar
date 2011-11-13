@@ -120,13 +120,13 @@ sub getMethodName {
 }
 
 sub processCommand {
-    my ($self, $connection, $command, $status_pipe) = @_;
+    my ($self, $connection, $command, $status_interface) = @_;
     my $method = $self->getMethodName($command);
     if(!$method) {
         print STDERR "Key $command is not handled in state ". $self->{'state'} .".\n";
         return 0;
     }
-    return $self->$method($connection, undef, $status_pipe);
+    return $self->$method($connection, undef, $status_interface);
 }
 
 sub getGrabKeyListForState {
@@ -193,13 +193,6 @@ sub showGrabs {
     }
 }
 
-sub changeStatusIcon {
-    my ($self, $pipe, $icon_id) = @_;
-    return if !defined($icon_id);
-    $pipe->print("icon $icon_id\n");
-    $pipe->flush();
-}
-
 ## ** Default handler for "switch" event
 sub handler_switch {
     my ($self, $connection, $want_help) = @_;
@@ -224,12 +217,9 @@ sub handler_plus {
 }
 
 sub handler_enter {
-    my ($self, $connection, $want_help, $status_pipe) = @_;
+    my ($self, $connection, $want_help, $status_interface) = @_;
     return 'Help' if defined($want_help);
-    if(defined($status_pipe)) {
-        $status_pipe->print("toggle it\n");
-        $status_pipe->flush();
-    }
+    $status_interface->toggleShowHide();
     return 0;
 }
 
