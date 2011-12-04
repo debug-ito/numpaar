@@ -217,7 +217,6 @@ int main(int argc, char **argv) {
   XSetErrorHandler(myXErrorHandler);
   initInterpreter(xdoobj);
   initNumpaarKeys(dsp, root_w);
-  // setGrabChannelKeys(1);
   setGrabPeriodKey(1);
   initUpdateThread(xdoobj);
   setSignalHandlers();
@@ -256,10 +255,6 @@ int main(int argc, char **argv) {
       fprintf(stderr, "  %s: %s\n", (event.type == KeyRelease) ? "RL" : "PS", XKeysymToString(s));
       if(isKeyTriggerred(&event, dsp)) {
         updateActiveWindows(xdoobj, &cur_active_win, &last_active_win, &cur_active_name, &last_active_name);
-        if(s >= XK_KP_0 && s <= XK_KP_9) {
-          switchChannel(xdoobj, s - XK_KP_0, cur_active_win);
-          goto event_loop_head;
-        }
         const char *numpaar_key = getNumpaarKeyStringFromXKey(s);
         if(!numpaar_key) goto event_loop_head;
         notifyAndProcessCommands(xdoobj, numpaar_key, cur_active_win, cur_active_name);

@@ -154,12 +154,12 @@ KeySym mapNumpaarKeyToXKey(numpaar_key_t key) {
   // return 0;
 }
 
-void setGrabChannelKeys(unsigned char want_grab) {
-  int i;
-  for(i = 0 ; i <= 9 ; i++) {
-    setGrabXKey(XK_KP_0 + i, want_grab);
-  }
-}
+// void setGrabChannelKeys(unsigned char want_grab) {
+//   int i;
+//   for(i = 0 ; i <= 9 ; i++) {
+//     setGrabXKey(XK_KP_0 + i, want_grab);
+//   }
+// }
 
 void setGrabPeriodKey(unsigned char want_grab) {
   setGrabXKey(XK_KP_Decimal, want_grab);
