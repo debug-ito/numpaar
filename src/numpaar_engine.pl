@@ -85,13 +85,14 @@ sub makeMainChannel {
     my $elist_ref = &configEngineList();
     foreach my $engine (@$elist_ref) {
         my @args = ();
-        my $engine_name = 'Numpaar::Engine::';
+        my $engine_name;
         if(ref($engine)) {
             @args = @$engine;
-            $engine_name .= shift @args;
+            $engine_name = shift @args;
         }else {
-            $engine_name .= $engine;
+            $engine_name = $engine;
         }
+        $engine_name = 'Numpaar::Engine::' . $engine_name if $engine_name !~ /^Numpaar::Engine::/;
         load $engine_name;
         $channel->pushEngine($engine_name->new(@args));
     }
