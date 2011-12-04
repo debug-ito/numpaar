@@ -13,7 +13,8 @@ future.
 FEATURES
 --------
 
-* Runs on Linux. (Tested under Ubuntu Linux)
+* Runs on Linux with X Window System
+    * (Tested under Ubuntu Linux)
 * Bind any key on a number pad to any script written in Perl.
 * Automatically change key bindings according to the active window.
 * Stateful key bindings.
@@ -29,7 +30,7 @@ PREREQUISITES
     * Requires libxtst to build it.
 * libx11 (Xlib)
 * Perl environment
-    * Class::Inspector module
+    * Class::Inspector module (provided as libclass-inspector-perl package for Ubuntu)
     * Gtk2 module
     * Pango module
 
@@ -65,6 +66,7 @@ Simply execute numpaar.
 
 If you already run numpaar, it is killed.
 
+You can find more detailed document at [Numpaar Wiki](https://github.com/debug-ito/numpaar/wiki).
 
 
 TODO
@@ -75,7 +77,6 @@ TODO
 * Automate installation process.
 
 
-
 AUTHOR
 ------
 
@@ -83,6 +84,4 @@ Toshio Ito
 
 * https://github.com/debug-ito
 * debug.ito [at] gmail.com
-
-
 
