@@ -30,15 +30,6 @@ void setGrabXKeyRaw(int keycode, int is_numlocked, unsigned char want_grab) {
 
 void setGrabXKey(KeySym xkey, unsigned char want_grab) {
   int numlocked = 0;
-  int keycode = XKeysymToKeycode(display_ptr, xkey);
-  // ** numlock状態でもgrabしたいならここを有効にする。
-  // if(xkey == XK_KP_Divide || xkey == XK_KP_Multiply
-  //    || xkey == XK_KP_Subtract || xkey == XK_KP_Add ||
-  //    xkey == XK_KP_Enter) {
-  //   setGrabXKeyRaw(keycode, 0, want_grab);
-  //   setGrabXKeyRaw(keycode, 1, want_grab);
-  //   return;
-  // }
   if(xkey >= XK_KP_0 && xkey <= XK_KP_9) {
     numlocked = 1;
   }
@@ -47,6 +38,15 @@ void setGrabXKey(KeySym xkey, unsigned char want_grab) {
     numlocked = 1;
     xkey = XK_KP_Delete;
   }
+  int keycode = XKeysymToKeycode(display_ptr, xkey);
+  //// ** If you want to grab common-keys even when NumLocked, uncomment here
+  // if(xkey == XK_KP_Divide || xkey == XK_KP_Multiply
+  //    || xkey == XK_KP_Subtract || xkey == XK_KP_Add ||
+  //    xkey == XK_KP_Enter) {
+  //   setGrabXKeyRaw(keycode, 0, want_grab);
+  //   setGrabXKeyRaw(keycode, 1, want_grab);
+  //   return;
+  // }
   setGrabXKeyRaw(keycode, numlocked, want_grab);
 }
 
@@ -161,10 +161,10 @@ KeySym mapNumpaarKeyToXKey(numpaar_key_t key) {
 //   }
 // }
 
-void setGrabPeriodKey(unsigned char want_grab) {
-  setGrabXKey(XK_KP_Decimal, want_grab);
-  // setGrabXKey(XK_period, want_grab);
-}
+// void setGrabPeriodKey(unsigned char want_grab) {
+//   setGrabXKey(XK_KP_Decimal, want_grab);
+//   // setGrabXKey(XK_period, want_grab);
+// }
 
 int setGrabState(numpaar_key_t key, unsigned char want_grab) {
   if((keyinfo[key].is_grabbed && want_grab) || (!keyinfo[key].is_grabbed && !want_grab)) {

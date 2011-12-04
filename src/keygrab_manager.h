@@ -44,8 +44,6 @@ void releaseAllGrab();
 const char *getNumpaarKeyStringFromXKey(KeySym xkey);
 int getNumpaarKeyFromString(const char *keystring);
 
-void setGrabPeriodKey(unsigned char want_grab);
-
 #endif //__KEYGRAB_MANAGER_H_
 
 

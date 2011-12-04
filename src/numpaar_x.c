@@ -217,7 +217,6 @@ int main(int argc, char **argv) {
   XSetErrorHandler(myXErrorHandler);
   initInterpreter(xdoobj);
   initNumpaarKeys(dsp, root_w);
-  setGrabPeriodKey(1);
   initUpdateThread(xdoobj);
   setSignalHandlers();
   if(!initSocket(socket_pathname)) {
