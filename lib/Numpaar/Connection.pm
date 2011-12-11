@@ -78,7 +78,14 @@ sub comKeyString {
 
 sub comKeyType {
     my ($self, @keytypes) = @_;
-    $self->multiCommands('xdotype', @keytypes);
+    foreach my $keytype (@keytypes) {
+        my @vals = unpack("C*", $keytype);
+        my $encoded_str = "";
+        foreach my $val (@vals) {
+            $encoded_str .= sprintf("%02x", $val);
+        }
+        $self->{'conn_sock'}->print("xdotype,$encoded_str\n");
+    }
 }
 
 sub comKeyGrabSetOn {

@@ -53,8 +53,31 @@ interpret_result_t comXdoKey(int token_num) {
   return INTERPRET_OK;
 }
 
+int convertHexToInt(char hex_four_bit) {
+  if(hex_four_bit >= '0' && hex_four_bit <= '9') {
+    return hex_four_bit - '0';
+  }else if(hex_four_bit >= 'A' && hex_four_bit <= 'F') {
+    return hex_four_bit - 'A' + 10;
+  }else if(hex_four_bit >= 'a' && hex_four_bit <= 'f') {
+    return hex_four_bit - 'a' + 10;
+  }else {
+    return -1;
+  }
+}
+
 interpret_result_t comXdoType(int token_num) {
-  xdo_type(xdo_obj, CURRENTWINDOW, command_tokens[1], XDO_TYPE_DELAY);
+  char *encoded_arg = command_tokens[1];
+  int size = strlen(encoded_arg) / 2;
+  char *arg = (char *)malloc(size + 1);
+  if(!arg) {
+    return INTERPRET_OUT_OF_MEMORY;
+  }
+  memset(arg, 0, size + 1);
+  for(int i = 0 ; i < size ; i++) {
+    arg[i] = (convertHexToInt(encoded_arg[i*2]) << 4) + convertHexToInt(encoded_arg[i*2+1]);
+  }
+  xdo_type(xdo_obj, CURRENTWINDOW, arg, XDO_TYPE_DELAY);
+  free(arg);
   return INTERPRET_OK;
 }
 
