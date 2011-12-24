@@ -9,7 +9,7 @@ my $COORD_START = {'x' => 101, 'y' => -117};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .*Stickam .*Firefox$');
-    $self->setDeferTimes();
+    ## $self->setDeferTimes();
     return $self;
 }
 

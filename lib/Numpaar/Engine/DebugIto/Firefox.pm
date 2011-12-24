@@ -5,9 +5,17 @@ use base "Numpaar::Engine";
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox');
+    ## $self->setDeferTimes();
+    return $self;
+}
+
+sub setupBasic {
+    my ($class, $pattern) = @_;
+    my $self = $class->SUPER::setupBasic($pattern);
     $self->setDeferTimes();
     return $self;
 }
+    
 
 sub setDeferTimes {
     my ($self) = @_;

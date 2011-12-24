@@ -19,7 +19,7 @@ sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .* ニコニコ生放送 - Mozilla Firefox$');
     $self->initVisgrep(0, 0);
-    $self->setDeferTimes();
+    ## $self->setDeferTimes();
     return $self;
 }
 

@@ -15,7 +15,7 @@ sub new {
     my $self = $class->setupBasic('^Navigator\.Firefox NHK語学番組 .*Mozilla Firefox$');
     $self->initVisgrep(0, 0);
     $self->{'init_done'} = 0;
-    $self->setDeferTimes();
+    ## $self->setDeferTimes();
     return $self;
 }
 

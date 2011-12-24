@@ -15,7 +15,7 @@ my $COORD_FULL           = {'x' =>  150, 'y' => 5};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*ニコニコ動画[^ ]* - Mozilla Firefox$');
-    $self->setDeferTimes();
+    ## $self->setDeferTimes();
     $self->{'base_coords'} = {};
     $self->{'player_size'} = 'normal';
     return $self;

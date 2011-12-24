@@ -5,7 +5,7 @@ use base ('Numpaar::Engine::DebugIto::Firefox', 'Numpaar::Engine::DebugIto::Vide
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*- YouTube - Mozilla Firefox$');
-    $self->setDeferTimes();
+    ## $self->setDeferTimes();
     $self->setVideoKeys();
     return $self;
 }
