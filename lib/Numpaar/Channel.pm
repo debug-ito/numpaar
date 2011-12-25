@@ -31,7 +31,7 @@ sub getActiveEngine {
     $win_title = decode('utf8', $win_title);
     foreach my $prio (sort {$a<=>$b} keys(%{$self->{"title_pattern_list"}})) {
         my $engine = $self->{"title_pattern_list"}->{$prio};
-        my $pattern = decode('utf8', $engine->{"pattern"});
+        my $pattern = decode('utf8', $engine->accessPattern());
         if($win_title =~ /$pattern/) {
             return $engine;
         }
@@ -53,8 +53,10 @@ sub processCommand {
         return 0;
     }
     $engine->show($command);
-    $engine->processCommand($connection, $command, $status_interface);
+    $engine->accessConnection($connection);
+    $engine->accessWindowTitle($win_title);
+    $engine->accessStatusInterface($status_interface);
+    $engine->processCommand($command);
     return $engine->getStateString();
 }
-
 1;

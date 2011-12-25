@@ -24,8 +24,9 @@ sub new {
 }
 
 sub sendString {
-    my ($self, $connection, $want_help, $str, $short_str) = @_;
+    my ($self, $want_help, $str, $short_str) = @_;
     return (defined($short_str) ? $short_str : $str) if defined($want_help);
+    my $connection = $self->getConnection();
     my $xclip = IO::Pipe->new();
     $xclip->writer(&configElement('extern_program', 'xclip') . " -selection c");
     $xclip->print($str);
@@ -36,8 +37,10 @@ sub sendString {
 }
 
 sub handlerExtended_up {
-    my ($self, $connection, $want_help, $status_if) = @_;
+    my ($self, $want_help) = @_;
     return 'ニコ生 IN' if defined($want_help);
+    my $connection = $self->getConnection();
+    my $status_if = $self->getStatusInterface();
     $status_if->changeStatusIcon('busy');
     my $ret = $self->setBaseFromPattern('pat_nico_comment.pat', $COORD_COMMENT->{x}, $COORD_COMMENT->{y});
     if(!$ret) {
@@ -51,22 +54,24 @@ sub handlerExtended_up {
     $self->clickFromBase($connection, $COORD_COMERROR_BATSU->{x}, $COORD_COMERROR_BATSU->{y});
     $connection->comWaitMsec($WAIT_TIME);
     $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
-    $self->setState('NicoLive', $connection);
+    $self->setState('NicoLive');
     $status_if->changeStatusIcon('normal');
     return 0;
 }
 
 sub handlerNicoLive_insert {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'ニコ生 OUT' if defined($want_help);
     $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
-    $self->setState(0, $connection);
+    $self->setState(0);
     return 0;
 }
-sub handlerNicoLive_delete { my ($self, $conn, $wh) = @_; return $self->handlerNicoLive_insert($conn, $wh); }
+sub handlerNicoLive_delete { my ($self, $wh) = @_; return $self->handlerNicoLive_insert($wh); }
 
 sub handlerNicoLive_page_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '更新' if defined($want_help);
     $self->clickFromBase($connection, $COORD_RELOAD->{x}, $COORD_RELOAD->{y});
     $connection->comWaitMsec(200);
@@ -74,15 +79,15 @@ sub handlerNicoLive_page_up {
     return 0;
 }
 
-sub handlerNicoLive_up { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'www'); }
-sub handlerNicoLive_home { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'm9'); }
-sub handlerNicoLive_left { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'わこつ'); }
-sub handlerNicoLive_end { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '初見'); }
-sub handlerNicoLive_down { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, '8888888'); }
-sub handlerNicoLive_right { my ($self, $connection, $want_help) = @_; return $self->sendString($connection, $want_help, 'つこうた'); }
+sub handlerNicoLive_up    { my ($self, $want_help) = @_; return $self->sendString($want_help, 'www'); }
+sub handlerNicoLive_home  { my ($self, $want_help) = @_; return $self->sendString($want_help, 'm9'); }
+sub handlerNicoLive_left  { my ($self, $want_help) = @_; return $self->sendString($want_help, 'わこつ'); }
+sub handlerNicoLive_end   { my ($self, $want_help) = @_; return $self->sendString($want_help, '初見'); }
+sub handlerNicoLive_down  { my ($self, $want_help) = @_; return $self->sendString($want_help, '8888888'); }
+sub handlerNicoLive_right { my ($self, $want_help) = @_; return $self->sendString($want_help, 'つこうた'); }
 sub handlerNicoLive_page_down {
-    my ($self, $connection, $want_help) = @_;
-    return $self->sendString($connection, $want_help, '【審議中】　(　´・ω) (´・ω・) (・ω・｀) (ω・｀ )', '審議中');
+    my ($self, $want_help) = @_;
+    return $self->sendString($want_help, '【審議中】　(　´・ω) (´・ω・) (・ω・｀) (ω・｀ )', '審議中');
 }
 
 1;

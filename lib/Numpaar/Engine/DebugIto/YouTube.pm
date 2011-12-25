@@ -24,9 +24,9 @@ sub setVideoKeys {
 }
 
 sub handlerExtended_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
     return 'YouTube IN' if defined($want_help);
-    $self->setState('Video', $connection);
+    $self->setState('Video');
     return 0;
 }
 
@@ -34,14 +34,15 @@ sub handlerExtended_up {
 ## sub handlerVideo_page_up() { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_page_up($connection, $want_help); }
 
 sub handlerVideo_insert {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
     return 'YouTube OUT' if defined($want_help);
-    $self->setState(0, $connection);
+    $self->setState(0);
     return 0;
 }
 
 sub handlerVideo_delete {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Delete Ad' if defined($want_help);
     ## if($self->clickPattern($connection, 'pat_youtube_batsu.pat', {'x' => 2, 'y' => 2}, undef, {'x' => 0, 'y' => 0})) {
     if($self->setBaseFromPattern('pat_youtube_batsu.pat', 0, 0)) {

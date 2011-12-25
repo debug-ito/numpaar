@@ -8,21 +8,24 @@ sub new {
 }
 
 sub handler0_center {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'ペン' if defined($want_help);
     $connection->comKeyString('p');
     return 0;
 }
 
 sub handler0_delete {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '鉛筆' if defined($want_help);
     $connection->comKeyString('n');
     return 0;
 }
 
 sub handler0_left {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'スポイト' if defined($want_help);
     $connection->comKeyString('o');
     return 0;
@@ -30,56 +33,64 @@ sub handler0_left {
 
 
 sub handler0_right {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '消しゴム' if defined($want_help);
     $connection->comKeyString('shift+e');
     return 0;
 }
 
 sub handler0_home {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '矩形選択' if defined($want_help);
     $connection->comKeyString('r');
     return 0;
 }
 
 sub handler0_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '色スワップ' if defined($want_help);
     $connection->comKeyString('F12');
     return 0;
 }
 
 sub handler0_page_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'パス' if defined($want_help);
     $connection->comKeyString('b');
     return 0;
 }
 
 sub handler0_end {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'やり直し' if defined($want_help);
     $connection->comKeyString('ctrl+z');
     return 0;
 }
 
 sub handler0_down {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '縮小' if defined($want_help);
     $connection->comKeyString('minus');
     return 0;
 }
 
 sub handler0_insert {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '保存' if defined($want_help);
     $connection->comKeyString('ctrl+s');
     return 0;
 }
 
 sub handler0_page_down {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '拡大' if defined($want_help);
     $connection->comKeyString('plus');
     return 0;

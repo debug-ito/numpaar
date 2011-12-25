@@ -35,7 +35,9 @@ sub changePlayerSize {
 }
 
 sub clickPoint {
-    my ($self, $connection, $coord, $status_if) = @_;
+    my ($self, $coord) = @_;
+    my $connection = $self->getConnection();
+    my $status_if = $self->getStatusInterface();
     if(!defined($self->{'base_coords'}->{$self->{'player_size'}})) {
         $status_if->changeStatusIcon('busy');
         ## my $ret = $self->clickPattern($connection, $PAT_FILENAME, $coord, undef, $COORD_SPEAKER);
@@ -54,52 +56,55 @@ sub clickPoint {
 }
 
 sub handlerExtended_up {
-    my ($self, $connection, $want_help, $pipe) = @_;
+    my ($self, $want_help) = @_;
     return 'ニコ動 IN' if defined($want_help);
+    my $connection = $self->getConnection();
     $self->changePlayerSize('normal');
-    $self->clickPoint($connection, $COORD_IN, $pipe);
+    $self->clickPoint($COORD_IN);
     $connection->comWaitMsec(100);
     $connection->comKeyString('space');
     
-    $self->setState('Video', $connection);
+    $self->setState('Video');
     return 0;
 }
 
 sub handlerVideo_center {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return '再生/停止' if defined($want_help);
     $connection->comKeyString('space');
     return 0;
 }
 
 sub handlerVideo_page_down {
-    my ($self, $connection, $want_help, $pipe) = @_;
+    my ($self, $want_help) = @_;
     return 'コメントトグル' if defined($want_help);
-    $self->clickPoint($connection, $COORD_COMMENT_TOGGLE, $pipe);
+    $self->clickPoint($COORD_COMMENT_TOGGLE);
     return 0;
 }
 
 sub handlerVideo_end {
-    my ($self, $connection, $want_help, $pipe) = @_;
+    my ($self, $want_help) = @_;
     return 'リピートトグル' if defined($want_help);
-    $self->clickPoint($connection, $COORD_REPEAT_TOGGLE, $pipe);
+    $self->clickPoint($COORD_REPEAT_TOGGLE);
     return 0;
 }
 
 sub handlerVideo_insert {
-    my ($self, $connection, $want_help, $pipe) = @_;
+    my ($self, $want_help) = @_;
     return 'ニコ動 OUT' if defined($want_help);
-    $self->clickPoint($connection, $COORD_OUT, $pipe);
+    $self->clickPoint($COORD_OUT);
     $self->{'base_coords'} = {};
     $self->{'player_size'} = 'normal';
-    $self->setState(0, $connection);
+    $self->setState(0);
     return 0;
 }
 
 sub handlerVideo_right {
-    my ($self, $connection, $want_help, $pipe) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'フルスクリーン' if defined($want_help);
-    $self->clickPoint($connection, $COORD_FULL, $pipe);
+    $self->clickPoint($COORD_FULL);
     my $base_exists;
     if($self->{'player_size'} eq 'full') {
         $base_exists = $self->changePlayerSize('returned');

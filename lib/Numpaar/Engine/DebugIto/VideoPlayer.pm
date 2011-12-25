@@ -15,7 +15,8 @@ sub setVideoKeys {
 }
 
 sub handlerVideo_center {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Play/Pause' if defined($want_help);
     $connection->comKeyString(@{$self->{'play_pause'}});
     if(defined($self->{'video_play_state'})) {
@@ -29,56 +30,64 @@ sub handlerVideo_center {
 }
 
 sub handlerVideo_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Vol up' if defined($want_help);
     $connection->comKeyString(@{$self->{'volume_up'}});
     return 0;
 }
 
 sub handlerVideo_down {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Vol down' if defined($want_help);
     $connection->comKeyString(@{$self->{'volume_down'}});
     return 0;
 }
 
 sub handlerVideo_home {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Back (L)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_big'}});
     return 0;
 }
 
 sub handlerVideo_left {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Back (M)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_normal'}});
     return 0;
 }
 
 sub handlerVideo_end {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Back (S)' if defined($want_help);
     $connection->comKeyString(@{$self->{'back_small'}});
     return 0;
 }
 
 sub handlerVideo_page_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Forward (L)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_big'}});
     return 0;
 }
 
 sub handlerVideo_right {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Forward (M)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_normal'}});
     return 0;
 }
 
 sub handlerVideo_page_down {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Forward (S)' if defined($want_help);
     $connection->comKeyString(@{$self->{'forward_small'}});
     return 0;

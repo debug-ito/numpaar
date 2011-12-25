@@ -13,12 +13,12 @@ sub new {
 }
 
 sub setState {
-    my ($self, $to_state, $connection) = @_;
+    my ($self, $to_state) = @_;
     if($to_state eq '0') {
         $self->{'video_play_state'} = 'play';
         $to_state = 'Video';
     }
-    $self->SUPER::setState($to_state, $connection);
+    $self->SUPER::setState($to_state);
 }
 
 sub setVideoKeys {
@@ -35,14 +35,16 @@ sub setVideoKeys {
 }
 
 sub handlerVideo_insert {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Full Screen' if defined($want_help);
     $connection->comKeyString('f');
     return 0;
 }
 
 sub handlerVideo_delete {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Show Control' if defined($want_help);
     $connection->comMouseClick(1, 200, 200);
     $connection->comMouseClick(1, 210, 200);

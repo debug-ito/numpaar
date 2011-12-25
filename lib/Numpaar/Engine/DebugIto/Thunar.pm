@@ -8,14 +8,16 @@ sub new {
 }
 
 sub handler0_page_up {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Parent' if defined($want_help);
     $connection->comKeyString('alt+Up');
     return 0;
 }
 
 sub handler0_home {
-    my ($self, $connection, $want_help) = @_;
+    my ($self, $want_help) = @_;
+    my $connection = $self->getConnection();
     return 'Home dir' if defined($want_help);
     $connection->comKeyString('alt+Home');
     return 0;
