@@ -227,8 +227,16 @@ sub getState {
     return wantarray ? ($self->accessState(), $self->accessOldState()) : $self->accessState();
 }
 
+sub checkStateString {
+    my ($class_self, $state_str) = @_;
+    return 1 if $state_str =~ /^[a-zA-Z_0-9]+$/;
+    return 0;
+}
+
 sub setState {
     my ($self, $to_state) = @_;
+    return $self->accessState() if !$self->checkStateString($to_state);
+    
     $self->accessOldState($self->accessState());
     $self->accessState($to_state);
     printf STDERR ("Change state from %s to %s\n", $self->accessOldState(), $to_state);
@@ -237,6 +245,7 @@ sub setState {
             print STDERR ("Warning: State is changed but key grab is not set because connection is not provided.\n");
         }
     }
+    return $self->accessState();
 }
 
 sub restoreKeyGrab {
