@@ -368,7 +368,6 @@ sub handler_divide {
     my ($self, $want_help) = @_;
     return "Switch Window" if defined($want_help);
     my @winlist = $self->getConnection()->comWindowListForPager();
-    print STDERR ("----Win list\n", map {sprintf (">>>>0x%08x %s\n", $_->{wid}, $_->{title})} @winlist);
     &createSwitcherProcess(@winlist);
     return 0;
 }
