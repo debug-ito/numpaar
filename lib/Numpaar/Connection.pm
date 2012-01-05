@@ -110,8 +110,18 @@ sub comUpdateActive {
 
 sub comMouseClick {
     my ($self, $button, $x, $y) = @_;
+    if(!defined($x) || !defined($y)) {
+        $x = $y = -1;
+    }
     $self->{'conn_sock'}->printf("mouseclick,%d,%d,%d\n", $button, $x, $y);
 }
+
+sub comMouseMove         { my ($self, $x, $y) = @_; $self->comMouseClick(0, $x, $y); }
+sub comMouseLeftClick    { my ($self, $x, $y) = @_; $self->comMouseClick(1, $x, $y); }
+sub comMouseMiddleClick  { my ($self, $x, $y) = @_; $self->comMouseClick(2, $x, $y); }
+sub comMouseRightClick   { my ($self, $x, $y) = @_; $self->comMouseClick(3, $x, $y); }
+sub comMouseScrollUp     { my ($self, $x, $y) = @_; $self->comMouseClick(4, $x, $y); }
+sub comMouseScrollDown   { my ($self, $x, $y) = @_; $self->comMouseClick(5, $x, $y); }
 
 sub comKeyDown {
     my ($self, @keylist) = @_;

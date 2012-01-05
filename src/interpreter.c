@@ -107,8 +107,12 @@ interpret_result_t comMouseClick(int token_num) {
   int y = atoi(command_tokens[3]);
   long screen = 0;
   // xdo_get_current_desktop(xdo_obj, &screen);
-  xdo_mousemove(xdo_obj, x, y, (int)screen);
-  xdo_click(xdo_obj, CURRENTWINDOW, button);
+  if(x >= 0 && y >= 0) {
+    xdo_mousemove(xdo_obj, x, y, (int)screen);
+  }
+  if(button > 0) {
+    xdo_click(xdo_obj, CURRENTWINDOW, button);
+  }
   return INTERPRET_OK;
 }
 
