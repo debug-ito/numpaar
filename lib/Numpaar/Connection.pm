@@ -35,8 +35,11 @@ sub getEvent {
     my $GET_LINE_NUM = 4;
     my @notifylines = ();
     for(my $i = 0 ; $i < $GET_LINE_NUM ; $i++) {
-        $notifylines[$i] = $self->{'conn_sock'}->getline();
-        die "Cannot get event line from Numpaar core" if !defined($notifylines[$i]);
+        $notifylines[$i] = $self->getLine();
+        if(!defined($notifylines[$i])) {
+            print STDERR "Connection to Numpaar core has been closed.\n";
+            exit 0;
+        }
         chomp $notifylines[$i];
         print STDERR "<<NOT ".$notifylines[$i]."\n";
     }
