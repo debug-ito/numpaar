@@ -7,22 +7,23 @@ sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*- YouTube - Mozilla Firefox$');
     ## $self->setDeferTimes();
-    $self->setVideoKeys();
+    $self->videoPlayerSetKeys(
+        play_pause     => ['ctrl+q', 'alt+p'],
+        volume_up      => ['0'],
+        volume_down    => ['9'],
+        back_normal    => ['ctrl+q', 'bracketleft'],
+        forward_normal => ['ctrl+q', 'bracketright'],
+        back_big       => ['ctrl+q', 'less'],
+        forward_big    => ['ctrl+q', 'greater'],
+        back_small     => ['ctrl+q', 'comma'],
+        forward_small  => ['ctrl+q', 'period'],
+    );
     $self->heap->{visgrep} = Numpaar::Visgrep->new();
     return $self;
 }
 
 sub setVideoKeys {
     my ($self) = @_;
-    $self->{'play_pause'}     = ['ctrl+q', 'alt+p'];
-    $self->{'volume_up'}      = ['0'];
-    $self->{'volume_down'}    = ['9'];
-    $self->{'back_normal'}    = ['ctrl+q', 'bracketleft'];
-    $self->{'forward_normal'} = ['ctrl+q', 'bracketright'];
-    $self->{'back_big'}       = ['ctrl+q', 'less'];
-    $self->{'forward_big'}    = ['ctrl+q', 'greater'];
-    $self->{'back_small'}     = ['ctrl+q', 'comma'];
-    $self->{'forward_small'}  = ['ctrl+q', 'period'];
 }
 
 sub handlerExtended_up {
@@ -32,8 +33,8 @@ sub handlerExtended_up {
     return 0;
 }
 
-## sub handlerVideo_home() { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_home($connection, $want_help); }
-## sub handlerVideo_page_up() { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_page_up($connection, $want_help); }
+## sub handlerVideo_home() { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_home($want_help); }
+## sub handlerVideo_page_up() { my ($self, $connection, $want_help) = @_; return $self->handlerExtended_page_up($want_help); }
 
 sub handlerVideo_insert {
     my ($self, $want_help) = @_;
