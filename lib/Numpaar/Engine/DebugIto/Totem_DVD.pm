@@ -7,7 +7,6 @@ sub new {
     my $self = $class->setupBasic('^[tT]otem\.Totem_DVD');
     $self->setVideoKeys();
     $self->{'video_play_state'} = 'play';
-    ## $self->{'state'} = ;
     $self->setState('DVDExtended');
     return $self;
 }

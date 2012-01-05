@@ -29,6 +29,7 @@ sub setupBasic {
             grab_list => undef,
             global_grabs => undef,
         },
+        heap => {},
     };
     ($self->{engine_obj}->{grab_list}, $self->{engine_obj}->{"global_grabs"}) = $class->initGrabList();
     bless $self, $class;
@@ -107,6 +108,8 @@ sub accessWindowDescription {
 sub getConnection { return $_[0]->accessConnection(); }
 sub getStatusInterface { return $_[0]->accessStatusInterface(); }
 sub getWindowDescription { return $_[0]->accessWindowDescription(); }
+
+sub heap { return $_[0]->{heap} };
 
 sub getSymbolList {
     my ($class_or_self) = @_;

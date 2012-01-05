@@ -17,18 +17,18 @@ sub setupBasic {
 
 sub setDeferTimes {
     my ($self) = @_;
-    $self->{'firefox_defer_immediate'} = 300;
-    $self->{'firefox_defer_load'}      = 1500;
+    $self->heap->{'firefox_defer_immediate'} = 300;
+    $self->heap->{'firefox_defer_load'}      = 1500;
 }
 
 sub updateLoad {
     my $self = shift;
-    $self->getConnection()->comUpdateActive($self->{firefox_defer_load});
+    $self->getConnection()->comUpdateActive($self->heap->{firefox_defer_load});
 }
 
 sub updateImmediate {
     my $self = shift;
-    $self->getConnection()->comUpdateActive($self->{firefox_defer_immediate});
+    $self->getConnection()->comUpdateActive($self->heap->{firefox_defer_immediate});
 }
 
 
@@ -38,7 +38,6 @@ sub handler0_left {
     return '左タブへ' if defined($want_help);
     $connection->comKeyString('ctrl+Page_Up');
     $self->updateImmediate();
-    ## $connection->comUpdateActive($self->{'firefox_defer_immediate'});
     return 0;
 }
 
@@ -48,7 +47,6 @@ sub handler0_right {
     return '右タブへ' if defined($want_help);
     $connection->comKeyString('ctrl+Page_Down');
     $self->updateImmediate();
-    ## $connection->comUpdateActive($self->{'firefox_defer_immediate'});
     return 0;
 }
 
@@ -58,7 +56,6 @@ sub handler0_end {
     return 'タブを閉じる' if defined($want_help);
     $connection->comKeyString('ctrl+q', 'ctrl+w');
     $self->updateImmediate();
-    ## $connection->comUpdateActive($self->{'firefox_defer_immediate'});
     return 0;
 }
 
@@ -77,7 +74,7 @@ sub handler0_center {
     return 'リンク' if defined($want_help);
     $connection->comKeyString('ctrl+u', 'e');
     $self->setState('Link');
-    $self->{'doAfterLink'} = 0;
+    $self->heap->{'doAfterLink'} = 0;
     return 0;
 }
 
@@ -96,7 +93,6 @@ sub handlerBookMark_center {
     $connection->comKeyString('ctrl+Return', 'ctrl+q', 'ctrl+b');
     $self->setState(0);
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     return 0;
 }
 
@@ -132,9 +128,8 @@ sub handlerLink_up {
     $connection->comKeyString('Return');
     $self->setState(0);
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
-    if($self->{'doAfterLink'}) {
-        &{$self->{'doAfterLink'}}($self, $connection);
+    if($self->heap->{'doAfterLink'}) {
+        &{$self->heap->{'doAfterLink'}}($self, $connection);
     }
     return 0;
 }
@@ -202,7 +197,7 @@ sub handlerExtended_home {
     return 'リンク(新タブ)' if defined($want_help);
     $connection->comKeyString('ctrl+u', 'shift+e');
     $self->setState('Link');
-    $self->{'doAfterLink'} = 0;
+    $self->heap->{'doAfterLink'} = 0;
     return 0;
 }
 
@@ -212,7 +207,6 @@ sub handlerExtended_left {
     return '戻る' if defined($want_help);
     $connection->comKeyString('shift+b');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }
@@ -223,7 +217,6 @@ sub handlerExtended_right {
     return '進む' if defined($want_help);
     $connection->comKeyString('shift+f');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }
@@ -252,7 +245,6 @@ sub handlerExtended_page_up {
     return 'リロード' if defined($want_help);
     $connection->comKeyString('F5');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }
@@ -263,7 +255,6 @@ sub handlerExtended_page_down {
     return 'ホーム' if defined($want_help);
     $connection->comKeyString('alt+Home');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }
@@ -289,7 +280,7 @@ sub handlerExtended_insert {
     return '文字列コピー' if defined($want_help);
     $connection->comKeyType(';Y');
     $self->setState('Link');
-    $self->{'doAfterLink'} = \&afterStringCopy;
+    $self->heap->{'doAfterLink'} = \&afterStringCopy;
     return 0;
 }
 
@@ -299,7 +290,6 @@ sub handlerExtended_end {
     return 'タブを戻す' if defined($want_help);
     $connection->comKeyString('ctrl+c', 'u');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }
@@ -361,7 +351,6 @@ sub handlerSearch_center {
     return '検索' if defined($want_help);
     $connection->comKeyString('Return');
     $self->updateLoad();
-    ## $connection->comUpdateActive($self->{'firefox_defer_load'});
     $self->setState(0);
     return 0;
 }

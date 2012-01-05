@@ -16,19 +16,19 @@ sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*ニコニコ動画[^ ]* - Mozilla Firefox$');
     ## $self->setDeferTimes();
-    $self->{'base_coords'} = {};
-    $self->{'player_size'} = 'normal';
+    $self->heap->{'base_coords'} = {};
+    $self->heap->{'player_size'} = 'normal';
     return $self;
 }
 
 sub changePlayerSize {
     my ($self, $change_to) = @_;
-    $self->{'player_size'} = $change_to;
-    if(defined($self->{'base_coords'}->{$change_to})) {
-        ## $self->{'base_x'} = $self->{'base_coords'}->{$change_to}->{'x'};
-        ## $self->{'base_y'} = $self->{'base_coords'}->{$change_to}->{'y'};
-        $self->baseX($self->{'base_coords'}->{$change_to}->{'x'});
-        $self->baseY($self->{'base_coords'}->{$change_to}->{'y'});
+    $self->heap->{'player_size'} = $change_to;
+    if(defined($self->heap->{'base_coords'}->{$change_to})) {
+        ## $self->heap->{'base_x'} = $self->heap->{'base_coords'}->{$change_to}->{'x'};
+        ## $self->heap->{'base_y'} = $self->heap->{'base_coords'}->{$change_to}->{'y'};
+        $self->baseX($self->heap->{'base_coords'}->{$change_to}->{'x'});
+        $self->baseY($self->heap->{'base_coords'}->{$change_to}->{'y'});
         return 1;
     }
     return 0;
@@ -38,7 +38,7 @@ sub clickPoint {
     my ($self, $coord) = @_;
     my $connection = $self->getConnection();
     my $status_if = $self->getStatusInterface();
-    if(!defined($self->{'base_coords'}->{$self->{'player_size'}})) {
+    if(!defined($self->heap->{'base_coords'}->{$self->heap->{'player_size'}})) {
         $status_if->changeStatusIcon('busy');
         ## my $ret = $self->clickPattern($connection, $PAT_FILENAME, $coord, undef, $COORD_SPEAKER);
         my $ret = $self->setBaseFromPattern($PAT_FILENAME, $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
@@ -48,7 +48,7 @@ sub clickPoint {
         }
         $self->clickFromBase($connection, $coord->{x}, $coord->{y});
         $status_if->changeStatusIcon('normal');
-        $self->{'base_coords'}->{$self->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
+        $self->heap->{'base_coords'}->{$self->heap->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
     }else {
         $self->clickFromBase($connection, $coord->{x}, $coord->{y});
     }
@@ -94,8 +94,8 @@ sub handlerVideo_insert {
     my ($self, $want_help) = @_;
     return 'ニコ動 OUT' if defined($want_help);
     $self->clickPoint($COORD_OUT);
-    $self->{'base_coords'} = {};
-    $self->{'player_size'} = 'normal';
+    $self->heap->{'base_coords'} = {};
+    $self->heap->{'player_size'} = 'normal';
     $self->setState(0);
     return 0;
 }
@@ -106,7 +106,7 @@ sub handlerVideo_right {
     return 'フルスクリーン' if defined($want_help);
     $self->clickPoint($COORD_FULL);
     my $base_exists;
-    if($self->{'player_size'} eq 'full') {
+    if($self->heap->{'player_size'} eq 'full') {
         $base_exists = $self->changePlayerSize('returned');
     }else {
         $base_exists = $self->changePlayerSize('full');

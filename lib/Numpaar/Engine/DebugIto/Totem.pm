@@ -7,7 +7,6 @@ sub new {
     my $self = $class->setupBasic('^[tT]otem\.Totem');
     $self->setVideoKeys();
     $self->{'video_play_state'} = 'play';
-    ## $self->{'state'} = 'Video';
     $self->setState('Video');
     return $self;
 }

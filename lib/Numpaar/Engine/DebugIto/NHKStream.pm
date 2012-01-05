@@ -14,17 +14,17 @@ sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox NHK語学番組 .*Mozilla Firefox$');
     $self->initVisgrep(0, 0);
-    $self->{'init_done'} = 0;
+    $self->heap->{'init_done'} = 0;
     return $self;
 }
 
 
 sub channelSelect {
     my ($self, $connection, $channel_coord) = @_;
-    if(!$self->{'init_done'}) {
+    if(!$self->heap->{'init_done'}) {
         return 0 if !$self->setBaseFromPattern('pat_nhk_speaker.pat', $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
         $self->clickFromBase($connection, $channel_coord->{x}, $channel_coord->{y});
-        $self->{'init_done'} = 1;
+        $self->heap->{'init_done'} = 1;
     }else {
         $self->clickFromBase($connection, $channel_coord->{x}, $channel_coord->{y});
     }
@@ -72,7 +72,7 @@ sub handlerNHK_insert {
     return 'NHK OUT' if defined($want_help);
     $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
     $self->setState(0);
-    $self->{'init_done'} = 0;
+    $self->heap->{'init_done'} = 0;
     return 0;
 }
 
