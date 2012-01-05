@@ -25,7 +25,7 @@ sub setupBasic {
             menu_dir => Numpaar::Engine->getDefaultDirectory(),
             connection => undef,
             status_interface => undef,
-            window_title => undef,
+            window_description => undef,
             grab_list => undef,
             global_grabs => undef,
         },
@@ -97,16 +97,16 @@ sub accessStatusInterface {
     return $self->{engine_obj}->{status_interface};
 }
 
-sub accessWindowTitle {
+sub accessWindowDescription {
     my ($self, $arg) = @_;
-    $self->{engine_obj}->{window_title} = $arg if defined($arg);
-    return $self->{engine_obj}->{window_title};
+    $self->{engine_obj}->{window_description} = $arg if defined($arg);
+    return $self->{engine_obj}->{window_description};
 }
 
 
 sub getConnection { return $_[0]->accessConnection(); }
 sub getStatusInterface { return $_[0]->accessStatusInterface(); }
-sub getWindowTitle { return $_[0]->accessWindowTitle(); }
+sub getWindowDescription { return $_[0]->accessWindowDescription(); }
 
 sub getSymbolList {
     my ($class_or_self) = @_;

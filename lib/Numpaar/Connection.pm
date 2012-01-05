@@ -39,8 +39,8 @@ sub getEvent {
         chomp $notifylines[$i];
         print STDERR "<<NOT ".$notifylines[$i]."\n";
     }
-    my ($command_event, $channel_number, $window_title) = @notifylines;
-    return ($command_event, $channel_number, $window_title);
+    my ($command_event, $channel_number, $window_desc) = @notifylines;
+    return ($command_event, $channel_number, $window_desc);
 }
 
 sub print {
