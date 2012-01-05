@@ -37,9 +37,9 @@ sub main {
 
     my $old_state_str = '';
     while(1) {
-        my ($command_event, $channel_number, $window_desc) = $connection->getEvent();
+        my ($command_event, $channel_number, $window_id, $window_desc) = $connection->getEvent();
         my $cur_state_str = $old_state_str;
-        $cur_state_str = $channel->processCommand($connection, $command_event, $window_desc, $status_interface);
+        $cur_state_str = $channel->processCommand($connection, $command_event, $window_id, $window_desc, $status_interface);
         $connection->end();
 
         if($old_state_str ne $cur_state_str) {

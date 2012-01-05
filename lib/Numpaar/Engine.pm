@@ -26,6 +26,7 @@ sub setupBasic {
             connection => undef,
             status_interface => undef,
             window_description => undef,
+            window_id => undef,
             grab_list => undef,
             global_grabs => undef,
         },
@@ -104,10 +105,17 @@ sub accessWindowDescription {
     return $self->{engine_obj}->{window_description};
 }
 
+sub accessWindowID {
+    my ($self, $arg) = @_;
+    $self->{engine_obj}->{window_id} = $arg if defined($arg);
+    return $self->{engine_obj}->{window_id};
+}
+
 
 sub getConnection { return $_[0]->accessConnection(); }
 sub getStatusInterface { return $_[0]->accessStatusInterface(); }
 sub getWindowDescription { return $_[0]->accessWindowDescription(); }
+sub getWindowID {return $_[0]->accessWindowID(); }
 
 sub heap { return $_[0]->{heap} };
 

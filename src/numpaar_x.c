@@ -84,8 +84,9 @@ int getChannel(xdo_t *xdo) {
 
 void setNotifyBuffer(xdo_t *xdo, const char *pushed_numpaar_key, Window active_window, char * active_name) {
   int written_num;
-  written_num= snprintf(notify_buffer, NOTIFY_BUFFER_SIZE, "%s\n%d\n%s\n",
-                         pushed_numpaar_key, getChannel(xdo), active_name == NULL ? getWindowClassAndName(xdo, active_window) : active_name);
+  written_num= snprintf(notify_buffer, NOTIFY_BUFFER_SIZE, "%s\n%d\n%lu\n%s\n",
+                        pushed_numpaar_key, getChannel(xdo), (unsigned long) active_window,
+                        active_name == NULL ? getWindowClassAndName(xdo, active_window) : active_name);
   if(written_num >= NOTIFY_BUFFER_SIZE) {
     fprintf(stderr, "setNotifyBuffer: notify_buffer is too short.\n");
     notify_buffer[NOTIFY_BUFFER_SIZE-1] = '\0';

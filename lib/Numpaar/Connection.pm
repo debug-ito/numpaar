@@ -32,15 +32,16 @@ sub getLine {
 
 sub getEvent {
     my ($self) = @_;
-    my @notifylines;
-    for(my $i = 0 ; $i < 3 ; $i++) {
+    my $GET_LINE_NUM = 4;
+    my @notifylines = ();
+    for(my $i = 0 ; $i < $GET_LINE_NUM ; $i++) {
         $notifylines[$i] = $self->{'conn_sock'}->getline();
-        exit if !defined($notifylines[$i]);
+        die "Cannot get event line from Numpaar core" if !defined($notifylines[$i]);
         chomp $notifylines[$i];
         print STDERR "<<NOT ".$notifylines[$i]."\n";
     }
-    my ($command_event, $channel_number, $window_desc) = @notifylines;
-    return ($command_event, $channel_number, $window_desc);
+    my ($command_event, $channel_number, $window_id, $window_desc) = @notifylines;
+    return ($command_event, $channel_number, $window_id, $window_desc);
 }
 
 sub print {
