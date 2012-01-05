@@ -1,12 +1,14 @@
 package Numpaar::Engine::DebugIto::YouTube;
 use strict;
-use base ('Numpaar::Engine::DebugIto::Firefox', 'Numpaar::Engine::DebugIto::VideoPlayer', 'Numpaar::Visgrep');
+use base ('Numpaar::Engine::DebugIto::Firefox', 'Numpaar::Engine::DebugIto::VideoPlayer');
+use Numpaar::Visgrep;
 
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox \[VIDEO\].*- YouTube - Mozilla Firefox$');
     ## $self->setDeferTimes();
     $self->setVideoKeys();
+    $self->heap->{visgrep} = Numpaar::Visgrep->new();
     return $self;
 }
 
@@ -45,10 +47,11 @@ sub handlerVideo_delete {
     my $connection = $self->getConnection();
     return 'Delete Ad' if defined($want_help);
     ## if($self->clickPattern($connection, 'pat_youtube_batsu.pat', {'x' => 2, 'y' => 2}, undef, {'x' => 0, 'y' => 0})) {
-    if($self->setBaseFromPattern('pat_youtube_batsu.pat', 0, 0)) {
-        $self->clickFromBase($connection, 2, 2);
+    my $visgrep = $self->heap->{visgrep};
+    if($visgrep->setBaseFromPattern('pat_youtube_batsu.pat', 0, 0)) {
+        $connection->comMouseLeftClick($visgrep->toAbsolute(2, 2));
         $connection->comWaitMsec(200);
-        $self->clickFromBase($connection, -570, 0);
+        $connection->comMouseLeftClick($visgrep->toAbsolute(-570, 0));
     }
     return 0;
 }

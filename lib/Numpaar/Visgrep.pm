@@ -6,6 +6,14 @@ use Numpaar::Config qw(configElement configCheck);
 
 my $SCREENSHOT_PATH = '/tmp/numpaar_visgrep_screenshot.png';
 
+sub new {
+    my ($class) = @_;
+    my $self = bless {}, $class;
+    $self->baseX(0);
+    $self->baseY(0);
+    return $self;
+}
+
 sub getPatternDir {
     my $class_self = shift;
     my $pattern_dir;
@@ -39,12 +47,6 @@ sub getLocation {
     return ($x, $y);
 }
 
-sub initVisgrep {
-    my ($self, $x, $y) = @_;
-    $self->baseX(defined($x) ? $x : 0);
-    $self->baseY(defined($y) ? $y : 0);
-}
-
 sub setBaseFromPattern {
     my ($self, $pattern_file, $pattern_coord_x, $pattern_coord_y, $not_take_shot) = @_;
     my ($x, $y) = $self->getLocation($pattern_file, $not_take_shot);
@@ -70,14 +72,19 @@ sub baseY {
     return $self->{'visgrep_base_y'};
 }
 
-sub clickFromBase {
-    my ($self, $connection, $coord_x, $coord_y) = @_;
-    if(!defined($self->baseX) || !defined($self->baseY)) {
-        return 0;
-    }
-    $connection->comMouseClick(1, $self->baseX + $coord_x, $self->baseY + $coord_y);
-    return 1;
+sub toAbsolute {
+    my ($self, $vis_x, $vis_y) = @_;
+    return ($self->baseX + $vis_x, $self->baseY + $vis_y);
 }
+
+## sub clickFromBase {
+##     my ($self, $connection, $coord_x, $coord_y) = @_;
+##     if(!defined($self->baseX) || !defined($self->baseY)) {
+##         return 0;
+##     }
+##     $connection->comMouseClick(1, $self->baseX + $coord_x, $self->baseY + $coord_y);
+##     return 1;
+## }
 
 
 1;

@@ -1,16 +1,17 @@
 package Numpaar::Engine::DebugIto::NicoVideo;
 use strict;
-use base ("Numpaar::Engine::DebugIto::Firefox", 'Numpaar::Visgrep');
+use base ("Numpaar::Engine::DebugIto::Firefox");
+use Numpaar::Visgrep;
 
 my $PAT_FILENAME = 'pat_nicovideo_speaker.pat';
 
 my $COORD_SPEAKER        = {'x' =>    0, 'y' => 0};
 my $COORD_IN             = {'x' =>    0, 'y' => -25};
 my $COORD_PLAY           = {'x' => -370, 'y' => 5};
-my $COORD_COMMENT_TOGGLE = {'x' =>  100, 'y' => 5};
-my $COORD_REPEAT_TOGGLE  = {'x' =>   80, 'y' => 5};
-my $COORD_OUT            = {'x' =>   50, 'y' => 60};
-my $COORD_FULL           = {'x' =>  150, 'y' => 5};
+my $COORD_COMMENT_TOGGLE = {'x' =>   79, 'y' => 5};
+my $COORD_REPEAT_TOGGLE  = {'x' =>  126, 'y' => 5};
+my $COORD_OUT            = {'x' =>  -50, 'y' => 60};
+my $COORD_FULL           = {'x' =>  175, 'y' => 5};
 
 sub new {
     my ($class) = @_;
@@ -18,17 +19,19 @@ sub new {
     ## $self->setDeferTimes();
     $self->heap->{'base_coords'} = {};
     $self->heap->{'player_size'} = 'normal';
+    $self->heap->{visgrep} = Numpaar::Visgrep->new();
     return $self;
 }
 
 sub changePlayerSize {
     my ($self, $change_to) = @_;
     $self->heap->{'player_size'} = $change_to;
+    my $visgrep = $self->heap->{visgrep};
     if(defined($self->heap->{'base_coords'}->{$change_to})) {
         ## $self->heap->{'base_x'} = $self->heap->{'base_coords'}->{$change_to}->{'x'};
         ## $self->heap->{'base_y'} = $self->heap->{'base_coords'}->{$change_to}->{'y'};
-        $self->baseX($self->heap->{'base_coords'}->{$change_to}->{'x'});
-        $self->baseY($self->heap->{'base_coords'}->{$change_to}->{'y'});
+        $visgrep->baseX($self->heap->{'base_coords'}->{$change_to}->{'x'});
+        $visgrep->baseY($self->heap->{'base_coords'}->{$change_to}->{'y'});
         return 1;
     }
     return 0;
@@ -38,19 +41,20 @@ sub clickPoint {
     my ($self, $coord) = @_;
     my $connection = $self->getConnection();
     my $status_if = $self->getStatusInterface();
+    my $visgrep = $self->heap->{visgrep};
     if(!defined($self->heap->{'base_coords'}->{$self->heap->{'player_size'}})) {
         $status_if->changeStatusIcon('busy');
         ## my $ret = $self->clickPattern($connection, $PAT_FILENAME, $coord, undef, $COORD_SPEAKER);
-        my $ret = $self->setBaseFromPattern($PAT_FILENAME, $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
+        my $ret = $visgrep->setBaseFromPattern($PAT_FILENAME, $COORD_SPEAKER->{x}, $COORD_SPEAKER->{y});
         if(!$ret) {
             $status_if->changeStatusIcon('normal');
             return 0;
         }
-        $self->clickFromBase($connection, $coord->{x}, $coord->{y});
+        $connection->comMouseLeftClick($visgrep->toAbsolute($coord->{x}, $coord->{y}));
         $status_if->changeStatusIcon('normal');
-        $self->heap->{'base_coords'}->{$self->heap->{'player_size'}} = {'x' => $self->baseX, 'y' => $self->baseY};
+        $self->heap->{'base_coords'}->{$self->heap->{'player_size'}} = {'x' => $visgrep->baseX, 'y' => $visgrep->baseY};
     }else {
-        $self->clickFromBase($connection, $coord->{x}, $coord->{y});
+        $connection->comMouseLeftClick($visgrep->toAbsolute($coord->{x}, $coord->{y}));
     }
     return 1;
 }
@@ -60,7 +64,9 @@ sub handlerExtended_up {
     return 'ニコ動 IN' if defined($want_help);
     my $connection = $self->getConnection();
     $self->changePlayerSize('normal');
-    $self->clickPoint($COORD_IN);
+    if(!$self->clickPoint($COORD_IN)) {
+        return 0;
+    }
     $connection->comWaitMsec(100);
     $connection->comKeyString('space');
     
@@ -114,7 +120,7 @@ sub handlerVideo_right {
     ## ** フォーカスをflash内に維持する
     if($base_exists) {
         $connection->comWaitMsec(500);
-        $self->clickFromBase($connection, $COORD_IN->{x}, $COORD_IN->{y});
+        $connection->comMouseLeftClick($self->heap->{visgrep}->toAbsolute($COORD_IN->{x}, $COORD_IN->{y}));
     }else {
         $connection->comWaitMsec(100);
         $connection->comKeyString('Up');

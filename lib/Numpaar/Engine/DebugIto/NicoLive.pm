@@ -1,7 +1,8 @@
 package Numpaar::Engine::DebugIto::NicoLive;
 use strict;
-use base ('Numpaar::Engine::DebugIto::Firefox', 'Numpaar::Visgrep');
+use base ('Numpaar::Engine::DebugIto::Firefox');
 use Numpaar::Config ('configElement');
+use Numpaar::Visgrep;
 use IO::Pipe;
 
 my $WAIT_TIME = 100;
@@ -18,7 +19,7 @@ my $COORD_COMERROR_BATSU = {'x' => -75, 'y' => -292};
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox .* ニコニコ生放送 - Mozilla Firefox$');
-    $self->initVisgrep(0, 0);
+    $self->heap->{visgrep} = Numpaar::Visgrep->new();
     ## $self->setDeferTimes();
     return $self;
 }
@@ -41,19 +42,20 @@ sub handlerExtended_up {
     return 'ニコ生 IN' if defined($want_help);
     my $connection = $self->getConnection();
     my $status_if = $self->getStatusInterface();
+    my $visgrep = $self->heap->{visgrep};
     $status_if->changeStatusIcon('busy');
-    my $ret = $self->setBaseFromPattern('pat_nico_comment.pat', $COORD_COMMENT->{x}, $COORD_COMMENT->{y});
+    my $ret = $visgrep->setBaseFromPattern('pat_nico_comment.pat', $COORD_COMMENT->{x}, $COORD_COMMENT->{y});
     if(!$ret) {
         $status_if->changeStatusIcon('normal');
         return 0;
     }
-    $self->clickFromBase($connection, $COORD_PREMIUM_OK->{x}, $COORD_PREMIUM_OK->{y});
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_PREMIUM_OK->{x}, $COORD_PREMIUM_OK->{y}));
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_BATSU->{x}, $COORD_BATSU->{y});
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_BATSU->{x}, $COORD_BATSU->{y}));
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_COMERROR_BATSU->{x}, $COORD_COMERROR_BATSU->{y});
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_COMERROR_BATSU->{x}, $COORD_COMERROR_BATSU->{y}));
     $connection->comWaitMsec($WAIT_TIME);
-    $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_COMBOX->{x}, $COORD_COMBOX->{y}));
     $self->setState('NicoLive');
     $status_if->changeStatusIcon('normal');
     return 0;
@@ -63,7 +65,8 @@ sub handlerNicoLive_insert {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'ニコ生 OUT' if defined($want_help);
-    $self->clickFromBase($connection, $COORD_OUT->{x}, $COORD_OUT->{y});
+    my $visgrep = $self->heap->{visgrep};
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_OUT->{x}, $COORD_OUT->{y}));
     $self->setState(0);
     return 0;
 }
@@ -73,9 +76,10 @@ sub handlerNicoLive_page_up {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '更新' if defined($want_help);
-    $self->clickFromBase($connection, $COORD_RELOAD->{x}, $COORD_RELOAD->{y});
+    my $visgrep = $self->heap->{visgrep};
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_RELOAD->{x}, $COORD_RELOAD->{y}));
     $connection->comWaitMsec(200);
-    $self->clickFromBase($connection, $COORD_COMBOX->{x}, $COORD_COMBOX->{y});
+    $connection->comMouseLeftClick($visgrep->toAbsolute($COORD_COMBOX->{x}, $COORD_COMBOX->{y}));
     return 0;
 }
 
