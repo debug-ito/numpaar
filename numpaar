@@ -5,15 +5,8 @@ pidfile=/var/lock/numpaar.pid
 resolved_script=`readlink -f "$0"`
 dir=`dirname "$resolved_script"`/src
 socket_trial_max=5
-
 x_out="/dev/null"
 pl_out="/dev/null"
-if [ "$1" = "-v" ]; then
-    pl_out="/dev/stderr"
-elif [ "$1" = "-vv" ]; then
-    x_out="/dev/stderr"
-    pl_out="/dev/stderr"
-fi
 
 kill_existing_numpaar() {
     local retval="$1"
@@ -27,6 +20,28 @@ kill_existing_numpaar() {
         fi
     fi
 }
+
+usage() {
+    cat - <<EOF
+Usage: $0 OPTIONS
+
+  Active Numpaar in background
+
+OPTIONS:
+  -h: Show this message and exit.
+  -c: Show debug information from the Numpaar core on STDERR.
+  -e: Show debug information from the Numpaar engine on STDERR.
+EOF
+}
+
+while getopts 'ceh' OPT; do
+    case $OPT in
+        'c') x_out="/dev/stderr" ;;
+        'e') pl_out="/dev/stderr" ;;
+        'h') usage; exit 0 ;;
+    esac
+done
+
 
 kill_existing_numpaar 0
 
