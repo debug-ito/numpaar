@@ -24,3 +24,33 @@ sub handler0_home {
 }
 
 1;
+
+__END__
+
+=pod
+
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::Thunar - Engine for Thunar file manager
+
+=head1 SYNOPSIS
+
+In configuration file
+
+  engine "DebugIto::Thunar";
+
+
+=head1 DESCRIPTION
+
+This Engine is activated for Thunar file manager.
+
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+
+=cut
+

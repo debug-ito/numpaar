@@ -55,3 +55,61 @@ sub handlerVideo_delete {
 
 
 1;
+
+__END__
+
+=pod
+
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::Totem - Engine for Totem media player
+
+
+=head1 SYNOPSIS
+
+In configuration file
+
+  engine 'DebugIto::Totem';
+
+
+
+=head1 DESCRIPTION
+
+This Numpaar Engine is activated for Totem media player.
+
+Most of the key bindings are provided by L<Numpaar::Engine::DebugIto::VideoPlayer> module.
+
+
+=head1 KEYBINDINGS
+
+=over
+
+=item insert
+
+Toggle full-screen mode
+
+
+=item delete
+
+Move the mouse pointer around.
+
+When in the full-screen mode, this shows a control including the current seek position of the media.
+
+
+=back
+
+
+=head1 AUTHOR
+
+Toshio ITO
+
+=head1 SEE ALSO
+
+L<Numpaar::Engine::DebugIto::VideoPlayer>
+
+
+
+=cut
+
+

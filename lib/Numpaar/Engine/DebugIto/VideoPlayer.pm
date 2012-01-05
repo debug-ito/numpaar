@@ -115,3 +115,119 @@ sub handlerVideo_page_down {
 
 
 1;
+
+__END__
+
+
+=pod
+
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::VideoPlayer - generic key bindings for video players
+
+=head1 SYNOPSIS
+
+  package Numpaar::Engine::SamplePlayer;
+  use base qw(Numpaar::Engine Numpaar::Engine::DebugIto::VideoPlayer);
+  
+  sub new {
+      my ($class) = @_;
+      my $self = $class->setupBasic(".*");
+      
+      ## Set keys for control
+      $self->videoPlayerSetKeys(
+          play_pause     => ['p'],
+          volume_up      => ['Up'],
+          volume_down    => ['Down'],
+          back_normal    => ['Left'],
+          forward_normal => ['Right'],
+          back_big       => ['ctrl+Left'],
+          forward_big    => ['ctrl+Right'],
+          back_small     => ['shift+Left'],
+          forward_small  => ['shift+Right'],
+      );
+      
+      ## Set default player state
+      $self->videoPlayerState("play");
+      
+      ## Get player state
+      my $player_state = $self->videoPlayerState();
+      
+      return $self;      
+  }
+  
+  1;
+
+
+=head1 DESCRIPTION
+
+Numpaar::Engine::DebugIto::VideoPlayer is actually not an Numpaar Engine.
+It is a base class for Numpaar Engines that control videos.
+
+
+=head1 ENGINE STATES
+
+=over
+
+=item Video
+
+The state where control keys for the media are provided.
+
+
+=back
+
+=head1 KEYBINDINGS
+
+=over
+
+=item center
+
+Play/Pause
+
+=item up
+
+Volume up
+
+=item down
+
+Volume down
+
+=item left
+
+Seek backward (normal)
+
+=item right
+
+Seek forward (normal)
+
+=item home
+
+Seek backward (large)
+
+=item page_up
+
+Seek forward (large)
+
+=item end
+
+Seek backward (small)
+
+=item page_down
+
+Seek forward (small)
+
+=back
+
+
+=head1 AUTHOR
+
+Toshio ITO
+
+=head1 SEE ALSO
+
+L<Numpaar::Engine::DebugIto::Totem>, L<Numpaar::Engine::DebugIto::YouTube>
+
+
+=cut
+

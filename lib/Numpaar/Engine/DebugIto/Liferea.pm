@@ -60,3 +60,56 @@ sub handler_insert {
 
 1;
 
+__END__
+
+=pod
+
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::Liferea - Engine for Liferea
+
+=head1 SYNOPSIS
+
+In configuration file
+
+  engine 'DebugIto::Liferea';
+
+
+=head1 DESCRIPTION
+
+This Numpaar Engine is activated for Liferea, a RSS feed aggregator.
+
+=head1 ENGINE STATES
+
+=over
+
+=item 0 (default)
+
+Keyboard focus is in the tool bar.
+
+B<down> key changes the state to B<LeftPane> state.
+
+=item LeftPane
+
+Keyboard focus is in the left pane.
+
+B<right> key changes the state to B<RightPane> state.
+
+=item RightPane
+
+Keyboard focus is in the right pane.
+
+B<left> key changes the state to B<LeftPane> state.
+
+=back
+
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+
+=cut
+

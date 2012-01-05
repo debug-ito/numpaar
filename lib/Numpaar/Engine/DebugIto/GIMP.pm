@@ -98,3 +98,33 @@ sub handler0_page_down {
 
 1;
 
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::GIMP - Engine for drawing by GIMP
+
+
+=head1 SYNOPSIS
+
+In configuration file
+
+  engine 'DebugIto::GIMP';
+
+
+
+=head1 DESCRIPTION
+
+This Numpaar Engine is activated for GIMP.
+
+It provides the key bindings for drawing on GIMP.
+
+=head1 AUTHOR
+
+Toshio ITO
+
+=cut
+
+

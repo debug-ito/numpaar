@@ -373,3 +373,170 @@ sub handler_divide {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine - the base class of all Numpaar Engines
+
+
+=head1 SYNOPSIS
+
+
+  package Numpaar::Engine::Sample;
+  use base qw(Numpaar::Engine);
+  
+  
+  sub new {
+      my $class = shift;
+      return $class->setupBasic('Sample Application$');
+  }
+  
+  
+  ## every key handler receives Numpaar::Engine object as the first argument
+  
+  sub handler_center {
+      my ($self, $want_help) = @_;
+      return "explanation" if defined($want_help);
+
+      ## Get current window description
+      my $win_desc = $self->getWindowDescription();
+
+      ## Get current window ID
+      my $win_id = $self->getWindowID();
+  
+      ## Get Numpaar::Connection object
+      my $connection = $self->getConnection();
+  
+      ## Get Numpaar::StatusInterface object
+      my $status = $self->getStatusInterface();
+  
+      ## Get current state of the engine
+      my $cur_state = $self->getState();
+  
+      ## Set current state of the engine
+      $self->setState('NextState');
+  
+      return 0;
+  }
+  
+  1;
+
+
+
+=head1 DESCRIPTION
+
+Numpaar::Engine is the base class of all Numpaar Engines, which are Perl classes
+where key handlers are implemented.
+
+The methods provided by Numpaar::Engine are usually used by its subclasses in two kinds of methods;
+the constructor (C<new>) and key handlers.
+See [[Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Key-Handlers]] for details on key handlers.
+
+
+=head1 PUBLIC CLASS METHODS
+
+
+=head2 ENGINE_OBJ = setupBasic (PATTERN)
+
+
+  my $self = $class->setupBasic('^WM_NAME\.WM_CLASS TITLE$'):
+
+
+Instantiates the Engine object, initializes it and returns the reference to the object.
+This method is used in constructors of Numpaar Engines.
+
+The argument PATTERN is a string of regular expression that is matched against the window description
+of the currently active window.
+See [[Application Matching section in Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching]].
+
+
+
+=head1 PUBLIC INSTANCE METHODS
+
+
+Instance methods are used in key handlers.
+
+
+
+=head2 CONNECTION = getConnection
+
+
+  my $connection = $self->getConnection();
+
+
+Returns [[Numpaar::Connection|https://github.com/debug-ito/numpaar/wiki/reference-Connection]] object.
+
+
+
+=head2 STATUS = getStatusInterface
+
+
+  my $status = $self->getStatusInterface();
+
+
+Returns [[Numpaar::StatusInterface|https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface]] object.
+
+
+
+=head2 STATE = getState
+
+
+  my $cur_state = $self->getState();
+
+
+Returns the current state of the Engine.
+
+
+
+=head2 RESULT_STATE = setState (NEXT_STATE)
+
+
+  $self->setState("NextState");
+
+
+Set the state of the Engine to NEXT_STATE.
+Because NEXT_STATE is used in names of key handlers,
+it must be either an integer or a string consisting of alphabets, numbers and underscore ('_').
+
+The return value RESULT_STATE is the resulted state of the Engine.
+If NEXT_STATE is invalid, RESULT_STATE equals to the state before this method call.
+
+
+=head2 WIN_DESC = getWindowDescription
+
+  my $win_desc = $self->getWindowDescription();
+
+Returns the window description of the currently active window.
+
+A window description is a string that briefly describes the window.
+Its format is detailed in [[Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching]].
+
+
+=head2 WIN_ID = getWindowID
+
+  my $win_id = $self->getWindowID();
+
+Returns the window ID of the currently active window.
+
+Window ID is an integer that identifies an X window.
+
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+=head1 SEE ALSO
+
+[[Numpaar::Connection|https://github.com/debug-ito/numpaar/wiki/reference-Connection]],
+[[Numpaar::StatusInterface|https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface]]
+
+
+=cut
+
+
+
