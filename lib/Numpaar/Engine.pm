@@ -359,7 +359,7 @@ sub createSwitcherProcess {
     # waitpid($child_pid, WNOHANG);
     $pipe->writer();
     foreach my $win_entry (@winlist) {
-        $pipe->print($win_entry);
+        $pipe->printf("%d %s\n", $win_entry->{wid}, $win_entry->{title});
     }
     $pipe->close();
 }
@@ -367,13 +367,8 @@ sub createSwitcherProcess {
 sub handler_divide {
     my ($self, $want_help) = @_;
     return "Switch Window" if defined($want_help);
-    my $connection = $self->getConnection();
-    $connection->print("winlist\n");
-    my $line;
-    my @winlist = ();
-    while(($line = $connection->getLine()) ne "endlist\n") {
-        push(@winlist, $line);
-    }
+    my @winlist = $self->getConnection()->comWindowListForPager();
+    print STDERR ("----Win list\n", map {sprintf (">>>>0x%08x %s\n", $_->{wid}, $_->{title})} @winlist);
     &createSwitcherProcess(@winlist);
     return 0;
 }

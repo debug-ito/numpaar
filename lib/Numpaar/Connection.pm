@@ -110,6 +110,9 @@ sub comUpdateActive {
 
 sub comMouseClick {
     my ($self, $button, $x, $y) = @_;
+    if(!defined($button)) {
+        $button = 0;
+    }
     if(!defined($x) || !defined($y)) {
         $x = $y = -1;
     }
@@ -131,6 +134,20 @@ sub comKeyDown {
 sub comKeyUp {
     my ($self, @keylist) = @_;
     $self->{'conn_sock'}->print(join("", map {"xdokeychange,$_,0\n"} @keylist));
+}
+
+sub comWindowListForPager {
+    my ($self) = @_;
+    $self->print("winlist\n");
+    my $line;
+    my @winlist = ();
+    while(($line = $self->getLine()) ne "endlist\n") {
+        chomp $line;
+        next if $line !~ /^(\d+) (.+?)$/;
+        my ($wid, $title) = ($1, $2);
+        push(@winlist, {"wid" => $wid , "title" => $title});
+    }
+    return wantarray ? @winlist : $winlist[0];
 }
 
 
