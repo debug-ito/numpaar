@@ -113,13 +113,13 @@ sub comMouseClick {
 }
 
 sub comKeyDown {
-    my ($self, $key) = @_;
-    $self->{'conn_sock'}->print("xdokeychange,$key,1\n");
+    my ($self, @keylist) = @_;
+    $self->{'conn_sock'}->print(join("", map {"xdokeychange,$_,1\n"} @keylist));
 }
 
 sub comKeyUp {
-    my ($self, $key) = @_;
-    $self->{'conn_sock'}->print("xdokeychange,$key,0\n");
+    my ($self, @keylist) = @_;
+    $self->{'conn_sock'}->print(join("", map {"xdokeychange,$_,0\n"} @keylist));
 }
 
 
