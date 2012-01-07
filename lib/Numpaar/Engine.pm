@@ -1,11 +1,12 @@
 ######################
 package Numpaar::Engine;
 use strict;
+use warnings;
 use FindBin;
 use IO::Pipe;
 use Time::HiRes qw( usleep );
 use Class::Inspector;
-use Numpaar::Config qw(configElement);
+use Numpaar::Config qw(configGet);
 
 my $HANDLER_PREFIX = 'handler';
 
@@ -128,7 +129,7 @@ sub getSymbolList {
 sub getDefaultDirectory {
     my $elem;
     eval {
-        $elem = &configElement('directory', 'default');
+        $elem = &configGet('directory', 'default');
     };
     if($@) {
         $elem = '';
@@ -339,7 +340,7 @@ sub handler_multiply {
     if(!fork()) {
         ## exec(&extPathOf('file-manager'), $self->{'menu_dir'});
         print STDERR "Open " . $self->accessMenuDir(). "\n";
-        exec(&configElement('extern_program', 'file-manager'), $self->accessMenuDir());
+        exec(&configGet('extern_program', 'file-manager'), $self->accessMenuDir());
     }
     return 0;
 }
@@ -354,7 +355,7 @@ sub createSwitcherProcess {
         close(STDIN);
         open(STDIN, '<&', $pipe);
         ## exec(&extPathOf('switcher'), &extPathOf('xdotool'));
-        exec(&configElement('extern_program', 'switcher'), &configElement('extern_program', 'xdotool'));
+        exec(&configGet('extern_program', 'switcher'), &configGet('extern_program', 'xdotool'));
     }
     # waitpid($child_pid, WNOHANG);
     $pipe->writer();

@@ -1,8 +1,9 @@
 package Numpaar::Visgrep;
 
 use strict;
+use warnings;
 use FindBin;
-use Numpaar::Config qw(configElement configCheck);
+use Numpaar::Config qw(configGet configCheck);
 
 my $SCREENSHOT_PATH = '/tmp/numpaar_visgrep_screenshot.png';
 
@@ -18,7 +19,7 @@ sub getPatternDir {
     my $class_self = shift;
     my $pattern_dir;
     eval {
-        $pattern_dir = &configElement('directory', 'visgrep_patterns');
+        $pattern_dir = &configGet('directory', 'visgrep_patterns');
     };
     if($@) {
         print STDERR ("Warning: No config for directory visgrep_patterns. Use HOME\n");
@@ -32,9 +33,9 @@ sub getLocation {
     my ($class_self, $pattern_filename, $not_take_shot) = @_;
     &configCheck('extern_program', 'visgrep', 'import');
     if(!defined($not_take_shot) || $not_take_shot != 0) {
-        system(sprintf(&configElement('extern_program', 'import') . ' -depth 8 -window root %s', $SCREENSHOT_PATH));
+        system(sprintf(&configGet('extern_program', 'import') . ' -depth 8 -window root %s', $SCREENSHOT_PATH));
     }
-    my $visgrep_command = &configElement('extern_program', 'visgrep');
+    my $visgrep_command = &configGet('extern_program', 'visgrep');
     my $visgrep_pattern_dir = $class_self->getPatternDir();
     print STDERR qq(EXEC: $visgrep_command "$SCREENSHOT_PATH" "${visgrep_pattern_dir}${pattern_filename}"\n);
     my $visgrep_ret = `$visgrep_command "$SCREENSHOT_PATH" "${visgrep_pattern_dir}${pattern_filename}"`;

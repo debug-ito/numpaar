@@ -11,7 +11,7 @@ use Numpaar::Channel;
 use Numpaar::Connection;
 use Numpaar::Engine;
 use Numpaar::StatusInterface;
-use Numpaar::Config qw(configLoad configElement configEngineList configCheck);
+use Numpaar::Config qw(configLoad configSet configEngineList configCheck);
 
 my $connection;
 
@@ -28,7 +28,7 @@ sub main {
         exit 1;
     }
     
-    &configElement('extern_program', 'switcher', $FindBin::Bin . '/window_switcher.pl');
+    &configSet('extern_program', 'switcher', $FindBin::Bin . '/window_switcher.pl');
     &configLoad('/etc/numpaar.conf.pl', $ENV{HOME}."/.numpaar");
     &configCheck('extern_program', qw(switcher xdotool file-manager));
 

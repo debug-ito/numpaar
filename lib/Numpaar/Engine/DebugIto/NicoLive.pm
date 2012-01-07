@@ -1,7 +1,7 @@
 package Numpaar::Engine::DebugIto::NicoLive;
 use strict;
 use base ('Numpaar::Engine::DebugIto::Firefox');
-use Numpaar::Config ('configElement');
+use Numpaar::Config ('configGet');
 use Numpaar::Visgrep;
 use IO::Pipe;
 
@@ -29,7 +29,7 @@ sub sendString {
     return (defined($short_str) ? $short_str : $str) if defined($want_help);
     my $connection = $self->getConnection();
     my $xclip = IO::Pipe->new();
-    $xclip->writer(&configElement('extern_program', 'xclip') . " -selection c");
+    $xclip->writer(&configGet('extern_program', 'xclip') . " -selection c");
     $xclip->print($str);
     $xclip->close();
     $connection->comWaitMsec(200);

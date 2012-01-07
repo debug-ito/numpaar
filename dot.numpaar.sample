@@ -1,6 +1,6 @@
 ## ** Configuration for Numpaar channel.
 ##
-## - engine MODULE_NAME ARGS...;
+## - engine MODULE_NAME, ARGS...;
 ##
 ## an 'engine' directive adds an engine to Numpaar. An engine is a
 ## Perl module that inherits Numpaar::Engine. Note that plain
@@ -20,7 +20,7 @@ engine 'DebugIto::Totem_DVD';
 engine 'DebugIto::Totem';
 
 
-## - extern_program PROGRAM_NAME PATH
+## - extern_program PROGRAM_NAME, PATH;
 ##
 ## an 'extern_program' directive specifies a path to an external
 ## program that is used by some Numpaar engines.
@@ -33,7 +33,7 @@ engine 'DebugIto::Totem';
 extern_program 'xdotool', '/usr/local/bin/xdotool';
 extern_program 'file-manager', "/usr/bin/thunar";
 
-## - directory DIR_NAME PATH
+## - directory DIR_NAME, PATH;
 ##
 ## a 'directory' directive specifies a directory path that is used by
 ## some Numpaar engines.

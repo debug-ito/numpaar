@@ -1,6 +1,6 @@
 package Numpaar::Engine::DebugIto::MainMenu;
 use base 'Numpaar::Engine::DebugIto::Thunar';
-use Numpaar::Config ('configElement');
+use Numpaar::Config ('configGet');
 
 sub new {
     my ($class, $winclass_winname_pattern, $window_title) = @_;
@@ -14,7 +14,7 @@ sub handler0_center {
     my $connection = $self->getConnection();
     return 'Enter' if defined($want_help);
     $connection->comKeyString('Return');
-    system(&configElement('extern_program', 'xdotool'), "search", '--name', $self->heap->{'title'}, 'windowkill');
+    system(&configGet('extern_program', 'xdotool'), "search", '--name', $self->heap->{'title'}, 'windowkill');
     return 0;
 }
 
