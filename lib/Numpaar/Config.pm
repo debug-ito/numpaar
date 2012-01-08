@@ -2,7 +2,7 @@ package Numpaar::Config;
 use base 'Exporter';
 use strict;
 use warnings;
-use FindBin;
+use Module::Load;
 
 our @EXPORT_OK = qw(configLoad configSet configGet configEngineList configCheck);
 
@@ -10,6 +10,8 @@ my %numpaar_config = (
     engine_list => [],
     extern_program => {},
     directory => {},
+    file => {},
+    misc => {},
     );
 
 sub configLoad {
@@ -34,6 +36,35 @@ sub extern_program( % ) {
 sub directory( % ) {
     my (%kvpairs) = @_;
     &configSet('directory', %kvpairs);
+}
+
+sub file ( % ) {
+    my (%kvpairs) = @_;
+    &configSet('file', %kvpairs);
+}
+
+sub misc ( % ) {
+    my (%kvpairs) = @_;
+    &configSet('misc', %kvpairs);
+}
+
+sub engine_config ( $ % ) {
+    my ($engine_name, %kvpairs) = @_;
+    my $module_name = &getModuleNameForEngine($engine_name);
+    load $module_name;
+    while(my ($varname, $value) = each(%kvpairs)) {
+        my $fq_varname = sprintf("%s::%s", $module_name, $varname);
+        {
+            no strict 'refs';
+            $$fq_varname = $value;
+        }
+    }
+}
+
+sub getModuleNameForEngine {
+    my ($engine_name) = @_;
+    my $module_name = 'Numpaar::Engine::' . $engine_name if $engine_name !~ /^Numpaar::Engine::/;
+    return $module_name;
 }
 
 sub configEngineList {
