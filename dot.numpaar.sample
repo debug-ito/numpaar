@@ -1,5 +1,7 @@
 ## ** Configuration for Numpaar channel.
 ##
+## See https://github.com/debug-ito/numpaar/wiki/Configuration-file for detail.
+##
 ## - engine MODULE_NAME, ARGS...;
 ##
 ## an 'engine' directive adds an engine to Numpaar. An engine is a
@@ -20,7 +22,7 @@ engine 'DebugIto::Totem_DVD';
 engine 'DebugIto::Totem';
 
 
-## - extern_program PROGRAM_NAME, PATH;
+## - extern_program PROGRAM_NAME1, PATH1, PROGRAM_NAME2, PATH2, ...;
 ##
 ## an 'extern_program' directive specifies a path to an external
 ## program that is used by some Numpaar engines.
@@ -29,6 +31,8 @@ engine 'DebugIto::Totem';
 ## Numpaar internally.
 ##
 ## PATH is the path to the executable of the external program.
+##
+## You can specify any number of PROGRAM_NAME, PATH pairs.
 
 extern_program 'xdotool', '/usr/local/bin/xdotool';
 extern_program 'file-manager', "/usr/bin/thunar";
@@ -42,5 +46,9 @@ extern_program 'file-manager', "/usr/bin/thunar";
 ## Numpaar internally.
 ##
 ## PATH is the actual path to the directory.
+## 
+## You can specify any number of DIR_NAME, PATH pairs.
 
 directory 'default', $ENV{HOME};
+
+
