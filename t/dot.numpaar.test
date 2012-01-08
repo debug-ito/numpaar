@@ -21,12 +21,9 @@ file
 misc 'test9', 'TEST9';
 misc 'test10', 'TEST10', 'test11', 'TEST11';
 
-set 'Test::Config', 'CONFIG1', 'FOO';
+engine_config 'Test::Config', 'CONFIG1', 'FOO';
 
-set 'Test::Config::Another',
+engine_config 'Test::Config::Another',
     'CONFIG2', 'hogehoge',
     'CONFIG3', 'UNDEF';
-
-
-
 
