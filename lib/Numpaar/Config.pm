@@ -26,26 +26,31 @@ sub configLoad {
 
 sub engine( @ ) {
     push(@{$numpaar_config{engine_list}}, [@_]);
+    return 1;
 }
 
 sub extern_program( % ) {
     my (%kvpairs) = @_;
     &configSet('extern_program', %kvpairs);
+    return 1;
 }
 
 sub directory( % ) {
     my (%kvpairs) = @_;
     &configSet('directory', %kvpairs);
+    return 1;
 }
 
 sub file ( % ) {
     my (%kvpairs) = @_;
     &configSet('file', %kvpairs);
+    return 1;
 }
 
 sub misc ( % ) {
     my (%kvpairs) = @_;
     &configSet('misc', %kvpairs);
+    return 1;
 }
 
 sub engine_config ( $ % ) {
@@ -59,6 +64,7 @@ sub engine_config ( $ % ) {
             $$fq_varname = $value;
         }
     }
+    return 1;
 }
 
 sub getModuleNameForEngine {
