@@ -12,7 +12,7 @@ extern_program
     'test4', 'TEST4',
     'test5', 'TEST5';
     
-directory 'test6', 'TEST6'
+directory 'test6', 'TEST6';
 
 file
     'TEST7', 'test7',
@@ -23,7 +23,7 @@ misc 'test10', 'TEST10', 'test11', 'TEST11';
 
 engine_config 'Test::Config', 'CONFIG1', 'FOO';
 
-engine_config 'Test::Config::Another',
+engine_config 'Test::ConfigAnother',
     'CONFIG2', 'hogehoge',
     'CONFIG3', 'UNDEF';
 
