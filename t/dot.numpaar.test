@@ -1,0 +1,32 @@
+engine 'DebugIto::Liferea';
+engine 'DebugIto::GIMP';
+engine 'DebugIto::Thunar';
+engine 'DebugIto::Totem_DVD';
+engine 'DebugIto::Totem';
+
+
+extern_program 'test1', 'TEST1';
+extern_program 'test2', "TEST2";
+extern_program
+    'test3', 'TEST3',
+    'test4', 'TEST4',
+    'test5', 'TEST5';
+    
+directory 'test6', 'TEST6'
+
+file
+    'TEST7', 'test7',
+    'TEST8', 'test8';
+
+misc 'test9', 'TEST9';
+misc 'test10', 'TEST10', 'test11', 'TEST11';
+
+set 'Test::Config', 'CONFIG1', 'FOO';
+
+set 'Test::Config::Another',
+    'CONFIG2', 'hogehoge',
+    'CONFIG3', 'UNDEF';
+
+
+
+
