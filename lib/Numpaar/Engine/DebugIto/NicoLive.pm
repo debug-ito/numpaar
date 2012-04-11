@@ -8,11 +8,10 @@ use IO::Pipe;
 my $WAIT_TIME = 100;
 my $COORD_COMMENT    = {'x' => 0,    'y' => 0};
 my $COORD_BATSU      = {'x' => -76,  'y' => -349};
-my $COORD_PREMIUM_OK = {'x' => -22,  'y' => -366};
+my $COORD_PREMIUM_OK = {'x' => -5,  'y' => -366};
 my $COORD_COMBOX     = {'x' => -143, 'y' => 10};
-## my $COORD_OUT        = {'x' => -498, 'y' => 0};
 my $COORD_OUT        = {'x' => -490, 'y' => 0};
-my $COORD_RELOAD     = {'x' => 0,    'y' => -24};
+my $COORD_RELOAD     = {'x' => 50,   'y' => -24};
 my $COORD_COMERROR_BATSU = {'x' => -75, 'y' => -292};
 
 
