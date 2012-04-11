@@ -2,6 +2,9 @@ package Numpaar::Engine::DebugIto::Firefox;
 use strict;
 use base "Numpaar::Engine";
 
+our $defer_immediate = 300;
+our $defer_load = 1500;
+
 sub new {
     my ($class) = @_;
     my $self = $class->setupBasic('^Navigator\.Firefox');
@@ -11,24 +14,17 @@ sub new {
 sub setupBasic {
     my ($class, $pattern) = @_;
     my $self = $class->SUPER::setupBasic($pattern);
-    $self->setDeferTimes();
     return $self;
-}
-
-sub setDeferTimes {
-    my ($self) = @_;
-    $self->heap->{'firefox_defer_immediate'} = 300;
-    $self->heap->{'firefox_defer_load'}      = 1500;
 }
 
 sub updateLoad {
     my $self = shift;
-    $self->getConnection()->comUpdateActive($self->heap->{firefox_defer_load});
+    $self->getConnection()->comUpdateActive($defer_load);
 }
 
 sub updateImmediate {
     my $self = shift;
-    $self->getConnection()->comUpdateActive($self->heap->{firefox_defer_immediate});
+    $self->getConnection()->comUpdateActive($defer_immediate);
 }
 
 
