@@ -8,6 +8,7 @@ our $keys_left_tab = ['ctrl+Page_Up'];
 our $keys_right_tab = ['ctrl+Page_Down'];
 our $keys_close_tab = ['ctrl+q', 'ctrl+w'];
 our $keys_restore_tab = ['ctrl+c', 'u'];
+our $keys_focus_frame = ['ctrl+u', 'ctrl+c', 'ctrl+f'];
 
 our $keys_back = ['shift+b'];
 our $keys_forward = ['shift+f'];
@@ -281,19 +282,28 @@ sub handlerExtended_center {
     return 0;
 }
 
-sub afterStringCopy {
-    my ($self, $connection) = @_;
-    $connection->comKeyString('ctrl+x', "g", "ctrl+a", "space", "Left");
-    $self->setState("Search");
-}
+## sub afterStringCopy {
+##     my ($self, $connection) = @_;
+##     $connection->comKeyString('ctrl+x', "g", "ctrl+a", "space", "Left");
+##     $self->setState("Search");
+## }
+## 
+## sub handlerExtended_insert {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return '文字列コピー' if defined($want_help);
+##     $connection->comKeyType(';Y');
+##     $self->setState('Link');
+##     $self->heap->{'doAfterLink'} = \&afterStringCopy;
+##     return 0;
+## }
 
 sub handlerExtended_insert {
     my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return '文字列コピー' if defined($want_help);
-    $connection->comKeyType(';Y');
+    return 'Focus on a frame' if defined($want_help);
+    $self->getConnection()->comKeyString(@$keys_focus_frame);
     $self->setState('Link');
-    $self->heap->{'doAfterLink'} = \&afterStringCopy;
+    $self->heap->{'doAfterLink'} = 0;
     return 0;
 }
 
@@ -325,55 +335,55 @@ sub handlerFontSize_page_up { my ($self, $want_help) = @_; return $self->handler
 sub handlerFontSize_page_down { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
 sub handlerFontSize_insert { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
 
-sub handlerSearch_page_up {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return '前の検索エンジン' if defined($want_help);
-    $connection->comKeyString('ctrl+Up');
-    return 0;
-}
-
-sub handlerSearch_page_down {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return '次の検索エンジン' if defined($want_help);
-    $connection->comKeyString('ctrl+Down');
-    return 0;
-}
-
-sub handlerSearch_up {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return 'Backspace' if defined($want_help);
-    $connection->comKeyString('BackSpace');
-    return 0;
-}
-
-sub handlerSearch_home {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return 'クリアして貼り付け' if defined($want_help);
-    $connection->comKeyString('ctrl+a', 'ctrl+k', 'ctrl+y', 'alt+y');
-    return 0;
-}
-
-sub handlerSearch_end {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return '貼り付け' if defined($want_help);
-    $connection->comKeyString('ctrl+y');
-    return 0;
-}
-
-sub handlerSearch_center {
-    my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return '検索' if defined($want_help);
-    $connection->comKeyString('Return');
-    $self->updateLoad();
-    $self->setState(0);
-    return 0;
-}
+## sub handlerSearch_page_up {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return '前の検索エンジン' if defined($want_help);
+##     $connection->comKeyString('ctrl+Up');
+##     return 0;
+## }
+## 
+## sub handlerSearch_page_down {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return '次の検索エンジン' if defined($want_help);
+##     $connection->comKeyString('ctrl+Down');
+##     return 0;
+## }
+## 
+## sub handlerSearch_up {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return 'Backspace' if defined($want_help);
+##     $connection->comKeyString('BackSpace');
+##     return 0;
+## }
+## 
+## sub handlerSearch_home {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return 'クリアして貼り付け' if defined($want_help);
+##     $connection->comKeyString('ctrl+a', 'ctrl+k', 'ctrl+y', 'alt+y');
+##     return 0;
+## }
+## 
+## sub handlerSearch_end {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return '貼り付け' if defined($want_help);
+##     $connection->comKeyString('ctrl+y');
+##     return 0;
+## }
+## 
+## sub handlerSearch_center {
+##     my ($self, $want_help) = @_;
+##     my $connection = $self->getConnection();
+##     return '検索' if defined($want_help);
+##     $connection->comKeyString('Return');
+##     $self->updateLoad();
+##     $self->setState(0);
+##     return 0;
+## }
 
 sub handler_delete {
     my ($self, $want_help) = @_;
