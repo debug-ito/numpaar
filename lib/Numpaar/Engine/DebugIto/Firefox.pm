@@ -2,6 +2,23 @@ package Numpaar::Engine::DebugIto::Firefox;
 use strict;
 use base "Numpaar::Engine";
 
+our $keys_link = ['ctrl+u', 'e'];
+our $keys_link_newtab = ['ctrl+u', 'shift+e'];
+our $keys_left_tab = ['ctrl+Page_Up'];
+our $keys_right_tab = ['ctrl+Page_Down'];
+our $keys_close_tab = ['ctrl+q', 'ctrl+w'];
+our $keys_restore_tab = ['ctrl+c', 'u'];
+
+our $keys_back = ['shift+b'];
+our $keys_forward = ['shift+f'];
+our $keys_bookmark  = ['ctrl+q', 'ctrl+b'];
+our $keys_bookmark_finish = ['ctrl+Return', 'ctrl+q', 'ctrl+b'];
+our $keys_bookmark_cancel = ['ctrl+q', 'ctrl+b'];
+our $keys_fontsize_increase = ['ctrl+q', 'ctrl+plus'];
+our $keys_fontsize_decrease = ['ctrl+q', 'ctrl+minus'];
+our $keys_fontsize_normal   = ['ctrl+q', 'ctrl+0'];
+our $keys_reload = ['F5'];
+our $keys_home = ['alt+Home'];
 our $defer_immediate = 300;
 our $defer_load = 1500;
 
@@ -32,7 +49,7 @@ sub handler0_left {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '左タブへ' if defined($want_help);
-    $connection->comKeyString('ctrl+Page_Up');
+    $connection->comKeyString(@$keys_left_tab);
     $self->updateImmediate();
     return 0;
 }
@@ -41,7 +58,7 @@ sub handler0_right {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '右タブへ' if defined($want_help);
-    $connection->comKeyString('ctrl+Page_Down');
+    $connection->comKeyString(@$keys_right_tab);
     $self->updateImmediate();
     return 0;
 }
@@ -50,7 +67,7 @@ sub handler0_end {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'タブを閉じる' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+w');
+    $connection->comKeyString(@$keys_close_tab);
     $self->updateImmediate();
     return 0;
 }
@@ -59,7 +76,7 @@ sub handler0_insert {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'ブックマーク' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+b');
+    $connection->comKeyString(@$keys_bookmark);
     $self->setState('BookMark');
     return 0;
 }
@@ -68,7 +85,7 @@ sub handler0_center {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'リンク' if defined($want_help);
-    $connection->comKeyString('ctrl+u', 'e');
+    $connection->comKeyString(@$keys_link);
     $self->setState('Link');
     $self->heap->{'doAfterLink'} = 0;
     return 0;
@@ -86,7 +103,7 @@ sub handlerBookMark_center {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '決定' if defined($want_help);
-    $connection->comKeyString('ctrl+Return', 'ctrl+q', 'ctrl+b');
+    $connection->comKeyString(@$keys_bookmark_finish);
     $self->setState(0);
     $self->updateLoad();
     return 0;
@@ -96,7 +113,7 @@ sub handlerBookMark_insert {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'キャンセル' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+b');
+    $connection->comKeyString(@$keys_bookmark_cancel);
     $self->setState(0);
     return 0;
 }
@@ -191,7 +208,7 @@ sub handlerExtended_home {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'リンク(新タブ)' if defined($want_help);
-    $connection->comKeyString('ctrl+u', 'shift+e');
+    $connection->comKeyString(@$keys_link_newtab);
     $self->setState('Link');
     $self->heap->{'doAfterLink'} = 0;
     return 0;
@@ -201,7 +218,7 @@ sub handlerExtended_left {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '戻る' if defined($want_help);
-    $connection->comKeyString('shift+b');
+    $connection->comKeyString(@$keys_back);
     $self->updateLoad();
     $self->setState(0);
     return 0;
@@ -211,7 +228,7 @@ sub handlerExtended_right {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '進む' if defined($want_help);
-    $connection->comKeyString('shift+f');
+    $connection->comKeyString(@$keys_forward);
     $self->updateLoad();
     $self->setState(0);
     return 0;
@@ -221,7 +238,7 @@ sub handlerExtended_up {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '文字大きく' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+plus');
+    $connection->comKeyString(@$keys_fontsize_increase);
     $self->setState("FontSize");
     return 0;
 }
@@ -230,7 +247,7 @@ sub handlerExtended_down {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '文字小さく' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+minus');
+    $connection->comKeyString(@$keys_fontsize_decrease);
     $self->setState("FontSize");
     return 0;
 }
@@ -239,7 +256,7 @@ sub handlerExtended_page_up {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'リロード' if defined($want_help);
-    $connection->comKeyString('F5');
+    $connection->comKeyString(@$keys_reload);
     $self->updateLoad();
     $self->setState(0);
     return 0;
@@ -249,7 +266,7 @@ sub handlerExtended_page_down {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'ホーム' if defined($want_help);
-    $connection->comKeyString('alt+Home');
+    $connection->comKeyString(@$keys_home);
     $self->updateLoad();
     $self->setState(0);
     return 0;
@@ -259,7 +276,7 @@ sub handlerExtended_center {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '文字通常' if defined($want_help);
-    $connection->comKeyString('ctrl+q', 'ctrl+0');
+    $connection->comKeyString(@$keys_fontsize_normal);
     $self->setState(0);
     return 0;
 }
@@ -284,7 +301,7 @@ sub handlerExtended_end {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'タブを戻す' if defined($want_help);
-    $connection->comKeyString('ctrl+c', 'u');
+    $connection->comKeyString(@$keys_restore_tab);
     $self->updateLoad();
     $self->setState(0);
     return 0;
