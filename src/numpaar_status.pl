@@ -131,7 +131,11 @@ sub setupButtons {
 
 sub setupGtk {
     $window = Gtk2::Window->new();
-    $window->signal_connect('delete_event' => sub { print STDERR "Status: delete.\n"; Gtk2->main_quit()} );
+    $window->signal_connect('delete_event' => sub {
+                                print STDERR "Status: delete.\n";
+                                &toggleWindowShow();
+                                return Gtk2::EVENT_STOP;
+                            });
     $window->signal_connect('destroy' => sub {print STDERR "Status: destroy.\n"; } );
     $window->set_keep_above(1);
     $window->set_skip_pager_hint(1);
