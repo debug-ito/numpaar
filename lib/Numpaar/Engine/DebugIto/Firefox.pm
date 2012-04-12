@@ -317,6 +317,13 @@ sub handlerFontSize_center {
 
 sub handlerFontSize_up   { my ($self, $want_help) = @_; return $self->handlerExtended_up  ($want_help); }
 sub handlerFontSize_down { my ($self, $want_help) = @_; return $self->handlerExtended_down($want_help); }
+sub handlerFontSize_home { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_end { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_left { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_right { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_page_up { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_page_down { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
+sub handlerFontSize_insert { my ($self, $want_help) = @_; return $self->handlerFontSize_center($want_help); }
 
 sub handlerSearch_page_up {
     my ($self, $want_help) = @_;
