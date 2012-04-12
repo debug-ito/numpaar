@@ -8,6 +8,9 @@ use Time::HiRes qw( usleep );
 use Class::Inspector;
 use Numpaar::Config qw(configGet);
 
+our $keys_maximize_window = ['alt+F10'];
+our $keys_close_window = ['alt+F4'];
+
 my $HANDLER_PREFIX = 'handler';
 
 sub new {
@@ -315,7 +318,7 @@ sub handler_center {
 sub handler_plus {
     my ($self, $want_help) = @_;
     return 'Maximize' if defined($want_help);
-    $self->getConnection()->comKeyString('alt+F10');
+    $self->getConnection()->comKeyString(@$keys_maximize_window);
     return 0;
 }
 
@@ -330,7 +333,7 @@ sub handler_minus {
     my ($self, $want_help) = @_;
     return 'Close Window' if defined($want_help);
     $self->setState(0);
-    $self->getConnection->comKeyString('alt+F4');
+    $self->getConnection->comKeyString(@$keys_close_window);
     return 0;
 }
 
