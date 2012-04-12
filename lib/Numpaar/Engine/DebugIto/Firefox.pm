@@ -174,10 +174,7 @@ sub handlerLink_right {
 
 sub handlerLink_down {
     my ($self, $want_help) = @_;
-    my $connection = $self->getConnection();
-    return 'Enter' if defined($want_help);
-    $connection->comKeyString('Return');
-    return 0;
+    return $self->handlerLink_up($want_help);
 }
 
 sub handlerLink_home {
