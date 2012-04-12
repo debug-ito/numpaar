@@ -69,7 +69,12 @@ sub engine_config ( $ % ) {
 
 sub getModuleNameForEngine {
     my ($engine_name) = @_;
-    my $module_name = 'Numpaar::Engine::' . $engine_name if $engine_name !~ /^Numpaar::Engine::/;
+    my $module_name;
+    if($engine_name =~ /^Numpaar::Engine/) {
+        $module_name = $engine_name;
+    }else {
+        $module_name = 'Numpaar::Engine::' . $engine_name 
+    }
     return $module_name;
 }
 

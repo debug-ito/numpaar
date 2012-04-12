@@ -27,3 +27,6 @@ engine_config 'Test::ConfigAnother',
     'CONFIG2', 'hogehoge',
     'CONFIG3', 'UNDEF';
 
+engine_config 'Numpaar::Engine::Test::ConfigAbsolute',
+    'CONFIG1', 'QWERTY';
+

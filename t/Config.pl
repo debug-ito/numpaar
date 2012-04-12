@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 27;
+use Test::More;
 
 
 BEGIN {
@@ -65,7 +65,7 @@ is($Numpaar::Engine::Test::Config::CONFIG2, undef, "engine_config 2");
 is($Numpaar::Engine::Test::ConfigAnother::CONFIG1, 'hoge', "engine_config another 1");
 is($Numpaar::Engine::Test::ConfigAnother::CONFIG2, 'hogehoge', "engine_config another 2");
 is($Numpaar::Engine::Test::ConfigAnother::CONFIG3, 'UNDEF', "engine_config another 3");
+is($Numpaar::Engine::Test::ConfigAbsolute::CONFIG1, 'QWERTY', 'engine_config absolute 1');
+is($Numpaar::Engine::Test::ConfigAbsolute::CONFIG2, 'dvorak', 'engine_config absolute 2');
 
-
-
-
+done_testing();
