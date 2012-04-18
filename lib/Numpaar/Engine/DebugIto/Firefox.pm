@@ -392,3 +392,204 @@ sub handler_delete {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::Firefox - Engine for Firefox
+
+=head1 SYNOPSIS
+
+In configuration file
+
+  engine 'DebugIto::Firefox';
+  
+  ## Configure key sequences if necessary
+  engine_config 'DebugIto::Firefox',
+      keys_link =>   ['ctrl+e'],
+      restore_tab => ['ctrl+x', 'ctrl+u'];
+
+
+=head1 DESCRIPTION
+
+This Numpaar Engine is activated for Firefox, a Web browser.
+With the help of some addons for Firefox (see L<"PREREQUISITES"> below),
+this engine makes it possible to do the following with a number pad:
+
+=over
+
+=item Navigate through web pages vertically.
+
+=item Navigate through links (in the current tab and/or a new tab).
+
+=item Switch tabs.
+
+=item Close and restore tabs.
+
+=item Select buttons, frames and other controls.
+
+=item Visit bookmarked web site in a new tab.
+
+=item Move back and forward in browsing history.
+
+=item Change font size.
+
+=item Visit home.
+
+=item Reload.
+
+=back
+
+Based on this module, there are some Engines for specific web sites such as YouTube and NicoNico Douga (ニコニコ動画).
+(L<"SEE ALSO"> section lists them)
+
+
+=head1 PREREQUISITES
+
+In order to use DebugIto::Firefox engine, you need to install the following two packages into your Firefox.
+
+First you need [[Keysnail|https://github.com/mooz/keysnail/wiki]], an awesome addon for Firefox.
+Keysnail constructs an Emacs-like environment on top of Firefox, so you can do almost every operation
+on Firefox with Emacs-like key sequences.
+Numpaar translates push events on number pad keys to these key sequences, which are handled by Keysnail.
+
+  User --[Push on number pad keys]--> Numpaar --[Key sequences]--> Keysnail --[operation]--> Firefox
+
+Second you need [[HoK|https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js]], which is a plugin for Keysnail.
+HoK provides a way to select links, buttons, frames and many other objects in a browser WITHOUT a mouse.
+It operates like this:
+
+=over
+
+=item 1.
+
+When browsing, hit 'e' key to start HoK.
+
+=item 2.
+
+HoK searches the current view of the web page for links and other clickable objects.
+
+=item 3.
+
+For each link, HoK assigns a hint string and shows it near the link.
+
+=item 4.
+
+Then you hit the hint string for the link you want to select.
+
+=item 5.
+
+HoK selects the link for you and go to the next page.
+
+=back
+
+Numpaar relies on HoK to select the links.
+
+When you use Keysnail and HoK, you can customize their keybindings freely, but in this case you have to
+configure DebugIto::Firefox Engine to emit the correct key sequences (See L<"CONFIGURATION"> for detail).
+The default configuration of this Engine emits the key sequences that are the default (or recommended) by Keysnail and HoK.
+
+
+B<NOTE>: [[The original version of HoK|https://raw.github.com/mooz/keysnail/master/plugins/hok.ks.js]] does not work well with Numpaar,
+so I modified its code a bit. Use [[the modified version of HoK|https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js]] for Numpaar.
+
+
+=head1 ENGINE STATES
+
+Basically DebugIto::Firefox engine has two states: normal and extended.
+
+=head2 Normal state
+
+Normal state is the default.
+
+You can use Up, Down, PageUp and PageDown for page navigation.
+The other keys are bound to the following operations.
+
+
+=over
+
+=item Home: Enter the extended state.
+
+=item End: Close the current tab.
+
+=item Left: Go to the tab on the left.
+
+=item Right: Go to the tab on the right.
+
+=item Center(5): Select and open link in the current tab.
+
+=item Insert: Show bookmarks to select.
+
+=item Delete: Cancel
+
+=back
+
+
+=head2 Extended state
+
+You can enter the extended state by hitting Home in the normal state.
+In the extended state, you can do the following operations.
+
+=over
+
+=item Home: Select and open link in a new tab.
+
+=item End: Restore the most recently closed tab.
+
+=item Left: Go back in the browsing history.
+
+=item Right: Go forward in the browsing history.
+
+=item Up: Make font size larger.
+
+=item Center(5): Make font size normal.
+
+=item Down: Make font size smaller.
+
+=item PageUp: Reload the current page.
+
+=item PageDown: Go home.
+
+=item Insert: Select a frame.
+
+=item Delete: Cancel and go to the normal state.
+
+=back
+
+
+=head1 HOW TO USE
+
+=head2 Cancel operation
+
+B<Delete> key is always assigned to "cancel the current operation and go to the normal mode".
+When you think something weird is going on, just hit B<Delete> several times,
+as you would hit C-g when you use Emacs.
+
+=head2 Page navigation
+
+You can navigate through web pages with Up, Down, PageUp and PageDown in the normal mode.
+Note that you cannot use Home and End, which are assigned to other functions.
+
+Note also that you cannot navigate horizontally with Numpaar.
+
+
+=head2 Links
+
+=head2 Tabs
+
+=head2 Bookmarks
+
+=head2 Font size
+
+=head2 Frames
+
+
+=head1 CONFIGURATION
+
+
+=head1 SEE ALSO
+
+=cut
