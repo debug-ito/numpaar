@@ -562,6 +562,9 @@ In the extended state, you can do the following operations.
 
 =head1 HOW TO USE
 
+In the following usage guide, B<BUTTON1 + BUTTON2> means "hit B<BUTTON1> followed by B<BUTTON2>".
+
+
 =head2 Cancel operation
 
 B<Delete> key is always assigned to "cancel the current operation and go to the normal mode".
@@ -570,26 +573,76 @@ as you would hit C-g when you use Emacs.
 
 =head2 Page navigation
 
-You can navigate through web pages with Up, Down, PageUp and PageDown in the normal mode.
-Note that you cannot use Home and End, which are assigned to other functions.
+You can navigate through web pages with B<Up>, B<Down>, B<PageUp> and B<PageDown> in the normal mode.
+Note that you cannot use B<Home> and B<End>, which are assigned to other functions.
 
 Note also that you cannot navigate horizontally with Numpaar.
 
 
 =head2 Links
 
+To select a link (or any clickable object), hit B<Center(5)> key in the normal mode.
+This starts HoK, which shows hint strings near links in the page.
+Hint strings consist of 4, 5, and 6, so hit the number sequences you want to select,
+then hit Up or Down to end input.
+
+If you want to go to a link in a new tab, hit B<Home + Home>.
+
+
+=head2 Browsing history, reload and home
+
+You can go back and forward in the browsing history by hitting B<Home + Left> and B<Home + Right>, respectively.
+
+To reload the current page, hit B<Home + PageUp>.
+
+To go to your home page, hit B<Home + PageDown>.
+
+
 =head2 Tabs
+
+You can use B<Left> and B<Right> to switch tabs.
+
+To close the currently selected tab, hit B<End>.
+The closed tab can be restored by hitting B<Home + End>.
+
 
 =head2 Bookmarks
 
+To open a bookmark, first hit B<Insert> to open the bookmark pane.
+The key focus is initially on the text box for searching, so hit B<End> once to move the focus onto the bookmarks tree view.
+Once you focus on the tree view, you can navigate through the list with B<Up>, B<Down>, B<Left>, B<Right>, B<PageUp>, B<PageDown>,
+then select a bookmark with B<Center(5)>.
+To cancel this operation, hit B<Insert> or B<Delete>.
+
+Note that if you hit B<End> more than once after hitting B<Insert>,
+you may move the focus too much and so cannot move the cursor in the bookmark pane.
+If this happened, just hit B<Insert> or B<Delete> to cancel.
+
+
 =head2 Font size
 
+To make font size larger, first hit B<Home + Up>, then repeatedly hit B<Up> until it's big enough, and finally hit B<Center(5)> to end.
+Making font size smaller is the same except that you have to hit B<Down> instead of B<Up>.
+
+To reset the font size to normal, hit B<Home + Center(5)>.
+
+
 =head2 Frames
+
+Some nasty web sites use frames. In this case hit B<Home + Insert>, then HoK shows hint strings for all visible frames.
+Hit the hint string you want to select, and hit B<Up> to finish.
+
+
 
 
 =head1 CONFIGURATION
 
 
 =head1 SEE ALSO
+
+
+=head1 AUTHOR
+
+Toshio ITO
 
 =cut
