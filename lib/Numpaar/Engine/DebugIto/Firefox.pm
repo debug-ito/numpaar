@@ -421,29 +421,50 @@ this engine makes it possible to do the following with a number pad:
 
 =over
 
-=item Navigate through web pages vertically.
+=item *
 
-=item Navigate through links (in the current tab and/or a new tab).
+Navigate through web pages vertically.
 
-=item Switch tabs.
+=item *
 
-=item Close and restore tabs.
+Navigate through links (in the current tab and/or a new tab).
 
-=item Select buttons, frames and other controls.
+=item *
 
-=item Visit bookmarked web site in a new tab.
+Switch tabs.
 
-=item Move back and forward in browsing history.
+=item *
 
-=item Change font size.
+Close and restore tabs.
 
-=item Visit home.
+=item *
 
-=item Reload.
+Select buttons, frames and other controls.
+
+=item *
+
+Visit bookmarked web site in a new tab.
+
+=item *
+
+Move back and forward in browsing history.
+
+=item *
+
+Change font size.
+
+=item *
+
+Visit home.
+
+=item *
+
+Reload.
 
 =back
 
-Based on this module, there are some Engines for specific web sites such as YouTube and NicoNico Douga (ニコニコ動画).
+
+Based on this module, there are some Engines for specific web sites such as YouTube and NicoNico Douga.
 (L<"SEE ALSO"> section lists them)
 
 
@@ -451,14 +472,26 @@ Based on this module, there are some Engines for specific web sites such as YouT
 
 In order to use DebugIto::Firefox engine, you need to install the following two packages into your Firefox.
 
-First you need [[Keysnail|https://github.com/mooz/keysnail/wiki]], an awesome addon for Firefox.
+=over
+
+=item 1.
+
+Keysnail: https://github.com/mooz/keysnail/wiki
+
+=item 2.
+
+HoK (modified for Numpaar): https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js
+
+=back
+
+First you need B<Keysnail>, an awesome addon for Firefox.
 Keysnail constructs an Emacs-like environment on top of Firefox, so you can do almost every operation
 on Firefox with Emacs-like key sequences.
 Numpaar translates push events on number pad keys to these key sequences, which are handled by Keysnail.
 
   User --[Push on number pad keys]--> Numpaar --[Key sequences]--> Keysnail --[operation]--> Firefox
 
-Second you need [[HoK|https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js]], which is a plugin for Keysnail.
+Second you need B<HoK>, which is a plugin for Keysnail.
 HoK provides a way to select links, buttons, frames and many other objects in a browser WITHOUT a mouse.
 It operates like this:
 
@@ -493,8 +526,14 @@ configure DebugIto::Firefox Engine to emit the correct key sequences (See L<"CON
 The default configuration of this Engine emits the key sequences that are the default (or recommended) by Keysnail and HoK.
 
 
-B<NOTE>: [[The original version of HoK|https://raw.github.com/mooz/keysnail/master/plugins/hok.ks.js]] does not work well with Numpaar,
-so I modified its code a bit. Use [[the modified version of HoK|https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js]] for Numpaar.
+B<NOTE>: The original version of HoK does not work well with Numpaar,
+so I modified its code a bit. Use the modified version of HoK shown above.
+
+=over
+
+The original HoK: https://raw.github.com/mooz/keysnail/master/plugins/hok.ks.js
+
+=back
 
 
 =head1 ENGINE STATES
@@ -511,19 +550,33 @@ The other keys are bound to the following operations.
 
 =over
 
-=item Home: Enter the extended state.
+=item Home:
 
-=item End: Close the current tab.
+Enter the extended state.
 
-=item Left: Go to the tab on the left.
+=item End:
 
-=item Right: Go to the tab on the right.
+Close the current tab.
 
-=item Center(5): Select and open link in the current tab.
+=item Left:
 
-=item Insert: Show bookmarks to select.
+Go to the tab on the left.
 
-=item Delete: Cancel
+=item Right:
+
+Go to the tab on the right.
+
+=item Center (5):
+
+Select and open link in the current tab.
+
+=item Insert:
+
+Show bookmarks to select.
+
+=item Delete:
+
+Cancel
 
 =back
 
@@ -535,27 +588,49 @@ In the extended state, you can do the following operations.
 
 =over
 
-=item Home: Select and open link in a new tab.
+=item Home:
 
-=item End: Restore the most recently closed tab.
+Select and open link in a new tab.
 
-=item Left: Go back in the browsing history.
+=item End:
 
-=item Right: Go forward in the browsing history.
+Restore the most recently closed tab.
 
-=item Up: Make font size larger.
+=item Left:
 
-=item Center(5): Make font size normal.
+Go back in the browsing history.
 
-=item Down: Make font size smaller.
+=item Right:
 
-=item PageUp: Reload the current page.
+Go forward in the browsing history.
 
-=item PageDown: Go home.
+=item Up:
 
-=item Insert: Select a frame.
+Make font size larger.
 
-=item Delete: Cancel and go to the normal state.
+=item Center (5):
+
+Make font size normal.
+
+=item Down:
+
+Make font size smaller.
+
+=item PageUp:
+
+Reload the current page.
+
+=item PageDown:
+
+Go home.
+
+=item Insert:
+
+Select a frame.
+
+=item Delete:
+
+Cancel and go to the normal state.
 
 =back
 
@@ -581,7 +656,7 @@ Note also that you cannot navigate horizontally with Numpaar.
 
 =head2 Links
 
-To select a link (or any clickable object), hit B<Center(5)> key in the normal mode.
+To select a link (or any clickable object), hit B<Center (5)> key in the normal mode.
 This starts HoK, which shows hint strings near links in the page.
 Hint strings consist of 4, 5, and 6, so hit the number sequences you want to select,
 then hit Up or Down to end input.
@@ -611,7 +686,7 @@ The closed tab can be restored by hitting B<Home + End>.
 To open a bookmark, first hit B<Insert> to open the bookmark pane.
 The key focus is initially on the text box for searching, so hit B<End> once to move the focus onto the bookmarks tree view.
 Once you focus on the tree view, you can navigate through the list with B<Up>, B<Down>, B<Left>, B<Right>, B<PageUp>, B<PageDown>,
-then select a bookmark with B<Center(5)>.
+then select a bookmark with B<Center (5)>.
 To cancel this operation, hit B<Insert> or B<Delete>.
 
 Note that if you hit B<End> more than once after hitting B<Insert>,
@@ -621,17 +696,16 @@ If this happened, just hit B<Insert> or B<Delete> to cancel.
 
 =head2 Font size
 
-To make font size larger, first hit B<Home + Up>, then repeatedly hit B<Up> until it's big enough, and finally hit B<Center(5)> to end.
+To make font size larger, first hit B<Home + Up>, then repeatedly hit B<Up> until it's big enough, and finally hit B<Center (5)> to end.
 Making font size smaller is the same except that you have to hit B<Down> instead of B<Up>.
 
-To reset the font size to normal, hit B<Home + Center(5)>.
+To reset the font size to normal, hit B<Home + Center (5)>.
 
 
 =head2 Frames
 
 Some nasty web sites use frames. In this case hit B<Home + Insert>, then HoK shows hint strings for all visible frames.
 Hit the hint string you want to select, and hit B<Up> to finish.
-
 
 
 
