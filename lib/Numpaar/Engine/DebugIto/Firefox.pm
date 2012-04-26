@@ -659,9 +659,9 @@ Note also that you cannot navigate horizontally with Numpaar.
 To select a link (or any clickable object), hit B<Center (5)> key in the normal mode.
 This starts HoK, which shows hint strings near links in the page.
 Hint strings consist of 4, 5, and 6, so hit the number sequences you want to select,
-then hit Up or Down to end input.
+then hit B<Up> or B<Down> to end input.
 
-If you want to go to a link in a new tab, hit B<Home + Home>.
+If you want to go to a link in a new tab, hit B<Home + Home> in the normal mode.
 
 
 =head2 Browsing history, reload and home
@@ -691,7 +691,7 @@ To cancel this operation, hit B<Insert> or B<Delete>.
 
 Note that if you hit B<End> more than once after hitting B<Insert>,
 you may move the focus too much and so cannot move the cursor in the bookmark pane.
-If this happened, just hit B<Insert> or B<Delete> to cancel.
+If you are in this situation, just hit B<Insert> or B<Delete> to cancel.
 
 
 =head2 Font size
@@ -707,13 +707,92 @@ To reset the font size to normal, hit B<Home + Center (5)>.
 Some nasty web sites use frames. In this case hit B<Home + Insert>, then HoK shows hint strings for all visible frames.
 Hit the hint string you want to select, and hit B<Up> to finish.
 
-
-
 =head1 CONFIGURATION
+
+=head2 engine_config parameters
+
+The following C<engine_config> parameters are defined in DebugIto::Firefox Engine
+to configure the key sequences it emits.
+
+=over
+
+=item keys_link (default: ['ctrl+u', 'e'])
+
+The key sequence emitted on "Link" operation (B<Center (5)>).
+
+=item keys_link_newtab (default: ['ctrl+u', 'shift+e'])
+
+The key sequence emitted on "Link (new tab)" operation (B<Home + Home>).
+
+=item keys_left_tab (default: ['ctrl+Page_Up'])
+
+The key sequence emitted on "Left tab" operation (B<Left>).
+
+=item keys_right_tab (default: ['ctrl+Page_Down'])
+
+The key sequence emitted on "Right tab" operation (B<Right>).
+
+=item keys_close_tab (default: ['ctrl+q', 'ctrl+w'])
+
+The key sequence emitted on "Close tab" operation (B<End>).
+
+=item keys_restore_tab (default: ['ctrl+c', 'u'])
+
+The key sequence emitted on "Restore tab" operation (B<Home + End>).
+
+=item keys_focus_frame (default: ['ctrl+u', 'ctrl+c', 'ctrl+f'])
+
+The key sequence emitted on "Focus on a frame" operation (B<Home + Insert>).
+
+=item keys_back (default: ['shift+b'])
+
+The key sequence emitted on "Back" operation (B<Home + Left>).
+
+=item keys_forward (default: ['shift+f'])
+
+The key sequence emitted on "Forward" operation (B<Home + Right>).
+
+=item keys_bookmark (default: ['ctrl+q', 'ctrl+b'])
+
+The key sequence emitted on "Bookmark" operation (B<Insert>).
+
+=item keys_bookmark_finish (default: ['ctrl+Return', 'ctrl+q', 'ctrl+b'])
+
+The key sequence emitted on selecting a bookmark entry (B<Center (5)> in Bookmark state).
+
+=item keys_bookmark_cancel (default: ['ctrl+q', 'ctrl+b'])
+
+The key sequence emitted on canceling Bookmark state.
+
+=item keys_fontsize_increase (default: ['ctrl+q', 'ctrl+plus'])
+
+The key sequence emitted on "Larger font" operation (B<Home + Up>).
+
+=item keys_fontsize_decrease (default: ['ctrl+q', 'ctrl+minus'])
+
+The key sequence emitted on "Smaller font" operation (B<Home + Down>).
+
+=item keys_fontsize_normal (default: ['ctrl+q', 'ctrl+0'])
+
+The key sequence emitted on "Normal font" operation (B<Home + Center (5)>).
+
+=item keys_reload (default: ['F5'])
+
+The key sequence emitted on "Reload" operation (B<Home + PageUp>).
+
+=item keys_home (default: ['alt+Home'])
+
+The key sequence emitted on "Home" operation (B<Home + PageDown>).
+
+=back
+
 
 
 =head1 SEE ALSO
 
+L<Numpaar::Engine::DebugIto::YouTube>,
+L<Numpaar::Engine::DebugIto::NicoLive>,
+L<Numpaar::Engine::DebugIto::NicoVideo>
 
 =head1 AUTHOR
 
