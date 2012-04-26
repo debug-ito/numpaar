@@ -476,11 +476,11 @@ In order to use DebugIto::Firefox engine, you need to install the following two 
 
 =item 1.
 
-Keysnail: https://github.com/mooz/keysnail/wiki
+Keysnail: L<https://github.com/mooz/keysnail/wiki>
 
 =item 2.
 
-HoK (modified for Numpaar): https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js
+HoK (modified for Numpaar): L<https://raw.github.com/debug-ito/keysnail/master/plugins/hok.ks.js>
 
 =back
 
@@ -531,7 +531,7 @@ so I modified its code a bit. Use the modified version of HoK shown above.
 
 =over
 
-The original HoK: https://raw.github.com/mooz/keysnail/master/plugins/hok.ks.js
+The original HoK: L<https://raw.github.com/mooz/keysnail/master/plugins/hok.ks.js>
 
 =back
 
