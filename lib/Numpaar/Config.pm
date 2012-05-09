@@ -18,7 +18,12 @@ sub configLoad {
     my (@filenames) = @_;
     foreach my $filename (@filenames) {
         if(-r $filename) {
-            require ($filename);
+            my $do_ret;
+            eval {
+                $do_ret = do ($filename);
+            };
+            die "ERROR: while loading config file $filename: $@" if $@;
+            die "ERROR: while trying to read config file $filename: $!" if !defined($do_ret);
             print STDERR ("Config file $filename is loaded.\n");
         }
     }

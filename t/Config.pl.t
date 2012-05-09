@@ -13,8 +13,16 @@ BEGIN {
 push(@INC, $FindBin::Bin);
 
 my $test_configfile = $FindBin::Bin . '/dot.numpaar.test';
+my $test_configfile_error = $FindBin::Bin . '/dot.numpaar.error';
 
 ok(-f $test_configfile, "does $test_configfile exists?");
+ok(-f $test_configfile_error, "does $test_configfile_error exists?");
+
+eval {
+    &configLoad($test_configfile_error);
+};
+ok($@, "Error while loading $test_configfile_error");
+note("Error string: $@");
 
 eval {
     &configLoad($test_configfile);

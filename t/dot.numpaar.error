@@ -1,0 +1,4 @@
+engine 'DebugIto::Liferea'
+engine 'DebugIto::GIMP'
+engine 'DebugIto::Thunar'
+
