@@ -91,18 +91,6 @@ sub accessGlobalGrabs {
     return $self->{engine_obj}->{global_grabs};
 }
 
-sub accessConnection {
-    my ($self, $arg) = @_;
-    $self->{engine_obj}->{connection} = $arg if defined($arg);
-    return $self->{engine_obj}->{connection};
-}
-
-sub accessStatusInterface {
-    my ($self, $arg) = @_;
-    $self->{engine_obj}->{status_interface} = $arg if defined($arg);
-    return $self->{engine_obj}->{status_interface};
-}
-
 sub accessWindowDescription {
     my ($self, $arg) = @_;
     $self->{engine_obj}->{window_description} = $arg if defined($arg);
