@@ -8,10 +8,10 @@ LDFLAGS=`pkg-config --libs x11` -lxdo -lpthread -lrt
 all: tag $(PROJ)
 
 $(PROJ): $(OBJ)
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 active_poller: active_poller.o
-	$(CC) $(LDFLAGS) $^ -o $@
+	$(CC) $^ $(LDFLAGS) -o $@
 
 clean:
 	rm -f $(PROJ) $(OBJ) active_poller.o active_poller TAGS
