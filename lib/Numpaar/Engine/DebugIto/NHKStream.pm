@@ -91,3 +91,53 @@ sub handlerNHK_page_down { my ($self, $want_help) = @_; return $self->handlerExt
 
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::NHKStream - Engine for radio streaming pages of NHK
+
+=head1 SYNOPSIS
+
+In configuration file
+
+ ## Load NHKStream before Firefox
+ engine 'DebugIto::NHKStream';
+ engine 'DebugIto::Firefox';
+ 
+ ## This Engine uses Visgrep support module
+ directory "visgrep_patterns", "/numpaar/install/path/resources/visgrep_patterns";
+ extern_program 'visgrep', '/path/to/visgrep';
+ extern_program 'import', '/path/to/import';
+
+
+=head1 DESCRIPTION
+
+This Engine is a child of L<Numpaar::Engine::DebugIto::Firefox> and is activated in radio streaming pages
+of NHK (Japan Broadcasting Corporation) such as L<http://www.nhk.or.jp/gogaku/english/business2/index.html>.
+
+This Engine is designed to move the mouse pointer and push some buttons like "Play/Stop",
+allowing basic control of streaming without a mouse.
+
+
+=head1 CONFIGURATION
+
+As said in L</"SYNOPSIS">, this Engine uses L<Numpaar::Visgrep> support module.
+The Engine uses the pattern file C<pat_nhk_speaker.pat> located in C<resources/visgrep_patterns> directory
+in the Numpaar installation directory.
+You have to set C<visgrep_patterns> config item to the patterns directory.
+
+
+=head1 SEE ALSO
+
+L<Numpaar::Visgrep>
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+=cut
