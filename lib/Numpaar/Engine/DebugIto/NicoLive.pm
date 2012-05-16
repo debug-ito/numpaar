@@ -94,3 +94,89 @@ sub handlerNicoLive_page_down {
 }
 
 1;
+
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::NicoLive - Engine for Nico Nico Live
+
+=head1 SYNOPSIS
+
+Install GreaseMonkey and video_mark.user.js (See L</"CONFIGURATION"> below).
+
+In configuration file
+
+ ## Load NicoLive before Firefox
+ engine 'DebugIto::NicoLive';
+ engine 'DebugIto::Firefox';
+ 
+ ## This Engine uses Visgrep support module
+ directory "visgrep_patterns", "/numpaar/install/path/resources/visgrep_patterns";
+ extern_program 'visgrep', '/path/to/visgrep';
+ extern_program 'import', '/path/to/import';
+
+ ## This Engine uses 'xclip' to input prepared comments.
+ extern_program 'xclip', '/path/to/xclip';
+
+
+=head1 DESCRIPTION
+
+This Engine is a child of L<Numpaar::Engine::DebugIto::Firefox> and is activated in live streaming pages
+in Nico Nico Live L<http://live.nicovideo.jp/>.
+
+Using this Engine, you can quickly focus on the Nico Nico Live Player, close the ad and focus on the
+comment box. Then you can input prepared comments to the box from Numpaar.
+
+
+=head1 CONFIGURATION
+
+As said in L</"SYNOPSIS">, this Engine uses L<Numpaar::Visgrep> support module.
+The Engine uses the pattern file C<pat_nico_comment.pat> located in C<resources/visgrep_patterns> directory
+in the Numpaar installation directory.
+You have to set C<visgrep_patterns> config item to the patterns directory.
+
+You have to install GreaseMonkey addon from L<https://addons.mozilla.org/ja/firefox/addon/greasemonkey/> (You already have, haven't you?),
+and install C<resources/video_mark.user.js> in the Numpaar installation directory.
+
+And if you want to put prepared comments to the live, you have to install C<xclip> (L<http://sourceforge.net/projects/xclip/>) program.
+
+
+=head1 HOW TO USE
+
+In a live streaming page push C<Home + Up>, then the mouse pointer dances above the player
+to close ads and focus on the comment box. This state is called NicoLive state.
+
+Key bindings in the NicoLive state is as follows.
+
+=over
+
+=item Insert, Delete
+
+Quit NicoLive state and go to Normal state.
+
+=item PageUp
+
+Reload the player.
+
+=item Other keys
+
+Put the comment associated to the key.
+
+=back
+
+
+
+=head1 SEE ALSO
+
+L<Numpaar::Visgrep>, L<Numpaar::Firefox>
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+=cut
+
