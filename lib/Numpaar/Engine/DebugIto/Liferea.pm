@@ -2,6 +2,10 @@ package Numpaar::Engine::DebugIto::Liferea;
 use strict;
 use base 'Numpaar::Engine';
 
+our $keys_update_all = ['ctrl+a'];
+our $keys_mark = ['ctrl+t'];
+our $keys_read_all = ['ctrl+r'];
+
 sub new {
     my ($class) = @_;
     return $class->setupBasic('^liferea\.Liferea');
@@ -38,7 +42,7 @@ sub handler_home {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '更新' if defined($want_help);
-    $connection->comKeyString('ctrl+a');
+    $connection->comKeyString(@$keys_update_all);
     return 0;
 }
 
@@ -46,7 +50,7 @@ sub handler_end {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'マーク' if defined($want_help);
-    $connection->comKeyString('ctrl+t');
+    $connection->comKeyString(@$keys_mark);
     return 0;
 }
 
@@ -54,7 +58,7 @@ sub handler_insert {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return '全て既読' if defined($want_help);
-    $connection->comKeyString("ctrl+r");
+    $connection->comKeyString(@$keys_read_all);
     return 0;
 }
 
@@ -103,6 +107,27 @@ Keyboard focus is in the right pane.
 B<left> key changes the state to B<LeftPane> state.
 
 =back
+
+=head1 CONFIGURATION
+
+=head2 engine_config parameters
+
+The following C<engine_config> parameters are defined in DebugIto::Liferea Engine
+to configure the key sequences it emits.
+
+=over
+
+=item keys_update_all (default: ['ctrl+a'])
+
+The key sequence to update all feeds.
+
+=item keys_mark (default: ['ctrl+t'])
+
+The key sequence to mark a feed item.
+
+=item keys_read_all (default: ['ctrl+r'])
+
+The key sequence to mark all feed items as read.
 
 
 =head1 AUTHOR
