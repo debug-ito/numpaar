@@ -1,6 +1,7 @@
 package Numpaar::Engine::DebugIto::Totem;
 use strict;
 use base ('Numpaar::Engine', 'Numpaar::Engine::DebugIto::VideoPlayer');
+use Time::HiRes qw(usleep);
 
 sub new {
     my ($class) = @_;
@@ -48,8 +49,10 @@ sub handlerVideo_delete {
     my ($self, $want_help) = @_;
     my $connection = $self->getConnection();
     return 'Show Control' if defined($want_help);
-    $connection->comMouseMove(200, 200);
-    $connection->comMouseMove(210, 200);
+    foreach my $move (1..100) {
+        $connection->comMouseMove(10 + $move, 200);
+        usleep(200);
+    }
     return 0;
 }
 
