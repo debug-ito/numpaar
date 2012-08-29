@@ -171,7 +171,7 @@ Put the comment associated to the key.
 
 =head1 SEE ALSO
 
-L<Numpaar::Visgrep>, L<Numpaar::Firefox>
+L<Numpaar::Visgrep>, L<Numpaar::Engine::DebugIto::Firefox>
 
 =head1 AUTHOR
 

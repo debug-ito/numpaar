@@ -60,3 +60,72 @@ sub handlerVideo_delete {
 1;
 
 
+__END__
+
+=pod
+
+=head1 NAME
+
+Numpaar::Engine::DebugIto::YouTube - Engine for YouTube
+
+=head1 SYNOPSIS
+
+Install GreaseMonkey, video_mark.user.js and You keyboard junky (See L</"CONFIGURATION"> below).
+
+In configuration file
+
+ ## Load YouTube before Firefox
+ engine 'DebugIto::YouTube';
+ engine 'DebugIto::Firefox';
+
+ 
+=head1 DESCRIPTION
+
+This Engine is a child of L<Numpaar::Engine::DebugIto::Firefox> and is activated in YouTube L<http://www.youtube.com/> video pages.
+
+Using this Engine, you can operate YouTube videos.
+Most of the keybindings for operation are provided by L<Numpaar::Engine::DebugIto::VideoPlayer> module.
+
+
+=head1 CONFIGURATION
+
+This engine requires you to install GreaseMonkey addon
+from L<https://addons.mozilla.org/ja/firefox/addon/greasemonkey/>,
+and the following two userscripts.
+
+=over
+
+=item 1.
+
+video_mark.user.js. This is available under C<resources> directory in the Numpaar installation package.
+
+=item 2.
+
+You keyboard junky from L<http://userscripts.org/scripts/show/62017>.
+
+=back
+
+
+=head1 Keybindings
+
+Type C<Home + Up> to enter the Video state to operate video playback.
+
+In the video state, C<Insert> will brings you back to the normal Firefox state.
+
+See L<Numpaar::Engine::DebugIto::VideoPlayer> for keybindings for video operation.
+
+
+
+=head1 SEE ALSO
+
+L<Numpaar::Engine::DebugIto::Firefox>, L<Numpaar::Engine::DebugIto::VideoPlayer>
+
+=head1 AUTHOR
+
+Toshio ITO
+
+
+=cut
+
+
+
