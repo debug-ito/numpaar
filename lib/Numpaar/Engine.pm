@@ -520,6 +520,29 @@ Returns the window ID of the currently active window.
 Window ID is an integer that identifies an X window.
 
 
+
+=head1 CONFIGURATION
+
+=head2 engine_config parameters
+
+The following C<engine_config> parameters are defined to configure the key sequences it emits.
+
+=over
+
+=item keys_maximize_window (default: ['alt+F10'])
+
+The key sequences emitted when "+" key is pressed.
+It's meant to maximize the currently active window.
+
+=item keys_close_window (default: ['alt+F4'])
+
+The key sequences emitted when "-" key is pressed.
+It's meant to close the currently active window.
+
+=back
+
+
+
 =head1 AUTHOR
 
 Toshio ITO
