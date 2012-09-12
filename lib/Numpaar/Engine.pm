@@ -426,7 +426,7 @@ where key handlers are implemented.
 
 The methods provided by Numpaar::Engine are usually used by its subclasses in two kinds of methods;
 the constructor (C<new>) and key handlers.
-See [[Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Key-Handlers]] for details on key handlers.
+See Numpaar Wiki (L<https://github.com/debug-ito/numpaar/wiki/tutorial-Key-Handlers>) for details on key handlers.
 
 
 =head1 PUBLIC CLASS METHODS
@@ -443,7 +443,8 @@ This method is used in constructors of Numpaar Engines.
 
 The argument PATTERN is a string of regular expression that is matched against the window description
 of the currently active window.
-See [[Application Matching section in Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching]].
+See Application Matching section in Numpaar Wiki
+(L<https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching>).
 
 
 
@@ -460,7 +461,8 @@ Instance methods are used in key handlers.
   my $connection = $self->getConnection();
 
 
-Returns [[Numpaar::Connection|https://github.com/debug-ito/numpaar/wiki/reference-Connection]] object.
+Returns Numpaar::Connection object
+(See L<https://github.com/debug-ito/numpaar/wiki/reference-Connection>).
 
 
 
@@ -470,7 +472,8 @@ Returns [[Numpaar::Connection|https://github.com/debug-ito/numpaar/wiki/referenc
   my $status = $self->getStatusInterface();
 
 
-Returns [[Numpaar::StatusInterface|https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface]] object.
+Returns Numpaar::StatusInterface object
+(See L<https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface>).
 
 
 
@@ -505,7 +508,7 @@ If NEXT_STATE is invalid, RESULT_STATE equals to the state before this method ca
 Returns the window description of the currently active window.
 
 A window description is a string that briefly describes the window.
-Its format is detailed in [[Numpaar Wiki|https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching]].
+Its format is detailed in Numpaar Wiki (L<https://github.com/debug-ito/numpaar/wiki/tutorial-Application-Matching>).
 
 
 =head2 WIN_ID = getWindowID
@@ -524,8 +527,8 @@ Toshio ITO
 
 =head1 SEE ALSO
 
-[[Numpaar::Connection|https://github.com/debug-ito/numpaar/wiki/reference-Connection]],
-[[Numpaar::StatusInterface|https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface]]
+Numpaar::Connection (L<https://github.com/debug-ito/numpaar/wiki/reference-Connection>),
+Numpaar::StatusInterface (L<https://github.com/debug-ito/numpaar/wiki/reference-StatusInterface>)
 
 
 =cut
