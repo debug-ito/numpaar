@@ -24,7 +24,7 @@ FEATURES
 PREREQUISITES
 -------------
 
-* xdotool and libxdo
+* xdotool and libxdo (version 2)
     * http://www.semicomplete.com/projects/xdotool/
     * The latest version is recommended.
     * Requires libxtst to build it.
