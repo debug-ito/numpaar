@@ -14,6 +14,7 @@ sub handler0_center {
     my $connection = $self->getConnection();
     return 'Enter' if defined($want_help);
     $connection->comKeyString('Return');
+    sleep 1;
     system(&configGet('extern_program', 'xdotool'), "search", '--name', $self->heap->{'title'}, 'windowkill');
     return 0;
 }
